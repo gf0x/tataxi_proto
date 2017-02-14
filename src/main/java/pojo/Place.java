@@ -9,6 +9,15 @@ public class Place {
 
     private double lat;
     private double lng;
+    private String address;
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
 
     public Place() {}
 
