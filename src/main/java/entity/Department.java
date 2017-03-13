@@ -39,4 +39,13 @@ public class Department {
     public void setPhoneNums(List<String> phoneNums) {
         this.phoneNums = phoneNums;
     }
+
+    @Override
+    public String toString() {
+        return "Department{" +
+                "id=" + id +
+                ", address='" + address + '\'' +
+                ", phoneNums=" + phoneNums +
+                '}';
+    }
 }

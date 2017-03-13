@@ -19,6 +19,19 @@ public class Worker extends User {
     private List<Character> licenses;
     private String phoneNumber;
 
+    @Override
+    public String toString() {
+        return "Worker{" +
+                "numOfContract=" + numOfContract +
+                ", passportNum='" + passportNum + '\'' +
+                ", fullName='" + fullName + '\'' +
+                ", isDriver=" + isDriver +
+                ", dateOfBirth=" + dateOfBirth +
+                ", licenses=" + licenses +
+                ", phoneNumber='" + phoneNumber + '\'' +
+                '}';
+    }
+
     public Worker(){}
 
     public long getNumOfContract() {

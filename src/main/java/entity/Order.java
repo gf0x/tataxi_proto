@@ -94,4 +94,19 @@ public class Order {
     public void setResponse(String response) {
         this.response = response;
     }
+
+    @Override
+    public String toString() {
+        return "Order{" +
+                "id=" + id +
+                ", from=" + from +
+                ", to=" + to +
+                ", routeLength=" + routeLength +
+                ", cost=" + cost +
+                ", extraSpeed=" + extraSpeed +
+                ", orderedAt=" + orderedAt +
+                ", finishedAt=" + finishedAt +
+                ", response='" + response + '\'' +
+                '}';
+    }
 }

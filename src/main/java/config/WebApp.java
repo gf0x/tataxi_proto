@@ -1,8 +1,8 @@
 package config;
 
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.*;
+import org.springframework.core.env.Environment;
 import org.springframework.web.accept.ContentNegotiationManager;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
@@ -19,8 +19,15 @@ import java.util.List;
  */
 @Configuration
 @ComponentScan(basePackages = "config, controller, entity")
+@PropertySources({
+        @PropertySource("classpath:google_api.properties"),
+        @PropertySource("classpath:db.properties")
+})
 @EnableWebMvc
 public class WebApp extends WebMvcConfigurerAdapter{
+
+    @Autowired
+    Environment env;
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {

@@ -1,8 +1,17 @@
 package controller;
 
+import com.google.maps.GeoApiContext;
+import com.google.maps.GeocodingApi;
+import com.google.maps.model.GeocodingResult;
+import com.sun.org.apache.xpath.internal.operations.Mod;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
@@ -16,10 +25,26 @@ public class RootController {
 
     private static Logger logger = LoggerFactory.getLogger(RootController.class.getSimpleName());
 
+    private static String ROOT_CTL_TAG = "ROOT_CTL";
+
+    @Value("${google.API_KEY}")
+    private String G_API_KEY;
+
     @RequestMapping(method = RequestMethod.GET)
     public ModelAndView getHandler(){
         ModelAndView mv = new ModelAndView("home");
-        logger.info("TRASH", "RootController handles GET rquest");
+        logger.info(ROOT_CTL_TAG, "RootController handles GET request");
+        return mv;
+    }
+
+    @RequestMapping(method = RequestMethod.POST)
+    public ModelAndView postHandler(@RequestBody String address) throws Exception {
+        ModelAndView mv = new ModelAndView("home");
+        logger.info(ROOT_CTL_TAG, "Handling POST request; API_KEY: "+G_API_KEY);
+        GeoApiContext context = new GeoApiContext().setApiKey(G_API_KEY);
+        GeocodingResult[] results = GeocodingApi.geocode(context, address).await();
+        mv.addObject("lat", (results.length > 0) ? results[0].geometry.location.lat : "no results");
+        mv.addObject("lng", (results.length > 0) ? results[0].geometry.location.lng : "no results");
         return mv;
     }
 }

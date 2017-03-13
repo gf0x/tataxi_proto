@@ -103,4 +103,20 @@ public class Car {
     public void setBroken(boolean broken) {
         isBroken = broken;
     }
+
+    @Override
+    public String toString() {
+        return "Car{" +
+                "id=" + id +
+                ", sign='" + sign + '\'' +
+                ", brand='" + brand + '\'' +
+                ", model='" + model + '\'' +
+                ", isCargo=" + isCargo +
+                ", numOfSeats=" + numOfSeats +
+                ", maxCargo=" + maxCargo +
+                ", boughtOn=" + boughtOn +
+                ", written_offOn=" + written_offOn +
+                ", isBroken=" + isBroken +
+                '}';
+    }
 }
