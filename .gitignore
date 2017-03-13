@@ -4,6 +4,8 @@
 *.war
 .idea
 .metadata
+google_api.properties
+db.properties
 *.iml
 /bin/
 .classpath
