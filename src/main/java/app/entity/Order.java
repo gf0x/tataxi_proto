@@ -1,8 +1,7 @@
-package entity;
+package app.entity;
 
-import com.sun.org.apache.xpath.internal.operations.Or;
 import org.springframework.stereotype.Component;
-import pojo.Place;
+import app.pojo.Place;
 
 import java.sql.Time;
 
@@ -27,7 +26,7 @@ public class Order {
 
     @Override
     public String toString() {
-        return "Order{" +
+        return "OrderDaoImpl{" +
                 "id=" + id +
                 ", from=" + from +
                 ", to=" + to +

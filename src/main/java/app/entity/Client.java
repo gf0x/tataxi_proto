@@ -1,4 +1,5 @@
-package entity;
+package app.entity;
+
 
 /**
  * Created by Alex_Frankiv on 14.02.2017.

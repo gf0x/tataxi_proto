@@ -1,6 +1,4 @@
-package pojo;
-
-import org.springframework.stereotype.Component;
+package app.pojo;
 
 /**
  * Created by Alex_Frankiv on 14.02.2017.

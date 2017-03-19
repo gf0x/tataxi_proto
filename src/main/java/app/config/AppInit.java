@@ -1,6 +1,5 @@
-package config;
+package app.config;
 
-import org.springframework.cglib.proxy.Dispatcher;
 import org.springframework.web.WebApplicationInitializer;
 import org.springframework.web.context.ContextLoaderListener;
 import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;

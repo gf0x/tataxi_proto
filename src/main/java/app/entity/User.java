@@ -1,4 +1,4 @@
-package entity;
+package app.entity;
 
 import org.springframework.stereotype.Component;
 
@@ -12,7 +12,7 @@ public class User {
 
     @Override
     public String toString() {
-        return "User{" +
+        return "UserDao{" +
                 "login='" + login + '\'' +
                 '}';
     }

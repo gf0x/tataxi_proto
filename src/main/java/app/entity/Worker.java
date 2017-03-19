@@ -1,4 +1,4 @@
-package entity;
+package app.entity;
 
 import org.springframework.stereotype.Component;
 
@@ -8,7 +8,7 @@ import java.util.List;
  * Created by Alex_Frankiv on 14.02.2017.
  */
 @Component
-public class Worker extends User {
+public class Worker extends app.entity.User {
 
     private String login;
     private String passportData;
