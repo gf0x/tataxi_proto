@@ -5,7 +5,7 @@ package entity;
  */
 public class Client extends User {
 
-    private long cardId;
+    private String login;
     private String firstName;
     private String secondName;
     private String lastName;
@@ -14,12 +14,24 @@ public class Client extends User {
 
     public Client(){}
 
-    public long getCardId() {
-        return cardId;
+    @Override
+    public String toString() {
+        return "Client{" +
+                "login='" + login + '\'' +
+                ", firstName='" + firstName + '\'' +
+                ", secondName='" + secondName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", homeAddress='" + homeAddress + '\'' +
+                ", phoneNumber='" + phoneNumber + '\'' +
+                '}';
     }
 
-    public void setCardId(long cardId) {
-        this.cardId = cardId;
+    public String getLogin() {
+        return login;
+    }
+
+    public void setLogin(String login) {
+        this.login = login;
     }
 
     public String getFirstName() {
@@ -60,17 +72,5 @@ public class Client extends User {
 
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
-    }
-
-    @Override
-    public String toString() {
-        return "Client{" +
-                "cardId=" + cardId +
-                ", firstName='" + firstName + '\'' +
-                ", secondName='" + secondName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", homeAddress='" + homeAddress + '\'' +
-                ", phoneNumber='" + phoneNumber + '\'' +
-                '}';
     }
 }

@@ -2,7 +2,6 @@ package entity;
 
 import org.springframework.stereotype.Component;
 
-import java.sql.Date;
 import java.util.List;
 
 /**
@@ -11,43 +10,41 @@ import java.util.List;
 @Component
 public class Worker extends User {
 
-    private long numOfContract;
-    private String passportNum;
+    private String login;
+    private String passportData;
     private String fullName;
     private boolean isDriver;
-    private Date dateOfBirth;
     private List<Character> licenses;
     private String phoneNumber;
+
+    public Worker(){}
 
     @Override
     public String toString() {
         return "Worker{" +
-                "numOfContract=" + numOfContract +
-                ", passportNum='" + passportNum + '\'' +
+                "login=" + login +
+                ", passportData='" + passportData + '\'' +
                 ", fullName='" + fullName + '\'' +
                 ", isDriver=" + isDriver +
-                ", dateOfBirth=" + dateOfBirth +
                 ", licenses=" + licenses +
                 ", phoneNumber='" + phoneNumber + '\'' +
                 '}';
     }
 
-    public Worker(){}
-
-    public long getNumOfContract() {
-        return numOfContract;
+    public String getLogin() {
+        return login;
     }
 
-    public void setNumOfContract(long numOfContract) {
-        this.numOfContract = numOfContract;
+    public void setLogin(String login) {
+        this.login = login;
     }
 
-    public String getPassportNum() {
-        return passportNum;
+    public String getPassportData() {
+        return passportData;
     }
 
-    public void setPassportNum(String passportNum) {
-        this.passportNum = passportNum;
+    public void setPassportData(String passportData) {
+        this.passportData = passportData;
     }
 
     public String getFullName() {
@@ -64,14 +61,6 @@ public class Worker extends User {
 
     public void setDriver(boolean driver) {
         isDriver = driver;
-    }
-
-    public Date getDateOfBirth() {
-        return dateOfBirth;
-    }
-
-    public void setDateOfBirth(Date dateOfBirth) {
-        this.dateOfBirth = dateOfBirth;
     }
 
     public List<Character> getLicenses() {

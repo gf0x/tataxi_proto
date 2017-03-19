@@ -10,17 +10,30 @@ import java.util.List;
 @Component
 public class Department {
 
-    private long id;
+    private int id;
     private String address;
+    private String city;
     private List<String> phoneNums;
+    private double pricePerKm;
 
     public Department() {}
 
-    public long getId() {
+    @Override
+    public String toString() {
+        return "Department{" +
+                "id=" + id +
+                ", address='" + address + '\'' +
+                ", city='" + city + '\'' +
+                ", phoneNums=" + phoneNums +
+                ", pricePerKm=" + pricePerKm +
+                '}';
+    }
+
+    public int getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -32,6 +45,14 @@ public class Department {
         this.address = address;
     }
 
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
     public List<String> getPhoneNums() {
         return phoneNums;
     }
@@ -40,12 +61,11 @@ public class Department {
         this.phoneNums = phoneNums;
     }
 
-    @Override
-    public String toString() {
-        return "Department{" +
-                "id=" + id +
-                ", address='" + address + '\'' +
-                ", phoneNums=" + phoneNums +
-                '}';
+    public double getPricePerKm() {
+        return pricePerKm;
+    }
+
+    public void setPricePerKm(double pricePerKm) {
+        this.pricePerKm = pricePerKm;
     }
 }

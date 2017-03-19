@@ -9,6 +9,7 @@
     <url>http://maven.apache.org</url>
     <properties>
         <spring-version>4.3.5.RELEASE</spring-version>
+        <postgres-version>9.2-1003-jdbc4</postgres-version>
         <google-lib-version>0.1.17</google-lib-version>
     </properties>
     <dependencies>
@@ -33,7 +34,30 @@
             <artifactId>spring-webmvc</artifactId>
             <version>${spring-version}</version>
         </dependency>
+        <!-- Transaction manager -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context</artifactId>
+            <version>${spring-version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-jdbc</artifactId>
+            <version>4.3.3.RELEASE</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-tx</artifactId>
+            <version>${spring-version}</version>
+        </dependency>
         <!-- EoF SPRING FRAMEWORK -->
+        <!-- Database -->
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <version>${postgres-version}</version>
+        </dependency>
+        <!--End Database -->
         <!-- Google client library -->
         <dependency>
             <groupId>com.google.maps</groupId>

@@ -10,25 +10,26 @@ import java.sql.Date;
 @Component
 public class Car {
 
-    private long id;
+    private int id;
     //Державний номерний знак
     private String sign;
     private String brand;
     private String model;
     private boolean isCargo;
-    private long numOfSeats;
-    private double maxCargo;
+    private int seats;
+    private double maxWeight;
     private Date boughtOn;
     private Date written_offOn;
-    private boolean isBroken;
+    private boolean serviceable;
+    private int deptId;
 
     public Car() {}
 
-    public long getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -64,20 +65,20 @@ public class Car {
         isCargo = cargo;
     }
 
-    public long getNumOfSeats() {
-        return numOfSeats;
+    public int getSeats() {
+        return seats;
     }
 
-    public void setNumOfSeats(long numOfSeats) {
-        this.numOfSeats = numOfSeats;
+    public void setSeats(int seats) {
+        this.seats = seats;
     }
 
-    public double getMaxCargo() {
-        return maxCargo;
+    public double getMaxWeight() {
+        return maxWeight;
     }
 
-    public void setMaxCargo(double maxCargo) {
-        this.maxCargo = maxCargo;
+    public void setMaxWeight(double maxWeight) {
+        this.maxWeight = maxWeight;
     }
 
     public Date getBoughtOn() {
@@ -96,12 +97,20 @@ public class Car {
         this.written_offOn = written_offOn;
     }
 
-    public boolean isBroken() {
-        return isBroken;
+    public boolean isServiceable() {
+        return serviceable;
     }
 
-    public void setBroken(boolean broken) {
-        isBroken = broken;
+    public void setServiceable(boolean serviceable) {
+        this.serviceable = serviceable;
+    }
+
+    public int getDeptId() {
+        return deptId;
+    }
+
+    public void setDeptId(int deptId) {
+        this.deptId = deptId;
     }
 
     @Override
@@ -112,11 +121,12 @@ public class Car {
                 ", brand='" + brand + '\'' +
                 ", model='" + model + '\'' +
                 ", isCargo=" + isCargo +
-                ", numOfSeats=" + numOfSeats +
-                ", maxCargo=" + maxCargo +
+                ", seats=" + seats +
+                ", maxWeight=" + maxWeight +
                 ", boughtOn=" + boughtOn +
                 ", written_offOn=" + written_offOn +
-                ", isBroken=" + isBroken +
+                ", serviceable=" + serviceable +
+                ", deptId=" + deptId +
                 '}';
     }
 }

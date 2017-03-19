@@ -1,8 +1,13 @@
 package config;
 
+import org.postgresql.ds.PGPoolingDataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.*;
 import org.springframework.core.env.Environment;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.datasource.DataSourceTransactionManager;
+import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.accept.ContentNegotiationManager;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
@@ -11,8 +16,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 import org.springframework.web.servlet.view.ContentNegotiatingViewResolver;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
-import java.util.ArrayList;
-import java.util.List;
+import javax.sql.DataSource;
 
 /**
  * Created by Alex_Frankiv on 14.02.2017.
@@ -24,6 +28,7 @@ import java.util.List;
         @PropertySource("classpath:db.properties")
 })
 @EnableWebMvc
+@EnableTransactionManagement
 public class WebApp extends WebMvcConfigurerAdapter{
 
     @Autowired
@@ -41,5 +46,26 @@ public class WebApp extends WebMvcConfigurerAdapter{
         resolver.setSuffix(".jsp");
         resolver.setContentType("text/html; charset=UTF-8");
         return resolver;
+    }
+
+    @Bean
+    public DataSource dataSource(){
+        PGPoolingDataSource dataSource = new PGPoolingDataSource();
+        dataSource.setServerName(env.getProperty("db.server.name"));
+        dataSource.setDatabaseName(env.getProperty("db.name"));
+        dataSource.setUser(env.getProperty("db.username"));
+        dataSource.setPassword(env.getProperty("db.password"));
+        dataSource.setMaxConnections(Integer.valueOf(env.getProperty("db.connections")));
+        return dataSource;
+    }
+
+    @Bean
+    public JdbcTemplate jdbcTemplate(){
+        return new JdbcTemplate(dataSource());
+    }
+
+    @Bean
+    public PlatformTransactionManager txManager(){
+        return new DataSourceTransactionManager(dataSource());
     }
 }

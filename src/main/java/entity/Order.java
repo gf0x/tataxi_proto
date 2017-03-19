@@ -1,5 +1,6 @@
 package entity;
 
+import com.sun.org.apache.xpath.internal.operations.Or;
 import org.springframework.stereotype.Component;
 import pojo.Place;
 
@@ -11,23 +12,40 @@ import java.sql.Time;
 @Component
 public class Order {
 
-    private long id;
+    private int id;
     private Place from;
     private Place to;
-    private double routeLength;
-    private double cost;
-    private boolean extraSpeed;
-    private Time orderedAt;
-    private Time finishedAt;
-    private String response;
+    private double distance;
+    private double price;
+    private boolean isFast;
+    private Time startTime;
+    private Time finishTime;
+    private String feedback;
+    private String city;
 
     public Order(){}
 
-    public long getId() {
+    @Override
+    public String toString() {
+        return "Order{" +
+                "id=" + id +
+                ", from=" + from +
+                ", to=" + to +
+                ", distance=" + distance +
+                ", price=" + price +
+                ", isFast=" + isFast +
+                ", startTime=" + startTime +
+                ", finishTime=" + finishTime +
+                ", feedback='" + feedback + '\'' +
+                ", city='" + city + '\'' +
+                '}';
+    }
+
+    public int getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -47,66 +65,59 @@ public class Order {
         this.to = to;
     }
 
-    public double getRouteLength() {
-        return routeLength;
+    public double getDistance() {
+        return distance;
     }
 
-    public void setRouteLength(double routeLength) {
-        this.routeLength = routeLength;
+    public void setDistance(double distance) {
+        this.distance = distance;
     }
 
-    public double getCost() {
-        return cost;
+    public double getPrice() {
+        return price;
     }
 
-    public void setCost(double cost) {
-        this.cost = cost;
+    public void setPrice(double price) {
+        this.price = price;
     }
 
-    public boolean isExtraSpeed() {
-        return extraSpeed;
+    public boolean isFast() {
+        return isFast;
     }
 
-    public void setExtraSpeed(boolean extraSpeed) {
-        this.extraSpeed = extraSpeed;
+    public void setFast(boolean fast) {
+        isFast = fast;
     }
 
-    public Time getOrderedAt() {
-        return orderedAt;
+    public Time getStartTime() {
+        return startTime;
     }
 
-    public void setOrderedAt(Time orderedAt) {
-        this.orderedAt = orderedAt;
+    public void setStartTime(Time startTime) {
+        this.startTime = startTime;
     }
 
-    public Time getFinishedAt() {
-        return finishedAt;
+    public Time getFinishTime() {
+        return finishTime;
     }
 
-    public void setFinishedAt(Time finishedAt) {
-        this.finishedAt = finishedAt;
+    public void setFinishTime(Time finishTime) {
+        this.finishTime = finishTime;
     }
 
-    public String getResponse() {
-        return response;
+    public String getFeedback() {
+        return feedback;
     }
 
-    public void setResponse(String response) {
-        this.response = response;
+    public void setFeedback(String feedback) {
+        this.feedback = feedback;
     }
 
-    @Override
-    public String toString() {
-        return "Order{" +
-                "id=" + id +
-                ", from=" + from +
-                ", to=" + to +
-                ", routeLength=" + routeLength +
-                ", cost=" + cost +
-                ", extraSpeed=" + extraSpeed +
-                ", orderedAt=" + orderedAt +
-                ", finishedAt=" + finishedAt +
-                ", response='" + response + '\'' +
-                '}';
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
     }
 }
