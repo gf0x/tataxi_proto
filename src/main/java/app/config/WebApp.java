@@ -6,11 +6,14 @@ import org.springframework.context.annotation.*;
 import org.springframework.core.env.Environment;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
+import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
@@ -46,6 +49,12 @@ public class WebApp extends WebMvcConfigurerAdapter{
         return resolver;
     }
 
+    @Override
+    public void addViewControllers(ViewControllerRegistry registry){
+//        registry.addViewController("/403").setViewName("403");
+        registry.addViewController("/login").setViewName("login");
+    }
+
     @Bean
     public DataSource dataSource(){
         PGPoolingDataSource dataSource = new PGPoolingDataSource();
@@ -65,5 +74,10 @@ public class WebApp extends WebMvcConfigurerAdapter{
     @Bean
     public PlatformTransactionManager txManager(){
         return new DataSourceTransactionManager(dataSource());
+    }
+
+    @Bean
+    public PasswordEncoder passwordEncoder(){
+        return new BCryptPasswordEncoder();
     }
 }
