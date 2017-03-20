@@ -19,14 +19,22 @@ public class Order {
     private boolean isFast;
     private Time startTime;
     private Time finishTime;
-    private String feedback;
+    private int feedback;
     private String city;
+
+    private String dispatcher;
+    private String client;
+    private int car;
 
     public Order(){}
 
+    public String getDispatcher() {
+        return dispatcher;
+    }
+
     @Override
     public String toString() {
-        return "OrderDaoImpl{" +
+        return "Order{" +
                 "id=" + id +
                 ", from=" + from +
                 ", to=" + to +
@@ -37,7 +45,30 @@ public class Order {
                 ", finishTime=" + finishTime +
                 ", feedback='" + feedback + '\'' +
                 ", city='" + city + '\'' +
+                ", dispatcher='" + dispatcher + '\'' +
+                ", client='" + client + '\'' +
+                ", car=" + car +
                 '}';
+    }
+
+    public void setDispatcher(String dispatcher) {
+        this.dispatcher = dispatcher;
+    }
+
+    public String getClient() {
+        return client;
+    }
+
+    public void setClient(String client) {
+        this.client = client;
+    }
+
+    public int getCar() {
+        return car;
+    }
+
+    public void setCar(int car) {
+        this.car = car;
     }
 
     public int getId() {
@@ -104,11 +135,11 @@ public class Order {
         this.finishTime = finishTime;
     }
 
-    public String getFeedback() {
+    public int getFeedback() {
         return feedback;
     }
 
-    public void setFeedback(String feedback) {
+    public void setFeedback(int feedback) {
         this.feedback = feedback;
     }
 

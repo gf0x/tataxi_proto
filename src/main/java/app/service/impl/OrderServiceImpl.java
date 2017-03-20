@@ -26,7 +26,7 @@ public class OrderServiceImpl implements OrderService {
         return orderDao.get(id);
     }
 
-    public Order insert(Order order) {
+    public int insert(Order order) {
         logger.info("SERVICE: inserting object OrderDaoImpl into DB");
         return orderDao.insert(order);
     }

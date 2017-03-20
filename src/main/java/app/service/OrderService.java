@@ -7,7 +7,7 @@ import app.entity.Order;
  */
 public interface OrderService {
     Order get(int id);
-    Order insert(Order order);
+    int insert(Order order);
     void update(Order order);
     void remove(Order order);
 }

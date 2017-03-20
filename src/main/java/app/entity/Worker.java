@@ -16,20 +16,30 @@ public class Worker extends app.entity.User {
     private boolean isDriver;
     private List<Character> licenses;
     private String phoneNumber;
-
-    public Worker(){}
+    private int deptId;
 
     @Override
     public String toString() {
         return "Worker{" +
-                "login=" + login +
+                "login='" + login + '\'' +
                 ", passportData='" + passportData + '\'' +
                 ", fullName='" + fullName + '\'' +
                 ", isDriver=" + isDriver +
                 ", licenses=" + licenses +
                 ", phoneNumber='" + phoneNumber + '\'' +
+                ", deptId=" + deptId +
                 '}';
     }
+
+    public int getDeptId() {
+        return deptId;
+    }
+
+    public void setDeptId(int deptId) {
+        this.deptId = deptId;
+    }
+
+    public Worker(){}
 
     public String getLogin() {
         return login;

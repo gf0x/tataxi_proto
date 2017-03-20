@@ -8,7 +8,7 @@ import app.entity.Worker;
 public interface WorkerService {
 
     Worker get(String login);
-    Worker insert(Worker worker);
+    int insert(Worker worker);
     void update(Worker worker);
     void remove(Worker worker);
 }

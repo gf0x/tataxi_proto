@@ -26,7 +26,7 @@ public class WorkerServiceImpl implements WorkerService{
         return workerDao.get(login);
     }
 
-    public Worker insert(Worker worker) {
+    public int insert(Worker worker) {
         logger.info("SERVICE: inserting object Worker into DB");
         return workerDao.insert(worker);
     }
