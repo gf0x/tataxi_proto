@@ -7,7 +7,7 @@ import app.entity.User;
  */
 public interface UserService {
     User get(String login);
-    User insert(User user);
+    int insert(User user);
     void update(User user);
     void remove(User user);
 }

@@ -8,7 +8,7 @@ import app.entity.Car;
 public interface CarDao {
 
     Car get(int id);
-    Car insert(Car car);
+    int insert(Car car);
     void update(Car car);
     void remove(Car car);
 }

@@ -26,7 +26,7 @@ public class ClientServiceImpl implements ClientService {
         return clientDao.get(login);
     }
 
-    public Client insert(Client client) {
+    public int insert(Client client) {
         logger.info("SERVICE: inserting object Client into DB");
         return clientDao.insert(client);
     }

@@ -26,7 +26,7 @@ public class CarServiceImpl implements CarService{
         return carDao.get(id);
     }
 
-    public Car insert(Car car) {
+    public int insert(Car car) {
         logger.info("SERVICE: inserting object Car into DB...");
         return carDao.insert(car);
     }

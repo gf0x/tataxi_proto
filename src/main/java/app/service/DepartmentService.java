@@ -7,7 +7,7 @@ import app.entity.Department;
  */
 public interface DepartmentService {
     Department get(int id);
-    Department insert(Department department);
+    int insert(Department department);
     void update(Department department);
     void remove(Department department);
 

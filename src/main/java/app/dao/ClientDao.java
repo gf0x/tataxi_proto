@@ -8,7 +8,7 @@ import app.entity.Client;
  */
 public interface ClientDao {
     Client get(String login);
-    Client insert(Client client);
+    int insert(Client client);
     void update(Client client);
     void remove(Client client);
 }

@@ -15,7 +15,7 @@ public class Car {
     private String sign;
     private String brand;
     private String model;
-    private boolean isCargo;
+    private char category;
     private int seats;
     private double maxWeight;
     private Date boughtOn;
@@ -57,12 +57,12 @@ public class Car {
         this.model = model;
     }
 
-    public boolean isCargo() {
-        return isCargo;
+    public char getCategory() {
+        return category;
     }
 
-    public void setCargo(boolean cargo) {
-        isCargo = cargo;
+    public void setCategory(char category) {
+        category = category;
     }
 
     public int getSeats() {
@@ -120,7 +120,7 @@ public class Car {
                 ", sign='" + sign + '\'' +
                 ", brand='" + brand + '\'' +
                 ", model='" + model + '\'' +
-                ", isCargo=" + isCargo +
+                ", category=" + category +
                 ", seats=" + seats +
                 ", maxWeight=" + maxWeight +
                 ", boughtOn=" + boughtOn +

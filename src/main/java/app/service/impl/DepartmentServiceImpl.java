@@ -3,7 +3,6 @@ package app.service.impl;
 import app.dao.DepartmentDao;
 import app.entity.Department;
 import app.service.DepartmentService;
-import org.apache.commons.logging.Log;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +26,7 @@ public class DepartmentServiceImpl implements DepartmentService {
         return departmentDao.get(id);
     }
 
-    public Department insert(Department department) {
+    public int insert(Department department) {
         logger.info("SERVICE: inserting object Department into DB");
         return departmentDao.insert(department);
     }

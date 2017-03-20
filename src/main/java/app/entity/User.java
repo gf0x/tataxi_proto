@@ -9,11 +9,41 @@ import org.springframework.stereotype.Component;
 public class User {
 
     private String login;
+    private String pswd;
+    private String authRole;
+    private int enabled;
+
+    public String getPswd() {
+        return pswd;
+    }
+
+    public void setPswd(String pswd) {
+        this.pswd = pswd;
+    }
+
+    public String getAuthRole() {
+        return authRole;
+    }
+
+    public void setAuthRole(String authRole) {
+        this.authRole = authRole;
+    }
+
+    public int getEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(int enabled) {
+        this.enabled = enabled;
+    }
 
     @Override
     public String toString() {
-        return "UserDao{" +
+        return "User{" +
                 "login='" + login + '\'' +
+                ", pswd='" + pswd + '\'' +
+                ", authRole='" + authRole + '\'' +
+                ", enabled=" + enabled +
                 '}';
     }
 

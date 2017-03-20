@@ -26,7 +26,7 @@ public class UserServiceImpl implements UserService {
         return userDao.get(login);
     }
 
-    public User insert(User user) {
+    public int insert(User user) {
         logger.info("SERVICE: inserting object User into DB");
         return userDao.insert(user);
     }
