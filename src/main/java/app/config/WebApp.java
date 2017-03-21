@@ -2,6 +2,9 @@ package app.config;
 
 import org.postgresql.ds.PGPoolingDataSource;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.CacheManager;
+import org.springframework.cache.annotation.EnableCaching;
+import org.springframework.cache.concurrent.ConcurrentMapCacheManager;
 import org.springframework.context.annotation.*;
 import org.springframework.core.env.Environment;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -30,6 +33,7 @@ import javax.sql.DataSource;
 })
 @EnableWebMvc
 @EnableTransactionManagement
+@EnableCaching
 public class WebApp extends WebMvcConfigurerAdapter{
 
     @Autowired
@@ -64,6 +68,11 @@ public class WebApp extends WebMvcConfigurerAdapter{
         dataSource.setPassword(env.getProperty("db.password"));
         dataSource.setMaxConnections(Integer.valueOf(env.getProperty("db.connections")));
         return dataSource;
+    }
+
+    @Bean
+    public CacheManager cacheManager() {
+        return new ConcurrentMapCacheManager();
     }
 
     @Bean

@@ -5,6 +5,7 @@ import app.entity.Client;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
@@ -16,6 +17,7 @@ import java.sql.SQLException;
  * Created by Alex_Frankiv on 19.03.2017.
  */
 @Repository
+@Cacheable("clients")
 public class ClientDaoImpl implements ClientDao{
 
     @Autowired

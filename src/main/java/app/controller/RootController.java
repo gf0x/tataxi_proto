@@ -1,5 +1,6 @@
 package app.controller;
 
+import app.entity.User;
 import app.service.UserService;
 import com.google.maps.GeoApiContext;
 import com.google.maps.GeocodingApi;
@@ -25,6 +26,9 @@ public class RootController {
 
     private static String ROOT_CTL_TAG = "ROOT_CTL";
 
+    @Autowired
+    private UserService userService;
+
     @Value("${google.API_KEY}")
     private String G_API_KEY;
 
@@ -32,6 +36,11 @@ public class RootController {
     public ModelAndView getHandler(){
         ModelAndView mv = new ModelAndView("home");
         logger.info(ROOT_CTL_TAG, "RootController handles GET request");
+
+        //Caching test
+        User user = userService.get("alex");
+        System.out.println(user);
+
         return mv;
     }
 
@@ -43,6 +52,11 @@ public class RootController {
         GeocodingResult[] results = GeocodingApi.geocode(context, address).await();
         mv.addObject("lat", (results.length > 0) ? results[0].geometry.location.lat : "no results");
         mv.addObject("lng", (results.length > 0) ? results[0].geometry.location.lng : "no results");
+
+        //Caching test
+        User user = userService.get("alex");
+        System.out.println("POST: "+user);
+
         return mv;
     }
 }
