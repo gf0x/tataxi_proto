@@ -10,6 +10,9 @@
 <html>
 <head>
     <title>Tataxi | Login</title>
+    <link rel="stylesheet" href="<c:url value="/presentation/resources/bootstrap/css/bootstrap.min.css"/> ">
+    <link href="<c:url value="/presentation/resources/bootstrap/fonts/glyphicons-halflings-regular.woff"/>">
+    <script type="text/javascript" src="<c:url value="/presentation/resources/bootstrap/js/bootstrap.min.js"/>"></script>
 </head>
 <body>
 <div>

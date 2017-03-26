@@ -47,7 +47,7 @@ public class WebApp extends WebMvcConfigurerAdapter{
     @Bean
     public ViewResolver jspViewResolver(){
         InternalResourceViewResolver resolver = new InternalResourceViewResolver();
-        resolver.setPrefix("/presentation/");
+        resolver.setPrefix("/presentation/view/");
         resolver.setSuffix(".jsp");
         resolver.setContentType("text/html; charset=UTF-8");
         return resolver;
