@@ -26,9 +26,9 @@ public class WorkerDaoImpl implements WorkerDao{
     private static Logger logger = LoggerFactory.getLogger(WorkerDaoImpl.class.getSimpleName());
 
     private static final String GET = "SELECT login, pass_data, full_name, is_driver, phone_num, dept_id FROM worker WHERE login=?";
-    private static final String INSERT = "INSERT INTO worker (login, pass_data, full_name, is_driver, phone_num, dept_id) " +
-            "VALUES (?,?,?,?,?,?)";
-    private static final String UPDATE = "UPDATE worker SET pass_data=?, full_name=?, is_driver=?, phone_num=?, dept_id=? " +
+    private static final String INSERT = "INSERT INTO worker (login, pass_data, full_name, is_driver, phone_num, dept_id, online) " +
+            "VALUES (?,?,?,?,?,?,?)";
+    private static final String UPDATE = "UPDATE worker SET pass_data=?, full_name=?, is_driver=?, phone_num=?, dept_id=?, online=? " +
             "WHERE login=?";
     private static final String DELETE = "DELETE FROM worker WHERE login=?";
 
@@ -40,13 +40,13 @@ public class WorkerDaoImpl implements WorkerDao{
     public int insert(Worker worker) {
         logger.info("DAO: inserting object Worker into DB");
         return jdbcTemplate.update(INSERT, worker.getLogin(), worker.getPassportData(), worker.getFullName(), worker.isDriver(),
-                worker.getPhoneNumber(), worker.getDeptId());
+                worker.getPhoneNumber(), worker.getDeptId(), worker.isOnline());
     }
 
     public void update(Worker worker) {
         logger.info("DAO: updating object Worker in DB");
         jdbcTemplate.update(UPDATE, worker.getPassportData(), worker.getFullName(), worker.isDriver(),
-                worker.getPhoneNumber(), worker.getDeptId(), worker.getLogin());
+                worker.getPhoneNumber(), worker.getDeptId(), worker.isOnline(), worker.getLogin());
     }
 
     public void remove(Worker worker) {
@@ -63,6 +63,7 @@ public class WorkerDaoImpl implements WorkerDao{
             worker.setDriver(rs.getBoolean("is_driver"));
             worker.setPhoneNumber(rs.getString("phone_num"));
             worker.setDeptId(rs.getInt("dept_id"));
+            worker.setOnline(rs.getBoolean("online"));
             return worker;
         }
     };

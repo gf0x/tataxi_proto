@@ -62,7 +62,7 @@ public class Car {
     }
 
     public void setCategory(char category) {
-        category = category;
+        this.category = category;
     }
 
     public int getSeats() {

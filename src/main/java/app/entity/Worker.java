@@ -17,6 +17,7 @@ public class Worker extends app.entity.User {
     private List<Character> licenses;
     private String phoneNumber;
     private int deptId;
+    private boolean online;
 
     @Override
     public String toString() {
@@ -28,7 +29,16 @@ public class Worker extends app.entity.User {
                 ", licenses=" + licenses +
                 ", phoneNumber='" + phoneNumber + '\'' +
                 ", deptId=" + deptId +
+                ", online=" + online +
                 '}';
+    }
+
+    public boolean isOnline() {
+        return online;
+    }
+
+    public void setOnline(boolean online) {
+        this.online = online;
     }
 
     public int getDeptId() {
