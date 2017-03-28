@@ -26,9 +26,9 @@ public class ClientDaoImpl implements ClientDao{
     private static Logger logger = LoggerFactory.getLogger(ClientDaoImpl.class.getSimpleName());
 
     private static final String GET = "SELECT * FROM client WHERE login=?";
-    private static final String INSERT = "INSERT INTO client (login, first_name, second_name, last_name, home_address, " +
-            "phone_num) VALUES (?,?,?,?,?,?)";
-    private static final String UPDATE = "UPDATE client SET first_name=?, second_name=?, last_name=?, home_address=?," +
+    private static final String INSERT = "INSERT INTO client (login, real_name, email, home_address, " +
+            "phone_num) VALUES (?,?,?,?,?)";
+    private static final String UPDATE = "UPDATE client SET real_name=?, email=?, home_address=?," +
             "phone_num=? WHERE login=?";
     private static final String DELETE = "DELETE FROM client WHERE login=?";
 
@@ -39,14 +39,12 @@ public class ClientDaoImpl implements ClientDao{
 
     public int insert(Client client) {
         logger.info("DAO: inserting object Client into DB");
-        return jdbcTemplate.update(INSERT, client.getLogin(), client.getFirstName(), client.getSecondName(),
-                client.getLastName(), client.getHomeAddress(), client.getPhoneNumber());
+        return jdbcTemplate.update(INSERT, client.getLogin(), client.getRealName(), client.getHomeAddress(), client.getPhoneNumber());
     }
 
     public void update(Client client) {
         logger.info("DAO: updating object Client in DB");
-        jdbcTemplate.update(UPDATE, client.getFirstName(), client.getSecondName(),
-                client.getLastName(), client.getHomeAddress(), client.getPhoneNumber(), client.getLogin());
+        jdbcTemplate.update(UPDATE, client.getRealName(), client.getHomeAddress(), client.getPhoneNumber(), client.getLogin());
     }
 
     public void remove(Client client) {
@@ -58,9 +56,8 @@ public class ClientDaoImpl implements ClientDao{
         public Client mapRow(ResultSet rs, int rowNum) throws SQLException {
             Client client = new Client();
             client.setLogin(rs.getString("login"));
-            client.setFirstName(rs.getString("first_name"));
-            client.setSecondName(rs.getString("second_name"));
-            client.setLastName(rs.getString("last_name"));
+            client.setRealName(rs.getString("first_name"));
+            client.setEmail(rs.getString("email"));
             client.setHomeAddress(rs.getString("home_address"));
             client.setPhoneNumber(rs.getString("phone_num"));
             return client;
