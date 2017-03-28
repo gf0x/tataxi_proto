@@ -16,4 +16,13 @@ $(function() {
 		e.preventDefault();
 	});
 
+	$("#register-submit").click(function (e) {
+	if($("#pass").val()!==$("#pass_conf").val()
+		|| !(/^\+[0-9]{12}$/.test($("#phone_num").val()))) {
+		e.preventDefault();
+		//TO-DO
+		//show warning here
+	}
+
+	});
 });
