@@ -9,6 +9,8 @@ import org.springframework.context.annotation.*;
 import org.springframework.core.env.Environment;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
+import org.springframework.security.authentication.encoding.BasePasswordEncoder;
+import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.transaction.PlatformTransactionManager;
@@ -55,7 +57,7 @@ public class WebApp extends WebMvcConfigurerAdapter{
 
     @Override
     public void addViewControllers(ViewControllerRegistry registry){
-//        registry.addViewController("/403").setViewName("403");
+        registry.addViewController("/403").setViewName("403");
         registry.addViewController("/login").setViewName("login");
     }
 
@@ -86,7 +88,12 @@ public class WebApp extends WebMvcConfigurerAdapter{
     }
 
     @Bean
-    public PasswordEncoder passwordEncoder(){
-        return new BCryptPasswordEncoder();
+    public Md5PasswordEncoder passwordEncoder(){
+        return new Md5PasswordEncoder();
     }
+
+//    @Bean
+//    public PasswordEncoder passwordEncoder(){
+//        return new BCryptPasswordEncoder();
+//    }
 }

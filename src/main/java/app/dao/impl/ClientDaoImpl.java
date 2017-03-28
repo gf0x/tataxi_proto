@@ -38,17 +38,17 @@ public class ClientDaoImpl implements ClientDao{
     }
 
     public int insert(Client client) {
-        logger.info("DAO: inserting object Client into DB");
-        return jdbcTemplate.update(INSERT, client.getLogin(), client.getRealName(), client.getHomeAddress(), client.getPhoneNumber());
+        logger.info("DAO: inserting object Client into DB: " + client);
+        return jdbcTemplate.update(INSERT, client.getLogin(), client.getRealName(), client.getEmail(), client.getHomeAddress(), client.getPhoneNumber());
     }
 
     public void update(Client client) {
-        logger.info("DAO: updating object Client in DB");
-        jdbcTemplate.update(UPDATE, client.getRealName(), client.getHomeAddress(), client.getPhoneNumber(), client.getLogin());
+        logger.info("DAO: updating object Client in DB: " + client);
+        jdbcTemplate.update(UPDATE, client.getRealName(), client.getEmail(), client.getHomeAddress(), client.getPhoneNumber(), client.getLogin());
     }
 
     public void remove(Client client) {
-        logger.info("DAO: removing object Client from DB");
+        logger.info("DAO: removing object Client from DB: " + client);
         jdbcTemplate.update(DELETE, client.getLogin());
     }
 

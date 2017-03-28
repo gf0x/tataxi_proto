@@ -26,8 +26,8 @@ public class UserDaoImpl implements UserDao{
     private static Logger logger = LoggerFactory.getLogger(UserDaoImpl.class.getSimpleName());
 
     private static final String GET = "SELECT login, pswd, auth_role, enabled FROM \"user\" WHERE login=?";
-    private static final String INSERT = "INSERT INTO \"user\" (login, pswd, auth_role, enabled) VALUES (?,?,?,?)";
-    private static final String UPDATE = "UPDATE \"user\" SET pswd=?, auth_role=?, enabled=? WHERE login=?";
+    private static final String INSERT = "INSERT INTO \"user\" (login, pswd, auth_role, enabled) VALUES (?,md5(?),?,?)";
+    private static final String UPDATE = "UPDATE \"user\" SET pswd=md5(?), auth_role=?, enabled=? WHERE login=?";
     private static final String DELETE = "DELETE FROM \"user\" WHERE login=?";
 
     public User get(String login) {

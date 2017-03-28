@@ -25,13 +25,13 @@
                 <div class="panel-body">
                     <div class="row">
                         <div class="col-lg-12">
-                            <form id="login-form" method="post" role="form" style="display: block;" onsubmit="return ">
+                            <form id="login-form" action="/login" method="post" role="form" style="display: block;" onsubmit="return ">
                                 <div class="form-group">
-                                    <input type="text" name="login" tabindex="1" class="form-control"
+                                    <input type="text" name="lgn" tabindex="1" class="form-control"
                                            placeholder="Username" value="">
                                 </div>
                                 <div class="form-group">
-                                    <input type="password" name="password" tabindex="2" class="form-control"
+                                    <input type="password" name="pswd" tabindex="2" class="form-control"
                                            placeholder="Password">
                                 </div>
                                 <div class="form-group text-center">
@@ -75,7 +75,7 @@
                                            placeholder="Password" required>
                                 </div>
                                 <div class="form-group">
-                                    <input type="password" name="confirm_password" id="pass_conf" tabindex="2" class="form-control"
+                                    <input type="password" name="pass_conf" id="pass_conf" tabindex="2" class="form-control"
                                            placeholder="Confirm Password" required>
                                 </div>
                                 <div class="form-group">

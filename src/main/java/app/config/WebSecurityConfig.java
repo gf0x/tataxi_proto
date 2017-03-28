@@ -3,6 +3,8 @@ package app.config;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.encoding.BasePasswordEncoder;
+import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -24,8 +26,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private DataSource dataSource;
 
+//    @Autowired
+//    private Md5PasswordEncoder passwordEncoder;
+
     @Autowired
-    private PasswordEncoder passwordEncoder;
+    private Md5PasswordEncoder passwordEncoder;
 
     @Autowired
     public void configAuthentication(AuthenticationManagerBuilder auth) throws Exception {
@@ -42,12 +47,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity httpSecurity) throws Exception {
         httpSecurity
                 .authorizeRequests()
-                .antMatchers(/*"/admin/**"*/"/").hasRole("ADMIN")
+                .antMatchers(/*"/admin/**"*/"/").hasAnyRole("ADMIN", "CLIENT")
                 .and()
                 .formLogin()
                 .loginPage("/login")
-                .usernameParameter("login")
-                .passwordParameter("password")
+                .usernameParameter("lgn")
+                .passwordParameter("pswd")
                 .defaultSuccessUrl("/", false)
                 .and()
                 .logout()
