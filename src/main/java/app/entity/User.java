@@ -37,9 +37,17 @@ public class User {
         this.enabled = enabled;
     }
 
+    public User(String login, String pswd, String authRole, int enabled) {
+        this.login = login;
+        this.pswd = pswd;
+        this.authRole = authRole;
+        this.enabled = enabled;
+    }
+
     @Override
     public String toString() {
         return "User{" +
+
                 "login='" + login + '\'' +
                 ", pswd='" + pswd + '\'' +
                 ", authRole='" + authRole + '\'' +

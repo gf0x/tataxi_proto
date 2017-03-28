@@ -14,6 +14,14 @@ public class Client extends User {
 
     public Client(){}
 
+    public Client(String login, String realName, String email, String homeAddress, String phoneNumber) {
+        this.login = login;
+        this.realName = realName;
+        this.email = email;
+        this.homeAddress = homeAddress;
+        this.phoneNumber = phoneNumber;
+    }
+
     @Override
     public String toString() {
         return "Client{" +

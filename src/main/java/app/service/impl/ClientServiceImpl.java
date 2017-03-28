@@ -3,6 +3,7 @@ package app.service.impl;
 import app.dao.ClientDao;
 import app.entity.Client;
 import app.service.ClientService;
+import app.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +20,9 @@ public class ClientServiceImpl implements ClientService {
     @Autowired
     private ClientDao clientDao;
 
+    @Autowired
+    private UserService userService;
+
     private static Logger logger = LoggerFactory.getLogger(CarServiceImpl.class.getSimpleName());
 
     public Client get(String login) {
@@ -28,6 +32,7 @@ public class ClientServiceImpl implements ClientService {
 
     public int insert(Client client) {
         logger.info("SERVICE: inserting object Client into DB");
+        userService.insert(client);
         return clientDao.insert(client);
     }
 

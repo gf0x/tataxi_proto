@@ -26,6 +26,7 @@ public class ClientController {
 
     private static Logger logger = LoggerFactory.getLogger(RootController.class.getSimpleName());
     private static final String CLIENT_ROLE = "ROLE_CLIENT";
+    private static final int ENABLED = 1;
 
     @Autowired
     private ClientService clientService;
@@ -39,19 +40,12 @@ public class ClientController {
                                        @RequestParam String home_address, @RequestParam String phone_num,
                                        @RequestParam String password, @RequestParam String pass_conf){
         ModelAndView mv = new ModelAndView("login");
-        User user = new User();
-        user.setLogin(login);
-        user.setAuthRole(CLIENT_ROLE);
-        user.setEnabled(1);
-        user.setPswd(password);
-        if (pass_conf.equals(password))
-            userService.insert(user);
-        Client client = new Client();
-        client.setLogin(login);
-        client.setEmail(email);
-        client.setRealName(real_name);
-        client.setHomeAddress(home_address);
-        client.setPhoneNumber(phone_num);
+        if (!pass_conf.equals(password))
+            throw new IllegalArgumentException("AUTH: password confirmation failed!");
+        Client client = new Client(login, real_name, email,home_address,phone_num);
+        client.setAuthRole(CLIENT_ROLE);
+        client.setPswd(password);
+        client.setEnabled(ENABLED);
         //TO-DO: validate phone number as well
         clientService.insert(client);
         mv.addObject("registered", true);
