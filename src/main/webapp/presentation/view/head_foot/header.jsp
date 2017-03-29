@@ -9,17 +9,21 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
 <head>
-<title>Tataxi</title>
-<link rel="stylesheet" href="<c:url value="/presentation/resources/bootstrap/css/bootstrap.min.css"/> ">
-<link rel="stylesheet" href="<c:url value="/presentation/resources/bootstrap/fonts/glyphicons-halflings-regular.woff"/> ">
-<script type="text/javascript" src="<c:url value="/presentation/resources/bootstrap/js/bootstrap.min.js"/> "></script>
-<script type="text/javascript" src="<c:url value="/presentation/resources/jquery/jquery.min.js"/> "></script>
-<link rel="stylesheet" href="<c:url value="/presentation/resources/jquery-ui/css/jquery-ui.css"/> ">
-<!-- custom -->
-<link rel="stylesheet" href="<c:url value="/presentation/resources/css/style.css"/> ">
-<script type="text/javascript" src="<c:url value="/presentation/resources/js/main.js"/> "></script>
+    <title>Tataxi</title>
+    <link rel="stylesheet" href="<c:url value="/presentation/resources/bootstrap/css/bootstrap.min.css"/> ">
+    <link rel="stylesheet"
+          href="<c:url value="/presentation/resources/bootstrap/fonts/glyphicons-halflings-regular.woff"/> ">
+    <script type="text/javascript"
+            src="<c:url value="/presentation/resources/bootstrap/js/bootstrap.min.js"/> "></script>
+    <script type="text/javascript" src="<c:url value="/presentation/resources/jquery/jquery.min.js"/> "></script>
+    <link rel="stylesheet" href="<c:url value="/presentation/resources/jquery-ui/css/jquery-ui.css"/> ">
+    <script type="text/javascript"
+            src="<c:url value="/presentation/resources/notify_js/bootstrap-notify.min.js"/>"></script>
+    <!-- custom -->
+    <link rel="stylesheet" href="<c:url value="/presentation/resources/css/style.css"/> ">
+    <script type="text/javascript" src="<c:url value="/presentation/resources/js/main.js"/> "></script>
 
-    <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
+    <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport'/>
 
 </head>
 <body>

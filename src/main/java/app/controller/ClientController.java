@@ -38,17 +38,19 @@ public class ClientController {
     @Transactional
     public ModelAndView registerClient(@RequestParam String login, @RequestParam String real_name, @RequestParam String email,
                                        @RequestParam String home_address, @RequestParam String phone_num,
-                                       @RequestParam String password, @RequestParam String pass_conf){
+                                       @RequestParam String password, @RequestParam String pass_conf) {
         ModelAndView mv = new ModelAndView("login");
         if (!pass_conf.equals(password))
-            throw new IllegalArgumentException("AUTH: password confirmation failed!");
-        Client client = new Client(login, real_name, email,home_address,phone_num);
+            throw new IllegalArgumentException("BACKEND: AUTH: password confirmation failed!");
+        Client client = new Client(login, real_name, email, home_address, phone_num);
         client.setAuthRole(CLIENT_ROLE);
         client.setPswd(password);
         client.setEnabled(ENABLED);
         //TO-DO: validate phone number as well
-        clientService.insert(client);
-        mv.addObject("registered", true);
+        if (clientService.insert(client) > 0)
+            mv.addObject("registered", true);
+        else
+            mv.addObject("registered", false);
         return mv;
     }
 }

@@ -16,13 +16,29 @@ $(function() {
 		e.preventDefault();
 	});
 
+	//show warning on illegal registration arguments
 	$("#register-submit").click(function (e) {
-	if($("#pass").val()!==$("#pass_conf").val()
-		|| !(/^\+[0-9]{12}$/.test($("#phone_num").val()))) {
+	if($("#pass").val()!==$("#pass_conf").val()) {
 		e.preventDefault();
 		//TO-DO
-		//show warning here
+		$.notify({
+			icon: 'glyphicon glyphicon-warning-sign',
+			title: 'Password confirmation failed',
+			message: 'Password and it\'s confirmation don\'t match',
+			target: '_blank'
+		}, {
+			type: 'warning'
+		});
+	}else if(!(/^\+[0-9]{12}$/.test($("#phone_num").val()))){
+		e.preventDefault();
+		$.notify({
+			icon: 'glyphicon glyphicon-warning-sign',
+			title: 'Invalid phone number type',
+			message: 'Please input phone number in requested format',
+			target: '_blank'
+		},{
+			type: 'warning'
+		});
 	}
-
 	});
 });

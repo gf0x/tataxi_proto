@@ -40,4 +40,9 @@ public class UserServiceImpl implements UserService {
         logger.info("SERVICE: removing object User from DB");
         userDao.remove(user);
     }
+
+    public boolean ifExists(User user){
+        logger.info("SERVICE: if exist User "+user);
+        return userDao.ifExists(user);
+    }
 }

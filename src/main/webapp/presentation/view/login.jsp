@@ -6,7 +6,7 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@include file="header.jsp" %>
+<%@include file="head_foot/header.jsp" %>
 <div class="container">
     <div class="row">
         <div class="col-md-6 col-md-offset-3">
@@ -23,6 +23,27 @@
                     <hr>
                 </div>
                 <div class="panel-body">
+                    <c:if test="${param.error != null}">
+                        <div class="alert alert-danger">
+                            <strong>Error!</strong> Invalid log in credentials
+                        </div>
+                    </c:if>
+                    <c:if test="${param.logout != null}">
+                        <div class="alert alert-info">
+                            <strong>Bye!</strong> Come back soon!
+                        </div>
+                    </c:if>
+                    <c:if test="${registered eq true}">
+                        <div class="alert alert-success">
+                            <strong>Success!</strong> You're now registered and ready to start!
+                        </div>
+                    </c:if>
+                    <c:if test="${registered eq false}">
+                        <div class="alert alert-danger">
+                            <strong>Registration failed!</strong> Specified username is already in use
+                            <br/> Please enter another one
+                        </div>
+                    </c:if>
                     <div class="row">
                         <div class="col-lg-12">
                             <form id="login-form" action="/login" method="post" role="form" style="display: block;" onsubmit="return ">
@@ -95,4 +116,4 @@
         </div>
     </div>
 </div>
-<%@include file="footer.jsp" %>
+<%@include file="head_foot/footer.jsp" %>

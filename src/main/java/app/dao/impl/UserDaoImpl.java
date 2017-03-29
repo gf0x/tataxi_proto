@@ -26,9 +26,11 @@ public class UserDaoImpl implements UserDao{
     private static Logger logger = LoggerFactory.getLogger(UserDaoImpl.class.getSimpleName());
 
     private static final String GET = "SELECT login, pswd, auth_role, enabled FROM \"user\" WHERE login=?";
-    private static final String INSERT = "INSERT INTO \"user\" (login, pswd, auth_role, enabled) VALUES (?,md5(?),?,?)";
+    private static final String INSERT = "INSERT INTO \"user\" (login, pswd, auth_role, enabled) SELECT ?,md5(?),?,? WHERE NOT exists(SELECT login FROM \"user\" WHERE login = ?)";
     private static final String UPDATE = "UPDATE \"user\" SET pswd=md5(?), auth_role=?, enabled=? WHERE login=?";
     private static final String DELETE = "DELETE FROM \"user\" WHERE login=?";
+
+    private static final String IF_EXISTS = "SELECT exists (SELECT login FROM \"user\" WHERE login = ?)";
 
     public User get(String login) {
         logger.info("DAO: grabbing object User from DB");
@@ -37,7 +39,9 @@ public class UserDaoImpl implements UserDao{
 
     public int insert(User user) {
         logger.info("DAO: inserting object User into DB");
-        return jdbcTemplate.update(INSERT, user.getLogin(), user.getPswd(), user.getAuthRole(), user.getEnabled());
+        if(ifExists(user))
+            return -1;
+        return jdbcTemplate.update(INSERT, user.getLogin(), user.getPswd(), user.getAuthRole(), user.getEnabled(), user.getLogin());
     }
 
     public void update(User user) {
@@ -48,6 +52,11 @@ public class UserDaoImpl implements UserDao{
     public void remove(User user) {
         logger.info("DAO: removing object User from DB");
         jdbcTemplate.update(DELETE, user.getLogin());
+    }
+
+    public boolean ifExists(User user){
+        logger.info("DAO: if exist User "+user);
+        return jdbcTemplate.queryForObject(IF_EXISTS, Boolean.class, user.getLogin());
     }
 
     private RowMapper<User> mapper = new RowMapper<User>() {

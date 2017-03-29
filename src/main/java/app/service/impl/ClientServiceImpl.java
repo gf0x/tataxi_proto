@@ -24,6 +24,7 @@ public class ClientServiceImpl implements ClientService {
     private UserService userService;
 
     private static Logger logger = LoggerFactory.getLogger(CarServiceImpl.class.getSimpleName());
+    private static final int ERROR_CODE = -1;
 
     public Client get(String login) {
         logger.info("SERVICE: grabbing object Client from DB");
@@ -32,8 +33,10 @@ public class ClientServiceImpl implements ClientService {
 
     public int insert(Client client) {
         logger.info("SERVICE: inserting object Client into DB");
-        userService.insert(client);
-        return clientDao.insert(client);
+        if (userService.insert(client) > 0)
+            return clientDao.insert(client);
+        else
+            return ERROR_CODE;
     }
 
     public void update(Client client) {

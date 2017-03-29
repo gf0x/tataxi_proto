@@ -10,4 +10,5 @@ public interface UserService {
     int insert(User user);
     void update(User user);
     void remove(User user);
+    boolean ifExists(User user);
 }
