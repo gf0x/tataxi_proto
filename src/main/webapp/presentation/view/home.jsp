@@ -6,16 +6,12 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<html>
-<head>
-    <title>Tataxi Home</title>
-</head>
-<body>
-<div style="text-align: center">
+<%@include file="head_foot/header.jsp"%>
+
     <br>
     <h1>Welcome to Tataxi!</h1>
     <h2>We're under construction now...</h2>
-    <h1v>=(</h1v>
+    <h1>=(</h1>
     <div class="testing-div">
         <div class="in">
             <form method="post">
@@ -30,6 +26,5 @@
             <h3>Lng: ${lng}</h3>
         </div>
     </div>
-</div>
-</body>
-</html>
+
+<%@include file="head_foot/footer.jsp"%>

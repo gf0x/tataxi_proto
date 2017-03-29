@@ -7,16 +7,16 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 <html>
 <head>
     <title>Tataxi</title>
-    <link rel="stylesheet" href="<c:url value="/presentation/resources/bootstrap/css/bootstrap.min.css"/> ">
-    <link rel="stylesheet"
-          href="<c:url value="/presentation/resources/bootstrap/fonts/glyphicons-halflings-regular.woff"/> ">
-    <script type="text/javascript"
-            src="<c:url value="/presentation/resources/bootstrap/js/bootstrap.min.js"/> "></script>
     <script type="text/javascript" src="<c:url value="/presentation/resources/jquery/jquery.min.js"/> "></script>
     <link rel="stylesheet" href="<c:url value="/presentation/resources/jquery-ui/css/jquery-ui.css"/> ">
+    <link rel="stylesheet" href="<c:url value="/presentation/resources/bootstrap/css/bootstrap.min.css"/> ">
+    <link rel="stylesheet"
+    href="<c:url value="/presentation/resources/bootstrap/fonts/glyphicons-halflings-regular.woff"/> ">
+    <script type="text/javascript" src="<c:url value="/presentation/resources/bootstrap/js/bootstrap.min.js"/> "></script>
     <script type="text/javascript"
             src="<c:url value="/presentation/resources/notify_js/bootstrap-notify.min.js"/>"></script>
     <!-- custom -->
@@ -34,15 +34,15 @@
                 Tataxi
             </div>
 
-            <!--
-                            <div class="login-top col-lg-2 col-lg-offset-4 col-sm-2 col-sm-offset-2 col-xs-offset-2 col-xs-4">
-                                mylogin
-                            </div>
-                            <div class="loginout-btn btn col-lg-1 col-lg-offset-1 col-sm-2 col-xs-offset-1 col-xs-3">
-                                <i class="glyphicon glyphicon-log-out"> Logout</i>
-                                                    <i class="glyphicon glyphicon-log-in"> Sign in</i>
-                            </div>
-            -->
+            <sec:authorize access="isAuthenticated()">
+                <div class="login-top col-lg-2 col-lg-offset-4 col-sm-2 col-sm-offset-2 col-xs-offset-2 col-xs-4">
+                    <sec:authentication property="principal.username"/>
+                </div>
+                <div class="loginout-btn btn col-lg-1 col-lg-offset-1 col-sm-2 col-xs-offset-1 col-xs-3" onclick="location.href = '/logout';">
+                        <i class="glyphicon glyphicon-log-out" id="logout-btn"> Logout</i>
+                    <%--<i class="glyphicon glyphicon-log-in"> Sign in</i>--%>
+                </div>
+            </sec:authorize>
 
         </div>
     </div>

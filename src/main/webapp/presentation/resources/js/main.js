@@ -20,7 +20,6 @@ $(function() {
 	$("#register-submit").click(function (e) {
 	if($("#pass").val()!==$("#pass_conf").val()) {
 		e.preventDefault();
-		//TO-DO
 		$.notify({
 			icon: 'glyphicon glyphicon-warning-sign',
 			title: 'Password confirmation failed',
