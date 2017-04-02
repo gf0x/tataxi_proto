@@ -25,6 +25,8 @@
             <h3>Lat: ${lat}</h3>
             <h3>Lng: ${lng}</h3>
         </div>
+
+        <a href="/dept/create">Go to dept create</a>
     </div>
 
 <%@include file="head_foot/footer.jsp"%>

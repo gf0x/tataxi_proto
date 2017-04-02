@@ -26,29 +26,29 @@ public class DepartmentDaoImpl implements DepartmentDao{
     private static Logger logger = LoggerFactory.getLogger(DepartmentDaoImpl.class.getSimpleName());
 
     private static final String GET = "SELECT * FROM department WHERE id=?";
-    private static final String INSERT = "INSERT INTO department (id, city, address, price_per_km) VALUES (?,?,?,?)";
+    private static final String INSERT = "INSERT INTO department (city, address, price_per_km) VALUES (?,?,?)";
     private static final String UPDATE = "UPDATE department SET city=?, address=?, price_per_km=? WHERE id=?";
     private static final String DELETE = "DELETE FROM department WHERE id=?";
 
     public Department get(int id) {
-        logger.info("DAO: grabbing object Department from DB");
+        logger.info("DAO: grabbing object Department from DB id: "+id);
         return jdbcTemplate.queryForObject(GET, mapper, id);
     }
 
     public int insert(Department department) {
-        logger.info("DAO: inserting object Department into DB");
-        return jdbcTemplate.update(INSERT, department.getId(), department.getCity(), department.getAddress(),
+        logger.info("DAO: inserting object Department into DB: "+department);
+        return jdbcTemplate.update(INSERT, department.getCity(), department.getAddress(),
                 department.getPricePerKm());
     }
 
     public void update(Department department) {
-        logger.info("DAO: updating object Department into DB");
+        logger.info("DAO: updating object Department into DB: "+department);
         jdbcTemplate.update(UPDATE, department.getCity(), department.getAddress(), department.getPricePerKm(),
                 department.getId());
     }
 
     public void remove(Department department) {
-        logger.info("DAO: removing object Department from DB");
+        logger.info("DAO: removing object Department from DB: "+department);
         jdbcTemplate.update(DELETE, department.getId());
     }
 

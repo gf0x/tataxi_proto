@@ -12,6 +12,7 @@
         <spring-security>4.0.1.RELEASE</spring-security>
         <postgres-version>9.2-1003-jdbc4</postgres-version>
         <google-lib-version>0.1.17</google-lib-version>
+        <jackson.version>2.6.3</jackson.version>
     </properties>
     <dependencies>
         <!-- SPRING FRAMEWORK -->
@@ -131,9 +132,15 @@
 
         <!-- Jackson -->
         <dependency>
-            <groupId>org.codehaus.jackson</groupId>
-            <artifactId>jackson-mapper-asl</artifactId>
-            <version>1.7.1</version>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-core</artifactId>
+            <version>${jackson.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>${jackson.version}</version>
         </dependency>
         <!-- End Jackson -->
         <!-- TESTING -->

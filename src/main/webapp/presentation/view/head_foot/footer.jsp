@@ -6,6 +6,7 @@
   To change this template use File | Settings | File Templates.
 --%>
 </div>
+</div>
 <div class="footer">
     <div class="container">
         <p class="text-muted">Tataxi_prototype &copy; by Alex Frankiv

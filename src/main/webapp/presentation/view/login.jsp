@@ -6,8 +6,8 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@include file="head_foot/header.jsp" %>
-<div class="container">
+<%@include file="head_foot/header_blank.jsp" %>
+<div class="container login-form">
     <div class="row">
         <div class="col-md-6 col-md-offset-3">
             <div class="panel panel-login">
