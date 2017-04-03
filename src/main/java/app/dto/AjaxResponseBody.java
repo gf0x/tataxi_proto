@@ -1,28 +1,26 @@
 package app.dto;
 
-import com.fasterxml.jackson.annotation.JsonView;
-
 /**
  * Created by Alex_Frankiv on 02.04.2017.
  */
 public class AjaxResponseBody {
-    private String msg;
+    private String message;
     private String code;
 
     @Override
     public String toString() {
         return "AjaxResponseBody{" +
-                "msg='" + msg + '\'' +
+                "message='" + message + '\'' +
                 ", code='" + code + '\'' +
                 '}';
     }
 
-    public String getMsg() {
-        return msg;
+    public String getMessage() {
+        return message;
     }
 
-    public void setMsg(String msg) {
-        this.msg = msg;
+    public void setMessage(String message) {
+        this.message = message;
     }
 
     public String getCode() {
@@ -37,8 +35,8 @@ public class AjaxResponseBody {
 
     }
 
-    public AjaxResponseBody(String code, String msg) {
-        this.msg = msg;
+    public AjaxResponseBody(String code, String message) {
+        this.message = message;
         this.code = code;
     }
 }

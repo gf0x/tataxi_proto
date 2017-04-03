@@ -26,8 +26,8 @@ public class CarDaoImpl implements CarDao {
     private static Logger logger = LoggerFactory.getLogger(CarDaoImpl.class.getSimpleName());
 
     private static final String GET = "SELECT * FROM car WHERE id=?";
-    private static final String INSERT = "INSERT INTO car (id, sign, brand, model, category, seats, max_weight, bought_on," +
-            " written_off_on, serviceable, dept_id) VALUES (?,?,?,?,?,?,?,?,?,?,?)";
+    private static final String INSERT = "INSERT INTO car (sign, brand, model, category, seats, max_weight, bought_on," +
+            " written_off_on, serviceable, dept_id) VALUES (?,?,?,?,?,?,?,?,?,?)";
     private static final String UPDATE = "UPDATE car SET sign=?, brand=?, model=?, category=?, seats=?, max_weight=?," +
             "bought_on=?, written_off_on=?, serviceable=?, dept_id=? WHERE id=?";
     private static final String DELETE = "DELETE FROM car WHERE id=?";
@@ -39,7 +39,7 @@ public class CarDaoImpl implements CarDao {
 
     public int insert(Car car) {
         logger.info("DAO: inserting object Car into DB");
-        return jdbcTemplate.update(INSERT, car.getId(), car.getSign(), car.getBrand(), car.getModel(),
+        return jdbcTemplate.update(INSERT, car.getSign(), car.getBrand(), car.getModel(),
                 car.getCategory(), car.getSeats(), car.getMaxWeight(), car.getBoughtOn(), car.getWritten_offOn(),
                 car.isServiceable(), car.getDeptId());
     }

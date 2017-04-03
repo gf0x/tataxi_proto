@@ -13,7 +13,7 @@
         <h2>Car properties: </h2>
         <!-- choose dept-->
         <div class="form-group">
-            <label for="car_dept">Example select</label>
+            <label for="car_dept">City: </label>
             <c:if test="${firstEdit eq false}">
                 <select class="form-control" id="car_dept" disabled>
                     <option id="${department.id}">${department.city}</option>

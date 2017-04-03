@@ -10,6 +10,9 @@ import java.util.List;
 @Component
 public class Worker extends app.entity.User {
 
+    private static final String WORKER_ROLE = "ROLE_WORKER";
+    private static final int ENABLED = 1;
+
     private String login;
     private String passportData;
     private String fullName;
@@ -49,7 +52,10 @@ public class Worker extends app.entity.User {
         this.deptId = deptId;
     }
 
-    public Worker(){}
+    public Worker(){
+        this.setAuthRole(WORKER_ROLE);
+        this.setEnabled(ENABLED);
+    }
 
     public String getLogin() {
         return login;
@@ -75,11 +81,11 @@ public class Worker extends app.entity.User {
         this.fullName = fullName;
     }
 
-    public boolean isDriver() {
+    public boolean getIsDriver() {
         return isDriver;
     }
 
-    public void setDriver(boolean driver) {
+    public void setIsDriver(boolean driver) {
         isDriver = driver;
     }
 

@@ -206,17 +206,23 @@ $(function () {
         addEditDept(e, false);
     });
 
-    //car static map updating
-    $('#car_dept').change(function () {
-        if ($(this).val().length > 0) {
+    var updateStaticMap = function (fatherElement, mapElement) {
+        if (fatherElement.val().length > 0) {
             var newRequest = '//maps.googleapis.com/maps/api/staticmap?';
-            newRequest += 'center=' + $(this).val() + GOOGLE_COUNTRY_DEFAULT;
+            newRequest += 'center=' + fatherElement.val() + GOOGLE_COUNTRY_DEFAULT;
             newRequest += '&zoom=' + GOOGLE_ZOOM;
             newRequest += '&maptype=' + GOOGLE_MAPTYPE;
             newRequest += '&size=' + GOOGLE_SIZE;
             newRequest += '&key=' + GOOGLE_API_KEY;
-            $('#car_static_map').attr('src', newRequest);
+            mapElement.attr('src', newRequest);
         }
+    };
+    //car static map updating
+    $('#car_dept').change(function (e) {
+        updateStaticMap($(this), $('#car_static_map'));
+    });
+    $('#worker_dept').change(function (e) {
+        updateStaticMap($(this), $('#worker_static_map'));
     });
     //car add/edit validation
     var addEditCar = function (e, firstEdit) {
@@ -362,8 +368,143 @@ $(function () {
     });
     $('#btn_car_edit').click(function (e) {
         addEditCar(e, false);
-    })
+    });
+    //worker add/edit validation
+    var addEditWorker = function (e, firstEdit) {
+        if ($(this).attr('disabled')) {
+            return;
+        }
+        var error = false;
+        var worker = {
+            login: $('#worker_login').val(),
+            pswd: $('#worker_pass').val(),
+            fullName: $('#worker_full_name').val(),
+            passportData: $('#worker_pass_data').val(),
+            phoneNumber: $('#worker_phone_num').val(),
+            deptId: $('#worker_dept').find('option:selected').attr('id'),
+            isDriver: 'true' == $('#worker_is_driver').find('option:selected').attr('id'),
+            licenses: []
+        };
+        if(worker.isDriver)
+            $('#worker_licenses').find('input:checked').each(function (index, elem) {
+                worker.licenses.push($(elem).attr('id'));
+            });
+        if(worker.login.length===0){
+            error = true;
+            $('#fg_worker_login').addClass('has-warning');
+            $.notify({
+                icon: 'glyphicon glyphicon-warning-sign',
+                title: 'Error on login!',
+                message: 'Please input login',
+                target: '_blank'
+            }, {
+                type: 'warning'
+            });
+        }
+        if(worker.pswd.length===0){
+            error=true;
+            $('#fg_worker_pass').addClass('has-warning');
+            $.notify({
+                icon: 'glyphicon glyphicon-warning-sign',
+                title: 'Error on password!',
+                message: 'Please input password',
+                target: '_blank'
+            }, {
+                type: 'warning'
+            });
+        }
+        if(worker.fullName.length===0){
+            error = true;
+            $('#fg_worker_full_name').addClass('has-warning');
+            $.notify({
+                icon: 'glyphicon glyphicon-warning-sign',
+                title: 'Error on full name!',
+                message: 'Please input worker\'s full name',
+                target: '_blank'
+            }, {
+                type: 'warning'
+            });
+        }
+        if(!(/^\+[0-9]{12}$/.test(worker.phoneNumber))){
+            error = true;
+            $('#fg_worker_phone_num').addClass('has-warning');
+            $.notify({
+                icon: 'glyphicon glyphicon-warning-sign',
+                title: 'Error on phone number!',
+                message: 'Please input valid phone number',
+                target: '_blank'
+            }, {
+                type: 'warning'
+            });
+        }
+        if(!(/^[A-Z]{2}[0-9]{6}/.test(worker.passportData))){
+            error = true;
+            $('#fg_worker_pass_data').addClass('has-warning');
+            $.notify({
+                icon: 'glyphicon glyphicon-warning-sign',
+                title: 'Error on passport data!',
+                message: 'Please input passport data in format AB123456',
+                target: '_blank'
+            }, {
+                type: 'warning'
+            });
+        }
+        if(!error){
+            console.log(worker);
+            $('#fg_worker_login').removeClass('has-warning');
+            $('#fg_worker_pass').removeClass('has-warning');
+            $('#fg_worker_full_name').removeClass('has-warning');
+            $('#fg_worker_phone_num').removeClass('has-warning');
+            $('#fg_worker_pass_data').removeClass('has-warning');
+            $(this).attr('disabled', true);
+            $.notify({
+                icon: 'glyphicon glyphicon-warning-sign',
+                title: 'In progress: ',
+                message: 'Sending request to server...',
+                target: '_blank'
+            }, {
+                type: 'info',
+                showProgressbar: true
+            });
+            $.ajax({
+                method: 'POST',
+                url: (firstEdit) ? '/worker/create' : ('/worker/edit'),
+                contentType: 'application/json; charset=UTF-8',
+                data: JSON.stringify(worker),
+                dataType: 'json',
+                success: function () {
+                    $.notify({
+                        icon: 'glyphicon glyphicon-warning-sign',
+                        title: 'Success: ',
+                        message: 'Worker modified',
+                        target: '_blank'
+                    }, {
+                        type: 'success'
+                    });
 
+                    $(this).attr('disabled', false);
+                    //TO-DO: redirect after 10 sec. if success
+                },
+                error: function (data) {
+                    $.notify({
+                        icon: 'glyphicon glyphicon-warning-sign',
+                        title: 'Error: ',
+                        message: 'Could not modify worker'+data.message,
+                        target: '_blank'
+                    }, {
+                        type: 'danger'
+                    });
+                    $(this).attr('disabled', false);
+                }
+            });
+        }
+    };
+    $('#btn_worker_create').click(function (e) {
+        addEditWorker(e,true);
+    });
+    $('#btn_worker_edit').click(function (e) {
+        addEditWorker(e,false);
+    });
 });
 
 function htmlbodyHeightUpdate() {

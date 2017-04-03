@@ -41,6 +41,7 @@ public class ClientServiceImpl implements ClientService {
 
     public void update(Client client) {
         logger.info("SERVICE: updating object Client in DB");
+        userService.update(client);
         clientDao.update(client);
     }
 

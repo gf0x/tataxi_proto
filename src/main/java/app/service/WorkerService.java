@@ -11,4 +11,5 @@ public interface WorkerService {
     int insert(Worker worker);
     void update(Worker worker);
     void remove(Worker worker);
+    void update(Worker worker, boolean force);
 }
