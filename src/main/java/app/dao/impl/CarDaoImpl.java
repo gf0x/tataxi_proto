@@ -69,7 +69,7 @@ public class CarDaoImpl implements CarDao {
             car.setBoughtOn(rs.getDate("bought_on"));
             car.setWritten_offOn(rs.getDate("written_off_on"));
             car.setServiceable(rs.getBoolean("serviceable"));
-            car.setDeptId(rs.getInt("deptId"));
+            car.setDeptId(rs.getInt("dept_id"));
             return car;
         }
     };

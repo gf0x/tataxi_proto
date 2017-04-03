@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 /**
  * Created by Alex_Frankiv on 19.03.2017.
  */
@@ -39,5 +41,10 @@ public class DepartmentServiceImpl implements DepartmentService {
     public void remove(Department department) {
         logger.info("SERVICE: removing object Department from DB");
         departmentDao.remove(department);
+    }
+
+    public List<Department> getAll(boolean basic){
+        logger.info("SERVICE: getting all objects Department from DB");
+        return departmentDao.getAll(basic);
     }
 }

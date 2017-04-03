@@ -11,10 +11,12 @@
 
 <div class="row">
     <div class="col-sm-6 container general-content">
+        <h2>Department properties:</h2>
         <input id="dept_id" value="${department.id}" type="hidden">
         <div class="form-group" id="fg_dept_city">
             <label class="form-control-label">City: </label>
-            <input type="text" class="form-control" name="city" id="dept_city" value="${department.city}">
+            <input type="text" class="form-control" name="city" id="dept_city" value="${department.city}"
+            <c:if test="${firstEdit eq false}">disabled</c:if>>
         </div>
         <div class="form-group" id="fg_dept_address">
             <label class="form-control-label">Address: </label>
@@ -27,17 +29,17 @@
         </div>
         <div class="form-group" id="fg_dept_phone_1">
             <label class="form-control-label">Phone number #1: </label>
-            <input type="text" placeholder="+380XXXXXXXXX" class="form-control" name="address" id="dept_phone_1"
+            <input type="text" placeholder="+380XXXXXXXXX" class="form-control" id="dept_phone_1"
                    value="${department.phoneNums[0]}">
         </div>
         <div class="form-group" id="fg_dept_phone_2">
             <label class="form-control-label">Phone number #2: </label>
-            <input type="text" placeholder="+380XXXXXXXXX" class="form-control" name="address" id="dept_phone_2"
+            <input type="text" placeholder="+380XXXXXXXXX" class="form-control" id="dept_phone_2"
                    value="${department.phoneNums[1]}">
         </div>
         <div class="form-group" id="fg_dept_phone_3">
             <label class="form-control-label">Phone number #3: </label>
-            <input type="text" placeholder="+380XXXXXXXXX" class="form-control" name="address" id="dept_phone_3"
+            <input type="text" placeholder="+380XXXXXXXXX" class="form-control" id="dept_phone_3"
                    value="${department.phoneNums[2]}">
         </div>
 

@@ -157,6 +157,7 @@ $(function () {
             $('#fg_dept_price_per_km').removeClass('has-warning');
             for (var i = 0; i < dept.phoneNums.length; ++i) $('#fg_dept_phone_' + (i+1)).removeClass('has-warning');
             $('#btn_dept_edit').attr('disabled', true);
+            $('#btn_dept_create').attr('disabled', true);
             $.notify({
                 icon: 'glyphicon glyphicon-warning-sign',
                 title: 'In progress: ',
@@ -181,6 +182,7 @@ $(function () {
                     }, {
                         type: 'success'
                     });
+                    $('#btn_dept_edit').attr('disabled', false);
                     //TO-DO: redirect after 10 sec. if success
                 },
                 error: function () {
@@ -204,6 +206,163 @@ $(function () {
         addEditDept(e, false);
     });
 
+    //car static map updating
+    $('#car_dept').change(function () {
+        if ($(this).val().length > 0) {
+            var newRequest = '//maps.googleapis.com/maps/api/staticmap?';
+            newRequest += 'center=' + $(this).val() + GOOGLE_COUNTRY_DEFAULT;
+            newRequest += '&zoom=' + GOOGLE_ZOOM;
+            newRequest += '&maptype=' + GOOGLE_MAPTYPE;
+            newRequest += '&size=' + GOOGLE_SIZE;
+            newRequest += '&key=' + GOOGLE_API_KEY;
+            $('#car_static_map').attr('src', newRequest);
+        }
+    });
+    //car add/edit validation
+    var addEditCar = function (e, firstEdit) {
+        if ($(this).attr('disabled')) {
+            return;
+        }
+        var car = {
+            sign: $('#car_sign').val(),
+            brand: $('#car_brand').val(),
+            model: $('#car_model').val(),
+            category: $('#car_category').val(),
+            seats: $('#car_seats').val(),
+            maxWeight: $('#car_maxWeight').val(),
+            boughtOn: $('#car_boughtOn').val(),
+            deptId: $('#car_dept').find('option:selected').attr('id')
+        };
+        var error = false;
+        if(car.sign.length===0||!(/^[A-Z]{2}[0-9]{4}[A-Z]{2}$/.test(car.sign))){
+            error = true;
+            $('#fg_car_sign').addClass('has-warning');
+            $.notify({
+                icon: 'glyphicon glyphicon-warning-sign',
+                title: 'Error on state sign!',
+                message: 'Please input valid state sign',
+                target: '_blank'
+            }, {
+                type: 'warning'
+            });
+        }
+        if(car.brand.length===0){
+            error = true;
+            $('#fg_car_brand').addClass('has-warning')
+            $.notify({
+                icon: 'glyphicon glyphicon-warning-sign',
+                title: 'Error on car brand!',
+                message: 'Please input car brand',
+                target: '_blank'
+            }, {
+                type: 'warning'
+            });
+        }
+        if(car.model.length===0){
+            error=true;
+            $('#fg_car_model').addClass('has-warning');
+            $.notify({
+                icon: 'glyphicon glyphicon-warning-sign',
+                title: 'Error on car model!',
+                message: 'Please input car model',
+                target: '_blank'
+            }, {
+                type: 'warning'
+            });
+        }
+        if(!(/^[ABCD]$/.test(car.category))){
+            error=true;
+            $('#fg_car_category').addClass('has-warning');
+            $.notify({
+                icon: 'glyphicon glyphicon-warning-sign',
+                title: 'Error on car category!',
+                message: 'Valid categories are A, B, C and D',
+                target: '_blank'
+            }, {
+                type: 'warning'
+            });
+        }
+        if(isNaN(car.seats)||car.seats<1){
+            error=true;
+            $('#fg_car_seats').addClass('has-warning');
+            $.notify({
+                icon: 'glyphicon glyphicon-warning-sign',
+                title: 'Error on car seats!',
+                message: 'There should be at least one spare seat in car',
+                target: '_blank'
+            }, {
+                type: 'warning'
+            });
+        }
+        if(isNaN(car.maxWeight)||car.maxWeight<=0){
+            error = true;
+            $('#fg_car_maxweight').addClass('has-warning');
+            $.notify({
+                icon: 'glyphicon glyphicon-warning-sign',
+                title: 'Error on car maximum weight!',
+                message: 'Please input valid value',
+                target: '_blank'
+            }, {
+                type: 'warning'
+            });
+        }
+        if (!error) {
+            $('#fg_car_sign').removeClass('has-warning');
+            $('#fg_car_brand').removeClass('has-warning');
+            $('#fg_car_model').removeClass('has-warning');
+            $('#fg_car_category').removeClass('has-warning');
+            $('#fg_car_seats').removeClass('has-warning');
+            $('#fg_car_maxweight').removeClass('has-warning');
+            $('#btn_car_edit').attr('disabled', true);
+            $('#btn_car_create').attr('disabled', true);
+            $.notify({
+                icon: 'glyphicon glyphicon-warning-sign',
+                title: 'In progress: ',
+                message: 'Sending request to server...',
+                target: '_blank'
+            }, {
+                type: 'info',
+                showProgressbar: true
+            });
+            $.ajax({
+                method: 'POST',
+                url: (firstEdit) ? '/car/create' : ('/car/edit'),
+                contentType: 'application/json; charset=UTF-8',
+                data: JSON.stringify(car),
+                dataType: 'json',
+                success: function () {
+                    $.notify({
+                        icon: 'glyphicon glyphicon-warning-sign',
+                        title: 'Success: ',
+                        message: 'Car modified',
+                        target: '_blank'
+                    }, {
+                        type: 'success'
+                    });
+
+                    $('#btn_car_edit').attr('disabled', false);
+                    //TO-DO: redirect after 10 sec. if success
+                },
+                error: function () {
+                    $.notify({
+                        icon: 'glyphicon glyphicon-warning-sign',
+                        title: 'Error: ',
+                        message: 'Could not modify car',
+                        target: '_blank'
+                    }, {
+                        type: 'danger'
+                    });
+                    $('#btn_car_edit').attr('disabled', false);
+                }
+            });
+        }
+    };
+    $('#btn_car_create').click(function (e) {
+        addEditCar(e, true);
+    });
+    $('#btn_car_edit').click(function (e) {
+        addEditCar(e, false);
+    })
 
 });
 
