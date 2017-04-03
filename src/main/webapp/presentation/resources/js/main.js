@@ -70,15 +70,25 @@ $(function () {
         }
     });
     //dept add/edit validation
-    $('#btn_dept_edit').click(function (e) {
-        if($(this).attr('disabled')===true){
-            e.preventDefault();
+    const DEPT_MAX_PHONES = 3;
+    var addEditDept = function (e, firstEdit) {
+        if ($(this).attr('disabled')) {
+            return;
         }
-        var city = $('#dept_city').val();
-        var address = $('#dept_address').val();
-        var price_per_km = $('#dept_price_per_km').val();
+        var dept = {
+            id: $('#dept_id').val(),
+            city: $('#dept_city').val(),
+            address: $('#dept_address').val(),
+            pricePerKm: $('#dept_price_per_km').val(),
+            phoneNums: []
+        };
+        for (var i=1; i<=DEPT_MAX_PHONES; ++i){
+            var n=$('#dept_phone_'+i).val();
+            if(n.length>0)
+                dept.phoneNums.push(n);
+        }
         var error = false;
-        if (city.length <= 0
+        if (dept.city.length <= 0
             && !(/^([A-ZА-ЯЇЙІ][a-zа-яйїі]*((,)? )?)+$/.test(city))) {
             error = true;
             $('#fg_dept_city').addClass('has-warning');
@@ -91,7 +101,7 @@ $(function () {
                 type: 'warning'
             });
         }
-        if (address.length <= 0) {
+        if (dept.address.length <= 0) {
             error = true;
             $('#fg_dept_address').addClass('has-warning');
             $.notify({
@@ -103,7 +113,7 @@ $(function () {
                 type: 'warning'
             });
         }
-        if (isNaN(price_per_km) || price_per_km <= 0) {
+        if (isNaN(dept.pricePerKm) || dept.pricePerKm <= 0) {
             error = true;
             $('#fg_dept_price_per_km').addClass('has-warning');
             $.notify({
@@ -115,10 +125,37 @@ $(function () {
                 type: 'warning'
             });
         }
-        if(!error){
+        if (dept.phoneNums.length === 0) {
+            error = true;
+            for (var i = 1; i <= DEPT_MAX_PHONES; ++i)
+                $('#fg_dept_phone_' + i).addClass('has-warning');
+            $.notify({
+                icon: 'glyphicon glyphicon-warning-sign',
+                title: 'No phone number!',
+                message: 'Please input at least one phone number',
+                target: '_blank'
+            }, {
+                type: 'warning'
+            });
+        }
+        for (var i = 0; i < dept.phoneNums.length; ++i)
+            if (!(/^\+[0-9]{12}$/.test(dept.phoneNums[i]))) {
+                error = true;
+                $('#fg_dept_phone_' + (i+1)).addClass('has-warning');
+                $.notify({
+                    icon: 'glyphicon glyphicon-warning-sign',
+                    title: 'Invalid phone number',
+                    message: 'Please input valid phone number',
+                    target: '_blank'
+                }, {
+                    type: 'warning'
+                });
+            }
+        if (!error) {
             $('#fg_dept_city').removeClass('has-warning');
             $('#fg_dept_address').removeClass('has-warning');
             $('#fg_dept_price_per_km').removeClass('has-warning');
+            for (var i = 0; i < dept.phoneNums.length; ++i) $('#fg_dept_phone_' + (i+1)).removeClass('has-warning');
             $('#btn_dept_edit').attr('disabled', true);
             $.notify({
                 icon: 'glyphicon glyphicon-warning-sign',
@@ -129,18 +166,17 @@ $(function () {
                 type: 'info',
                 showProgressbar: true
             });
-            var data = {city: city, address: address, pricePerKm: price_per_km};
             $.ajax({
                 method: 'POST',
-                url: '/dept/create',
+                url: (firstEdit) ? '/dept/create' : ('/dept/edit'),
                 contentType: 'application/json; charset=UTF-8',
-                data: JSON.stringify(data),
+                data: JSON.stringify(dept),
                 dataType: 'json',
                 success: function () {
                     $.notify({
                         icon: 'glyphicon glyphicon-warning-sign',
                         title: 'Success: ',
-                        message: 'New department added',
+                        message: 'Department modified',
                         target: '_blank'
                     }, {
                         type: 'success'
@@ -151,7 +187,7 @@ $(function () {
                     $.notify({
                         icon: 'glyphicon glyphicon-warning-sign',
                         title: 'Error: ',
-                        message: 'Could not add department',
+                        message: 'Could not modify department',
                         target: '_blank'
                     }, {
                         type: 'danger'
@@ -160,7 +196,15 @@ $(function () {
                 }
             });
         }
+    };
+    $('#btn_dept_create').click(function (e) {
+        addEditDept(e, true);
     });
+    $('#btn_dept_edit').click(function (e) {
+        addEditDept(e, false);
+    });
+
+
 });
 
 function htmlbodyHeightUpdate() {

@@ -6,10 +6,7 @@ import app.service.DepartmentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 /**
@@ -27,8 +24,9 @@ public class DepartmentController {
 
     @RequestMapping(value = "/create", method = RequestMethod.GET)
     public ModelAndView createDept(){
-        ModelAndView mv = new ModelAndView("deptCreate");
+        ModelAndView mv = new ModelAndView("deptEdit");
         mv.addObject("gApiKey", G_API_KEY);
+        mv.addObject("firstEdit", true);
         return mv;
     }
 
@@ -38,6 +36,22 @@ public class DepartmentController {
         //TO-DO: backend validation
         System.out.print(dept);
         departmentService.insert(dept);
+        return new AjaxResponseBody("200", "OK");
+    }
+
+    @RequestMapping(value = "/edit/{id}", method = RequestMethod.GET)
+    public ModelAndView editDept(@PathVariable int id){
+        ModelAndView mv = new ModelAndView("deptEdit");
+        mv.addObject("gApiKey", G_API_KEY);
+        mv.addObject("department", departmentService.get(id));
+        mv.addObject("firstEdit", false);
+        return mv;
+    }
+
+    @RequestMapping(value = "/edit", method = RequestMethod.POST)
+    public AjaxResponseBody doEditDept(@RequestBody Department dept){
+        System.out.print(dept);
+        departmentService.update(dept);
         return new AjaxResponseBody("200", "OK");
     }
 }
