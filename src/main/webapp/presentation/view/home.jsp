@@ -31,6 +31,8 @@
         <a href="/car/create">Go to car create</a>
         <br>
         <a href="/worker/create">Go to worker create</a>
+        <br>
+        <a href="/order/create">Go to order create</a>
     </div>
 
 <%@include file="head_foot/footer.jsp"%>

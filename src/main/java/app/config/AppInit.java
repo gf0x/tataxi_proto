@@ -1,5 +1,8 @@
 package app.config;
 
+import app.dao.WorkerDao;
+import app.dao.impl.WorkerDaoImpl;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.WebApplicationInitializer;
 import org.springframework.web.context.ContextLoaderListener;
 import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;

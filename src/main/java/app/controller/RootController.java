@@ -1,5 +1,6 @@
 package app.controller;
 
+import app.dao.WorkerDao;
 import app.entity.User;
 import app.service.UserService;
 import com.google.maps.GeoApiContext;
@@ -29,6 +30,9 @@ public class RootController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private WorkerDao workerDao;
+
     @Value("${google.API_KEY}")
     private String G_API_KEY;
 
@@ -40,7 +44,6 @@ public class RootController {
         //Caching test
         User user = userService.get("alex");
         System.out.println(user);
-
         return mv;
     }
 

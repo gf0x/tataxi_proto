@@ -1,3 +1,4 @@
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%--
   Created by IntelliJ IDEA.
   User: Alex_Frankiv
@@ -57,22 +58,22 @@
                 <option id="false">Dispatcher</option>
             </select>
         </div>
-        <div class="form-check" id="worker_licenses">
+        <div class="form-check" id="worker_licenses" <c:if test="${worker.isDriver eq false}">hidden</c:if>>
             <label>Licenses: </label>
             <label class="form-check-label">
-                <input type="checkbox" id="A" class="form-check-input">
+                <input type="checkbox" id="A" class="form-check-input" <c:if test="${fn:contains(worker.licenses, 'A')}">checked</c:if>>
                 A
             </label>
             <label class="form-check-label">
-                <input type="checkbox" id="B" class="form-check-input">
+                <input type="checkbox" id="B" class="form-check-input" <c:if test="${fn:contains(worker.licenses, 'B')}">checked</c:if>>
                 B
             </label>
             <label class="form-check-label">
-                <input type="checkbox" id="C" class="form-check-input">
+                <input type="checkbox" id="C" class="form-check-input" <c:if test="${fn:contains(worker.licenses, 'C')}">checked</c:if>>
                 C
             </label>
             <label class="form-check-label">
-                <input type="checkbox" id="D" class="form-check-input">
+                <input type="checkbox" id="D" class="form-check-input" <c:if test="${fn:contains(worker.licenses, 'D')}">checked</c:if>>
                 D
             </label>
         </div>

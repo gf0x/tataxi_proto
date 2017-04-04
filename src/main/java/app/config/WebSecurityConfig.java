@@ -26,9 +26,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private DataSource dataSource;
 
-//    @Autowired
-//    private Md5PasswordEncoder passwordEncoder;
-
     @Autowired
     private Md5PasswordEncoder passwordEncoder;
 

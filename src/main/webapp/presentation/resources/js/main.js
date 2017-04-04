@@ -369,6 +369,13 @@ $(function () {
     $('#btn_car_edit').click(function (e) {
         addEditCar(e, false);
     });
+    $('#worker_is_driver').change(function (e) {
+       if('true' == $(this).find('option:selected').attr('id')){
+           $('#worker_licenses').attr('hidden', false);
+       }else{
+           $('#worker_licenses').attr('hidden', true);
+       }
+    });
     //worker add/edit validation
     var addEditWorker = function (e, firstEdit) {
         if ($(this).attr('disabled')) {
