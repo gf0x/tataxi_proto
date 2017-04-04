@@ -22,7 +22,7 @@
     <!-- custom -->
     <link rel="stylesheet" href="<c:url value="/presentation/resources/css/style.css"/> ">
     <script type="text/javascript" src="<c:url value="/presentation/resources/js/main.js"/> "></script>
-    <script type="text/javascript" src="<c:url value="/presentation/resources/js/dynamicMap.js"/> "></script>
+    <script type="text/javascript" src="<c:url value="/presentation/resources/js/dynamicMapNoDirections.js"/> "></script>
 
     <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport'/>
 

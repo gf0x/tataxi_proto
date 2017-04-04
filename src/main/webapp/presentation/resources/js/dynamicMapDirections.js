@@ -1,10 +1,17 @@
 /**
  * Created by Alex_Frankiv on 04.04.2017.
  */
+/**
+ * Created by Alex_Frankiv on 04.04.2017.
+ */
+var CITY = 'Kyiv';
+var FROM_ADDRESS = 'Kyiv-Mohyla academy';
+var TO_ADDRESS = 'Maidan nezalezhnosti';
+
 function initMap() {
     var map = new google.maps.Map(document.getElementById('map'), {
-        zoom: 4,
-        center: {lat: -24.345, lng: 134.46}  // Australia.
+        zoom: 13,
+        center: CITY
     });
 
     var directionsService = new google.maps.DirectionsService;
@@ -18,7 +25,7 @@ function initMap() {
         computeTotalDistance(directionsDisplay.getDirections());
     });
 
-    displayRoute('Perth, WA', 'Sydney, NSW', directionsService,
+    displayRoute(FROM_ADDRESS, TO_ADDRESS, directionsService,
         directionsDisplay);
 }
 
@@ -26,15 +33,20 @@ function displayRoute(origin, destination, service, display) {
     service.route({
         origin: origin,
         destination: destination,
-        waypoints: [{location: 'Cocklebiddy, WA'}, {location: 'Broken Hill, NSW'}],
         travelMode: google.maps.TravelMode.DRIVING,
         avoidTolls: true
     }, function(response, status) {
         if (status === google.maps.DirectionsStatus.OK) {
             display.setDirections(response);
         } else {
-            alert('Could not display directions due to: ' + status);
-        }
+            $.notify({
+                icon: 'glyphicon glyphicon-warning-sign',
+                title: 'Routing failed',
+                message: status,
+                target: '_blank'
+            }, {
+                type: 'danger'
+            });        }
     });
 }
 

@@ -21,6 +21,9 @@ public class Order {
     private Time finishTime;
     private int feedback;
     private String city;
+    //extra
+    private int seats;
+    private boolean extraLuggage;
 
     private String dispatcher;
     private String client;
@@ -43,12 +46,30 @@ public class Order {
                 ", isFast=" + isFast +
                 ", startTime=" + startTime +
                 ", finishTime=" + finishTime +
-                ", feedback='" + feedback + '\'' +
+                ", feedback=" + feedback +
                 ", city='" + city + '\'' +
+                ", seats=" + seats +
+                ", extraLuggage=" + extraLuggage +
                 ", dispatcher='" + dispatcher + '\'' +
                 ", client='" + client + '\'' +
                 ", car=" + car +
                 '}';
+    }
+
+    public int getSeats() {
+        return seats;
+    }
+
+    public void setSeats(int seats) {
+        this.seats = seats;
+    }
+
+    public boolean isExtraLuggage() {
+        return extraLuggage;
+    }
+
+    public void setExtraLuggage(boolean extraLuggage) {
+        this.extraLuggage = extraLuggage;
     }
 
     public void setDispatcher(String dispatcher) {

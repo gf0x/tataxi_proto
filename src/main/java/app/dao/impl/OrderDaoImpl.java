@@ -25,12 +25,12 @@ public class OrderDaoImpl implements OrderDao{
     private JdbcTemplate jdbcTemplate;
 
     private static final String GET = "SELECT * FROM \"order\" WHERE id=?";
-    private static final String INSERT = "INSERT INTO \"order\" (id, from_lat, from_lng, to_lat, to_lng, distance, price, " +
-            "is_fast, start_time, finish_time, feedback, car_id, worker_login, client_login, city, from_address, to_address)" +
-            " VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+    private static final String INSERT = "INSERT INTO \"order\" (from_lat, from_lng, to_lat, to_lng, distance, price, " +
+            "is_fast, start_time, finish_time, feedback, car_id, worker_login, client_login, city, from_address, to_address, seats, extraluggage)" +
+            " VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
     private static final String UPDATE = "UPDATE \"order\" SET from_lat=?, from_lng=?, to_lat=?, to_lng=?, distance=?," +
             "price=?, is_fast=?, start_time=?, finish_time=?, feedback=?, car_id=?, worker_login=?, client_login=?, " +
-            "city=?, from_address=?, to_address=? WHERE id=?";
+            "city=?, from_address=?, to_address=?, seats=?, extraluggage=? WHERE id=?";
     private static final String DELETE = "DELETE FROM order WHERE id=?";
 
     private static Logger logger = LoggerFactory.getLogger(OrderDaoImpl.class.getSimpleName());
@@ -42,10 +42,10 @@ public class OrderDaoImpl implements OrderDao{
 
     public int insert(Order order) {
         logger.info("DAO: inserting object Order into DB");
-        return jdbcTemplate.update(INSERT, order.getId(), order.getFrom().getLat(), order.getFrom().getLng(),
+        return jdbcTemplate.update(INSERT, order.getFrom().getLat(), order.getFrom().getLng(),
                 order.getTo().getLat(), order.getTo().getLng(), order.getDistance(), order.getPrice(), order.isFast(),
                 order.getStartTime(), order.getFinishTime(), order.getFeedback(), order.getCar(), order.getDispatcher(),
-                order.getClient(), order.getCity(), order.getFrom().getAddress(), order.getTo().getAddress());
+                order.getClient(), order.getCity(), order.getFrom().getAddress(), order.getTo().getAddress(),order.getSeats(), order.isExtraLuggage());
     }
 
     public void update(Order order) {
@@ -53,8 +53,8 @@ public class OrderDaoImpl implements OrderDao{
         jdbcTemplate.update(UPDATE, order.getFrom().getLat(), order.getFrom().getLng(),
                 order.getTo().getLat(), order.getTo().getLng(), order.getDistance(), order.getPrice(), order.isFast(),
                 order.getStartTime(), order.getFinishTime(), order.getFeedback(), order.getCar(), order.getDispatcher(),
-                order.getClient(), order.getCity(), order.getFrom().getAddress(), order.getTo().getAddress(),
-                order.getId());
+                order.getClient(), order.getCity(), order.getFrom().getAddress(), order.getTo().getAddress(), order.getSeats(),
+                order.isExtraLuggage(), order.getId());
     }
 
     public void remove(Order order) {
