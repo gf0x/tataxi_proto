@@ -18,7 +18,7 @@ import java.util.List;
  * Created by Alex_Frankiv on 19.03.2017.
  */
 @Repository
-@Cacheable("departments")
+//@Cacheable("departments")
 public class DepartmentDaoImpl implements DepartmentDao {
 
     @Autowired

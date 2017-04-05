@@ -18,7 +18,7 @@ import java.sql.SQLException;
  * Created by Alex_Frankiv on 19.03.2017.
  */
 @Repository
-@Cacheable("orders")
+//@Cacheable("orders")
 public class OrderDaoImpl implements OrderDao{
 
     @Autowired
@@ -44,7 +44,7 @@ public class OrderDaoImpl implements OrderDao{
         logger.info("DAO: inserting object Order into DB");
         return jdbcTemplate.update(INSERT, order.getFrom().getLat(), order.getFrom().getLng(),
                 order.getTo().getLat(), order.getTo().getLng(), order.getDistance(), order.getPrice(), order.isFast(),
-                order.getStartTime(), order.getFinishTime(), order.getFeedback(), order.getCar(), order.getDispatcher(),
+                order.getStartTime(), order.getFinishTime(), order.getFeedback(), (order.getCar()>=0) ? order.getCar():null, order.getDispatcher(),
                 order.getClient(), order.getCity(), order.getFrom().getAddress(), order.getTo().getAddress(),order.getSeats(), order.isExtraLuggage());
     }
 
@@ -52,7 +52,7 @@ public class OrderDaoImpl implements OrderDao{
         logger.info("DAO: updating object Order in DB");
         jdbcTemplate.update(UPDATE, order.getFrom().getLat(), order.getFrom().getLng(),
                 order.getTo().getLat(), order.getTo().getLng(), order.getDistance(), order.getPrice(), order.isFast(),
-                order.getStartTime(), order.getFinishTime(), order.getFeedback(), order.getCar(), order.getDispatcher(),
+                order.getStartTime(), order.getFinishTime(), order.getFeedback(), (order.getCar()>=0) ? order.getCar():null, order.getDispatcher(),
                 order.getClient(), order.getCity(), order.getFrom().getAddress(), order.getTo().getAddress(), order.getSeats(),
                 order.isExtraLuggage(), order.getId());
     }
@@ -79,8 +79,8 @@ public class OrderDaoImpl implements OrderDao{
             order.setDistance(rs.getDouble("distance"));
             order.setPrice(rs.getDouble("price"));
             order.setFast(rs.getBoolean("is_fast"));
-            order.setStartTime(rs.getTime("start_time"));
-            order.setFinishTime(rs.getTime("finish_time"));
+            order.setStartTime(rs.getTimestamp("start_time"));
+            order.setFinishTime(rs.getTimestamp("finish_time"));
             order.setFeedback(rs.getInt("feedback"));
             order.setCar(rs.getInt("car_id"));
             order.setDispatcher(rs.getString("worker_login"));

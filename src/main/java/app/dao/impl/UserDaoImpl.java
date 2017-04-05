@@ -17,7 +17,7 @@ import java.sql.SQLException;
  * Created by Alex_Frankiv on 19.03.2017.
  */
 @Repository
-@Cacheable("users")
+//@Cacheable("users")
 public class UserDaoImpl implements UserDao{
 
     @Autowired

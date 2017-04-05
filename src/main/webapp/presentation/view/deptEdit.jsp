@@ -60,5 +60,6 @@
 
     </div>
 </div>
-
+<script src="https://maps.googleapis.com/maps/api/js?language=en&key=${gApiKey}&signed_in=true&callback=initMap"
+        async defer></script>
 <%@include file="head_foot/footer.jsp" %>

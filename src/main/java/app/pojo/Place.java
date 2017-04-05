@@ -13,6 +13,15 @@ public class Place {
         return address;
     }
 
+    @Override
+    public String toString() {
+        return "Place{" +
+                "lat=" + lat +
+                ", lng=" + lng +
+                ", address='" + address + '\'' +
+                '}';
+    }
+
     public void setAddress(String address) {
         this.address = address;
     }

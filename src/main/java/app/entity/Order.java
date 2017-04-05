@@ -3,7 +3,7 @@ package app.entity;
 import org.springframework.stereotype.Component;
 import app.pojo.Place;
 
-import java.sql.Time;
+import java.sql.Timestamp;
 
 /**
  * Created by Alex_Frankiv on 14.02.2017.
@@ -17,8 +17,8 @@ public class Order {
     private double distance;
     private double price;
     private boolean isFast;
-    private Time startTime;
-    private Time finishTime;
+    private Timestamp startTime;
+    private Timestamp finishTime;
     private int feedback;
     private String city;
     //extra
@@ -29,7 +29,10 @@ public class Order {
     private String client;
     private int car;
 
-    public Order(){}
+    public Order(){
+        //default value
+        this.car = -1;
+    }
 
     public String getDispatcher() {
         return dispatcher;
@@ -140,19 +143,19 @@ public class Order {
         isFast = fast;
     }
 
-    public Time getStartTime() {
+    public Timestamp getStartTime() {
         return startTime;
     }
 
-    public void setStartTime(Time startTime) {
+    public void setStartTime(Timestamp startTime) {
         this.startTime = startTime;
     }
 
-    public Time getFinishTime() {
+    public Timestamp getFinishTime() {
         return finishTime;
     }
 
-    public void setFinishTime(Time finishTime) {
+    public void setFinishTime(Timestamp finishTime) {
         this.finishTime = finishTime;
     }
 

@@ -41,7 +41,7 @@
         <div class="form-group">
             <label for="order_is_fast">Drive: </label>
             <select class="form-control" id="order_is_fast" >
-                <option id="0">Normal</option>
+                <option id="1">Normal</option>
                 <option id="2">Fast</option>
             </select>
         </div>
@@ -55,6 +55,6 @@
         <div class="btn btn-lg btn-primary main-btn" id="btn_order_create">Order now!</div>
     </div>
 </div>
-<script src="https://maps.googleapis.com/maps/api/js?key=${gApiKey}&signed_in=true&callback=initMap"
+<script src="https://maps.googleapis.com/maps/api/js?language=en&key=${gApiKey}&signed_in=true&callback=initMap"
         async defer></script>
 <%@include file="head_foot/footer.jsp" %>

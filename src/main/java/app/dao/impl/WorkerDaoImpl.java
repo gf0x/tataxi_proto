@@ -22,7 +22,7 @@ import java.util.ArrayList;
  * Created by Alex_Frankiv on 19.03.2017.
  */
 @Repository
-@Cacheable("workers")
+//@Cacheable("workers")
 public class WorkerDaoImpl implements WorkerDao{
 
     @Autowired

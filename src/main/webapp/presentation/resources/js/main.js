@@ -63,6 +63,7 @@ $(function () {
             var newRequest = '//maps.googleapis.com/maps/api/staticmap?';
             newRequest += 'center=' + $(this).val() + GOOGLE_COUNTRY_DEFAULT;
             newRequest += '&zoom=' + GOOGLE_ZOOM;
+            newRequest += '&language=EN';
             newRequest += '&maptype=' + GOOGLE_MAPTYPE;
             newRequest += '&size=' + GOOGLE_SIZE;
             newRequest += '&key=' + GOOGLE_API_KEY;
@@ -72,7 +73,8 @@ $(function () {
     //dept add/edit validation
     const DEPT_MAX_PHONES = 3;
     var addEditDept = function (e, firstEdit) {
-        if ($(this).attr('disabled')) {
+        if ($('#btn_dept_edit').attr('disabled')
+            ||$('#btn_dept_create').attr('disabled')) {
             return;
         }
         var dept = {
@@ -82,9 +84,9 @@ $(function () {
             pricePerKm: $('#dept_price_per_km').val(),
             phoneNums: []
         };
-        for (var i=1; i<=DEPT_MAX_PHONES; ++i){
-            var n=$('#dept_phone_'+i).val();
-            if(n.length>0)
+        for (var i = 1; i <= DEPT_MAX_PHONES; ++i) {
+            var n = $('#dept_phone_' + i).val();
+            if (n.length > 0)
                 dept.phoneNums.push(n);
         }
         var error = false;
@@ -141,7 +143,7 @@ $(function () {
         for (var i = 0; i < dept.phoneNums.length; ++i)
             if (!(/^\+[0-9]{12}$/.test(dept.phoneNums[i]))) {
                 error = true;
-                $('#fg_dept_phone_' + (i+1)).addClass('has-warning');
+                $('#fg_dept_phone_' + (i + 1)).addClass('has-warning');
                 $.notify({
                     icon: 'glyphicon glyphicon-warning-sign',
                     title: 'Invalid phone number',
@@ -155,7 +157,7 @@ $(function () {
             $('#fg_dept_city').removeClass('has-warning');
             $('#fg_dept_address').removeClass('has-warning');
             $('#fg_dept_price_per_km').removeClass('has-warning');
-            for (var i = 0; i < dept.phoneNums.length; ++i) $('#fg_dept_phone_' + (i+1)).removeClass('has-warning');
+            for (var i = 0; i < dept.phoneNums.length; ++i) $('#fg_dept_phone_' + (i + 1)).removeClass('has-warning');
             $('#btn_dept_edit').attr('disabled', true);
             $('#btn_dept_create').attr('disabled', true);
             $.notify({
@@ -173,17 +175,29 @@ $(function () {
                 contentType: 'application/json; charset=UTF-8',
                 data: JSON.stringify(dept),
                 dataType: 'json',
-                success: function () {
-                    $.notify({
-                        icon: 'glyphicon glyphicon-warning-sign',
-                        title: 'Success: ',
-                        message: 'Department modified',
-                        target: '_blank'
-                    }, {
-                        type: 'success'
-                    });
-                    $('#btn_dept_edit').attr('disabled', false);
-                    //TO-DO: redirect after 10 sec. if success
+                success: function (data) {
+                    if (data.code === '200') {
+                        $.notify({
+                            icon: 'glyphicon glyphicon-warning-sign',
+                            title: 'Success: ',
+                            message: 'Department modified',
+                            target: '_blank'
+                        }, {
+                            type: 'success'
+                        });
+                        //TO-DO: redirect after 10 sec. if success
+                    } else {
+                        $.notify({
+                            icon: 'glyphicon glyphicon-warning-sign',
+                            title: 'Error: '+data.code,
+                            message: data.message,
+                            target: '_blank'
+                        }, {
+                            type: 'danger'
+                        });
+                        $('#btn_dept_edit').attr('disabled', false);
+                        $('#btn_dept_create').attr('disabled', false);
+                    }
                 },
                 error: function () {
                     $.notify({
@@ -195,6 +209,7 @@ $(function () {
                         type: 'danger'
                     });
                     $('#btn_dept_edit').attr('disabled', false);
+                    $('#btn_dept_create').attr('disabled', false);
                 }
             });
         }
@@ -211,6 +226,7 @@ $(function () {
             var newRequest = '//maps.googleapis.com/maps/api/staticmap?';
             newRequest += 'center=' + fatherElement.val() + GOOGLE_COUNTRY_DEFAULT;
             newRequest += '&zoom=' + GOOGLE_ZOOM;
+            newRequest += '&language=EN';
             newRequest += '&maptype=' + GOOGLE_MAPTYPE;
             newRequest += '&size=' + GOOGLE_SIZE;
             newRequest += '&key=' + GOOGLE_API_KEY;
@@ -240,7 +256,7 @@ $(function () {
             deptId: $('#car_dept').find('option:selected').attr('id')
         };
         var error = false;
-        if(car.sign.length===0||!(/^[A-Z]{2}[0-9]{4}[A-Z]{2}$/.test(car.sign))){
+        if (car.sign.length === 0 || !(/^[A-Z]{2}[0-9]{4}[A-Z]{2}$/.test(car.sign))) {
             error = true;
             $('#fg_car_sign').addClass('has-warning');
             $.notify({
@@ -252,7 +268,7 @@ $(function () {
                 type: 'warning'
             });
         }
-        if(car.brand.length===0){
+        if (car.brand.length === 0) {
             error = true;
             $('#fg_car_brand').addClass('has-warning')
             $.notify({
@@ -264,8 +280,8 @@ $(function () {
                 type: 'warning'
             });
         }
-        if(car.model.length===0){
-            error=true;
+        if (car.model.length === 0) {
+            error = true;
             $('#fg_car_model').addClass('has-warning');
             $.notify({
                 icon: 'glyphicon glyphicon-warning-sign',
@@ -276,8 +292,8 @@ $(function () {
                 type: 'warning'
             });
         }
-        if(!(/^[ABCD]$/.test(car.category))){
-            error=true;
+        if (!(/^[ABCD]$/.test(car.category))) {
+            error = true;
             $('#fg_car_category').addClass('has-warning');
             $.notify({
                 icon: 'glyphicon glyphicon-warning-sign',
@@ -288,8 +304,8 @@ $(function () {
                 type: 'warning'
             });
         }
-        if(isNaN(car.seats)||car.seats<1){
-            error=true;
+        if (isNaN(car.seats) || car.seats < 1) {
+            error = true;
             $('#fg_car_seats').addClass('has-warning');
             $.notify({
                 icon: 'glyphicon glyphicon-warning-sign',
@@ -300,7 +316,7 @@ $(function () {
                 type: 'warning'
             });
         }
-        if(isNaN(car.maxWeight)||car.maxWeight<=0){
+        if (isNaN(car.maxWeight) || car.maxWeight <= 0) {
             error = true;
             $('#fg_car_maxweight').addClass('has-warning');
             $.notify({
@@ -370,11 +386,11 @@ $(function () {
         addEditCar(e, false);
     });
     $('#worker_is_driver').change(function (e) {
-       if('true' == $(this).find('option:selected').attr('id')){
-           $('#worker_licenses').attr('hidden', false);
-       }else{
-           $('#worker_licenses').attr('hidden', true);
-       }
+        if ('true' == $(this).find('option:selected').attr('id')) {
+            $('#worker_licenses').attr('hidden', false);
+        } else {
+            $('#worker_licenses').attr('hidden', true);
+        }
     });
     //worker add/edit validation
     var addEditWorker = function (e, firstEdit) {
@@ -392,11 +408,11 @@ $(function () {
             isDriver: 'true' == $('#worker_is_driver').find('option:selected').attr('id'),
             licenses: []
         };
-        if(worker.isDriver)
+        if (worker.isDriver)
             $('#worker_licenses').find('input:checked').each(function (index, elem) {
                 worker.licenses.push($(elem).attr('id'));
             });
-        if(worker.login.length===0){
+        if (worker.login.length === 0) {
             error = true;
             $('#fg_worker_login').addClass('has-warning');
             $.notify({
@@ -408,8 +424,8 @@ $(function () {
                 type: 'warning'
             });
         }
-        if(worker.pswd.length===0){
-            error=true;
+        if (worker.pswd.length === 0) {
+            error = true;
             $('#fg_worker_pass').addClass('has-warning');
             $.notify({
                 icon: 'glyphicon glyphicon-warning-sign',
@@ -420,7 +436,7 @@ $(function () {
                 type: 'warning'
             });
         }
-        if(worker.fullName.length===0){
+        if (worker.fullName.length === 0) {
             error = true;
             $('#fg_worker_full_name').addClass('has-warning');
             $.notify({
@@ -432,7 +448,7 @@ $(function () {
                 type: 'warning'
             });
         }
-        if(!(/^\+[0-9]{12}$/.test(worker.phoneNumber))){
+        if (!(/^\+[0-9]{12}$/.test(worker.phoneNumber))) {
             error = true;
             $('#fg_worker_phone_num').addClass('has-warning');
             $.notify({
@@ -444,7 +460,7 @@ $(function () {
                 type: 'warning'
             });
         }
-        if(!(/^[A-Z]{2}[0-9]{6}/.test(worker.passportData))){
+        if (!(/^[A-Z]{2}[0-9]{6}/.test(worker.passportData))) {
             error = true;
             $('#fg_worker_pass_data').addClass('has-warning');
             $.notify({
@@ -456,7 +472,7 @@ $(function () {
                 type: 'warning'
             });
         }
-        if(!error){
+        if (!error) {
             console.log(worker);
             $('#fg_worker_login').removeClass('has-warning');
             $('#fg_worker_pass').removeClass('has-warning');
@@ -496,7 +512,7 @@ $(function () {
                     $.notify({
                         icon: 'glyphicon glyphicon-warning-sign',
                         title: 'Error: ',
-                        message: 'Could not modify worker'+data.message,
+                        message: 'Could not modify worker' + data.message,
                         target: '_blank'
                     }, {
                         type: 'danger'
@@ -507,10 +523,10 @@ $(function () {
         }
     };
     $('#btn_worker_create').click(function (e) {
-        addEditWorker(e,true);
+        addEditWorker(e, true);
     });
     $('#btn_worker_edit').click(function (e) {
-        addEditWorker(e,false);
+        addEditWorker(e, false);
     });
 });
 
