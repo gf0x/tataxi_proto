@@ -52,7 +52,9 @@ public class DepartmentController {
         String cityValid = GeocodingUtil.getCity(city[0]);
         if(!dept.getCity().equals(cityValid))
             return new AjaxResponseBody("400", "Invalid city name. Maybe you meant: "+cityValid+'?');
-        departmentService.insert(dept);
+        if(departmentService.insert(dept)<1){
+            return new AjaxResponseBody("555", "Could not create department");
+        }
         return new AjaxResponseBody("200", "OK");
     }
 
@@ -66,6 +68,7 @@ public class DepartmentController {
     }
 
     @RequestMapping(value = "/edit", method = RequestMethod.POST)
+    @ResponseBody
     public AjaxResponseBody doEditDept(@RequestBody Department dept){
         System.out.print(dept);
         departmentService.update(dept);
