@@ -74,7 +74,7 @@ $(function () {
     const DEPT_MAX_PHONES = 3;
     var addEditDept = function (e, firstEdit) {
         if ($('#btn_dept_edit').attr('disabled')
-            ||$('#btn_dept_create').attr('disabled')) {
+            || $('#btn_dept_create').attr('disabled')) {
             return;
         }
         var dept = {
@@ -189,7 +189,7 @@ $(function () {
                     } else {
                         $.notify({
                             icon: 'glyphicon glyphicon-warning-sign',
-                            title: 'Error: '+data.code,
+                            title: 'Error: ' + data.code,
                             message: data.message,
                             target: '_blank'
                         }, {
@@ -393,8 +393,8 @@ $(function () {
         }
     });
     //worker add/edit validation
-    var addEditWorker = function (e, firstEdit) {
-        if ($(this).attr('disabled')) {
+    var addEditWorker = function (elem, firstEdit) {
+        if (elem.attr('disabled')) {
             return;
         }
         var error = false;
@@ -424,7 +424,7 @@ $(function () {
                 type: 'warning'
             });
         }
-        if (worker.pswd.length === 0) {
+        if (firstEdit&&worker.pswd.length === 0) {
             error = true;
             $('#fg_worker_pass').addClass('has-warning');
             $.notify({
@@ -479,7 +479,7 @@ $(function () {
             $('#fg_worker_full_name').removeClass('has-warning');
             $('#fg_worker_phone_num').removeClass('has-warning');
             $('#fg_worker_pass_data').removeClass('has-warning');
-            $(this).attr('disabled', true);
+            elem.attr('disabled', true);
             $.notify({
                 icon: 'glyphicon glyphicon-warning-sign',
                 title: 'In progress: ',
@@ -495,38 +495,50 @@ $(function () {
                 contentType: 'application/json; charset=UTF-8',
                 data: JSON.stringify(worker),
                 dataType: 'json',
-                success: function () {
-                    $.notify({
-                        icon: 'glyphicon glyphicon-warning-sign',
-                        title: 'Success: ',
-                        message: 'Worker modified',
-                        target: '_blank'
-                    }, {
-                        type: 'success'
-                    });
-
-                    $(this).attr('disabled', false);
+                success: function (data) {
+                    if (data.code === '200') {
+                        $.notify({
+                            icon: 'glyphicon glyphicon-warning-sign',
+                            title: 'Success: ',
+                            message: 'Worker modified',
+                            target: '_blank'
+                        }, {
+                            type: 'success'
+                        });
+                        if (!firstEdit)
+                            elem.attr('disabled', false);
+                    }else {
+                        $.notify({
+                            icon: 'glyphicon glyphicon-warning-sign',
+                            title: 'Error: '+data.code,
+                            message: 'Could not modify worker' + data.message,
+                            target: '_blank'
+                        }, {
+                            type: 'danger'
+                        });
+                        elem.attr('disabled', false);
+                    }
                     //TO-DO: redirect after 10 sec. if success
                 },
                 error: function (data) {
                     $.notify({
                         icon: 'glyphicon glyphicon-warning-sign',
-                        title: 'Error: ',
+                        title: 'Error: '+data.code,
                         message: 'Could not modify worker' + data.message,
                         target: '_blank'
                     }, {
                         type: 'danger'
                     });
-                    $(this).attr('disabled', false);
+                    elem.attr('disabled', false);
                 }
             });
         }
     };
     $('#btn_worker_create').click(function (e) {
-        addEditWorker(e, true);
+        addEditWorker($(this), true);
     });
     $('#btn_worker_edit').click(function (e) {
-        addEditWorker(e, false);
+        addEditWorker($(this), false);
     });
 });
 

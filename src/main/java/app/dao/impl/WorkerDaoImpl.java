@@ -36,6 +36,7 @@ public class WorkerDaoImpl implements WorkerDao{
     private static final String INSERT_LICENSES = "INSERT INTO driver_license (login, category) VALUES (?,?)";
     private static final String UPDATE = "UPDATE worker SET pass_data=?, full_name=?, is_driver=?, phone_num=?, dept_id=?, online=? " +
             "WHERE login=?";
+    private static final String DELETE_LICENSES = "DELETE FROM driver_license WHERE login=?";
     private static final String DELETE = "DELETE FROM worker WHERE login=?";
 
     public Worker get(String login) {
@@ -47,28 +48,47 @@ public class WorkerDaoImpl implements WorkerDao{
         logger.info("DAO: inserting object Worker into DB");
         int rowsAffected = jdbcTemplate.update(INSERT, worker.getLogin(), worker.getPassportData(), worker.getFullName(), worker.getIsDriver(),
                 worker.getPhoneNumber(), worker.getDeptId(), worker.isOnline());
-        if(worker.getIsDriver())
+        if(worker.getIsDriver()) {
             jdbcTemplate.batchUpdate(INSERT_LICENSES, new BatchPreparedStatementSetter() {
                 public void setValues(PreparedStatement ps, int i) throws SQLException {
                     Character category = worker.getLicenses().get(i);
                     ps.setString(1, worker.getLogin());
                     ps.setString(2, String.valueOf(category));
                 }
+
                 public int getBatchSize() {
                     return worker.getLicenses().size();
                 }
             });
+        }
         return rowsAffected;
     }
 
-    public void update(Worker worker) {
+    public void update(final Worker worker) {
         logger.info("DAO: updating object Worker in DB");
         jdbcTemplate.update(UPDATE, worker.getPassportData(), worker.getFullName(), worker.getIsDriver(),
                 worker.getPhoneNumber(), worker.getDeptId(), worker.isOnline(), worker.getLogin());
+        if(worker.getIsDriver()) {
+            //delete invalid licenses
+            jdbcTemplate.update(DELETE_LICENSES, worker.getLogin());
+            //add valid ones
+            jdbcTemplate.batchUpdate(INSERT_LICENSES, new BatchPreparedStatementSetter() {
+                public void setValues(PreparedStatement ps, int i) throws SQLException {
+                    Character category = worker.getLicenses().get(i);
+                    ps.setString(1, worker.getLogin());
+                    ps.setString(2, String.valueOf(category));
+                }
+
+                public int getBatchSize() {
+                    return worker.getLicenses().size();
+                }
+            });
+        }
     }
 
     public void remove(Worker worker) {
         logger.info("DAO: removing object Worker from DB");
+        jdbcTemplate.update(DELETE_LICENSES, worker.getLogin());
         jdbcTemplate.update(DELETE, worker.getLogin());
     }
 
@@ -105,6 +125,7 @@ public class WorkerDaoImpl implements WorkerDao{
                 String licenseCategory = rs.getString("category");
                 if(licenseCategory != null) worker.getLicenses().add(licenseCategory.charAt(0));
             }
+            System.out.println("Returning worker: "+worker);
             return worker;
         }
     };
