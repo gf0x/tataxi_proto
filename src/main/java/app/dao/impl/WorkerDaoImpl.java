@@ -49,17 +49,7 @@ public class WorkerDaoImpl implements WorkerDao{
         int rowsAffected = jdbcTemplate.update(INSERT, worker.getLogin(), worker.getPassportData(), worker.getFullName(), worker.getIsDriver(),
                 worker.getPhoneNumber(), worker.getDeptId(), worker.isOnline());
         if(worker.getIsDriver()) {
-            jdbcTemplate.batchUpdate(INSERT_LICENSES, new BatchPreparedStatementSetter() {
-                public void setValues(PreparedStatement ps, int i) throws SQLException {
-                    Character category = worker.getLicenses().get(i);
-                    ps.setString(1, worker.getLogin());
-                    ps.setString(2, String.valueOf(category));
-                }
-
-                public int getBatchSize() {
-                    return worker.getLicenses().size();
-                }
-            });
+            insertLicenses(worker);
         }
         return rowsAffected;
     }
@@ -72,17 +62,7 @@ public class WorkerDaoImpl implements WorkerDao{
             //delete invalid licenses
             jdbcTemplate.update(DELETE_LICENSES, worker.getLogin());
             //add valid ones
-            jdbcTemplate.batchUpdate(INSERT_LICENSES, new BatchPreparedStatementSetter() {
-                public void setValues(PreparedStatement ps, int i) throws SQLException {
-                    Character category = worker.getLicenses().get(i);
-                    ps.setString(1, worker.getLogin());
-                    ps.setString(2, String.valueOf(category));
-                }
-
-                public int getBatchSize() {
-                    return worker.getLicenses().size();
-                }
-            });
+            insertLicenses(worker);
         }
     }
 
@@ -90,6 +70,20 @@ public class WorkerDaoImpl implements WorkerDao{
         logger.info("DAO: removing object Worker from DB");
         jdbcTemplate.update(DELETE_LICENSES, worker.getLogin());
         jdbcTemplate.update(DELETE, worker.getLogin());
+    }
+
+    private void insertLicenses(final Worker worker) {
+        jdbcTemplate.batchUpdate(INSERT_LICENSES, new BatchPreparedStatementSetter() {
+            public void setValues(PreparedStatement ps, int i) throws SQLException {
+                Character category = worker.getLicenses().get(i);
+                ps.setString(1, worker.getLogin());
+                ps.setString(2, String.valueOf(category));
+            }
+
+            public int getBatchSize() {
+                return worker.getLicenses().size();
+            }
+        });
     }
 
     private RowMapper<Worker> mapper = new RowMapper<Worker>() {
@@ -125,7 +119,6 @@ public class WorkerDaoImpl implements WorkerDao{
                 String licenseCategory = rs.getString("category");
                 if(licenseCategory != null) worker.getLicenses().add(licenseCategory.charAt(0));
             }
-            System.out.println("Returning worker: "+worker);
             return worker;
         }
     };
