@@ -539,7 +539,7 @@ $(function () {
     });
 
     //car_driver functionality
-    $('.car_driver_unsettle').click(function (e) {
+    $('#car_driver_list').on('click', '.car_driver_unsettle', function (e) {
         onUnsettle($(this));
     });
 
@@ -630,9 +630,6 @@ function onAppoint(e) {
                 $('.modal-backdrop').remove();
                 $('#cd_error_small').hide();
                 refreshCarDriverList();
-                $('#car_driver_list').on('click', '.car_driver_unsettle', function (e) {
-                    onUnsettle($(this));
-                });
                 refreshCarDriverModal();
             } else {
                 $.notify({

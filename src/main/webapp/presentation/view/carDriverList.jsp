@@ -17,7 +17,7 @@
                     <span class="label label-danger n-service vcenter">Out of service!</span>
                 </c:if>
             </div>
-            <div class="col-sm-1 col-sm-offset-1 col-xs-offset-8 col-xs-3 align-items-end align-self-end vcenter">
+            <div class="col-sm-1 col-sm-offset-1 col-xs-offset-8 col-xs-3 vcenter">
                         <span class="btn btn-warning btn-sm car_driver_unsettle" car_id="${car_driver.car.id}"
                               driver_login="${car_driver.driver.login}">Unsettle</span>
             </div>
