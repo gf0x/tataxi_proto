@@ -6,6 +6,7 @@ import app.entity.Worker;
 import app.pojo.CarDriver;
 import app.service.CarDriverService;
 import app.service.UserService;
+import app.service.WorkerService;
 import com.google.maps.GeoApiContext;
 import com.google.maps.GeocodingApi;
 import com.google.maps.model.GeocodingResult;
@@ -34,7 +35,7 @@ public class RootController {
     private UserService userService;
 
     @Autowired
-    private WorkerDao workerDao;
+    private WorkerService workerService;
 
     @Autowired
     private CarDriverService carDriverService;
@@ -46,15 +47,6 @@ public class RootController {
     public ModelAndView getHandler(){
         ModelAndView mv = new ModelAndView("home");
         logger.info(ROOT_CTL_TAG, "RootController handles GET request");
-
-        Worker worker = new Worker();
-        worker.setDeptId(29);
-        for (CarDriver carDriver : carDriverService.getCarDriversForDispatcher(worker))
-            System.out.println(carDriver);
-
-        //Caching test
-        User user = userService.get("alex");
-        System.out.println(user);
         return mv;
     }
 
@@ -66,6 +58,11 @@ public class RootController {
         GeocodingResult[] results = GeocodingApi.geocode(context, address).await();
         mv.addObject("lat", (results.length > 0) ? results[0].geometry.location.lat : "no results");
         mv.addObject("lng", (results.length > 0) ? results[0].geometry.location.lng : "no results");
+
+//        Worker worker = new Worker();
+//        worker.setDeptId(29);
+//        for(Worker dr : workerService.getFreeByDispatcher(worker))
+//            System.out.println(dr);
 
         //Caching test
         User user = userService.get("alex");

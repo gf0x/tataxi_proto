@@ -2,6 +2,7 @@ package app.dao.impl;
 
 import app.dao.CarDao;
 import app.entity.Car;
+import app.entity.Worker;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Repository;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 
 /**
  * Created by Alex_Frankiv on 19.03.2017.
@@ -31,6 +33,7 @@ public class CarDaoImpl implements CarDao {
     private static final String UPDATE = "UPDATE car SET sign=?, brand=?, model=?, category=?, seats=?, max_weight=?," +
             "bought_on=?, written_off_on=?, serviceable=?, dept_id=? WHERE id=?";
     private static final String DELETE = "DELETE FROM car WHERE id=?";
+    private static final String GET_FREE_BY_DISPATCHER = "SELECT * FROM car WHERE id NOT IN (SELECT c_d.car_id FROM car_driver c_d WHERE time_till IS NULL OR now() BETWEEN time_from AND time_till) AND serviceable=TRUE AND dept_id=?";
 
     public Car get(int id) {
         logger.info("DAO: grabbing object Car from DB");
@@ -54,6 +57,13 @@ public class CarDaoImpl implements CarDao {
     public void remove(Car car) {
         logger.info("DAO: removing object Car from DB");
         jdbcTemplate.update(DELETE, car.getId());
+    }
+
+    public List<Car> getFreeCarsByDispatcher(Worker dispatcher) throws Exception {
+        logger.info("DAO: get free cars by dispatcher");
+        if(dispatcher.getIsDriver())
+            throw new Exception("Access denied: valid for dispatchers only");
+        return jdbcTemplate.query(GET_FREE_BY_DISPATCHER, mapper, dispatcher.getDeptId());
     }
 
     private RowMapper<Car> mapper = new RowMapper<Car>() {

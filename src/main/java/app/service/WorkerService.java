@@ -2,6 +2,8 @@ package app.service;
 
 import app.entity.Worker;
 
+import java.util.List;
+
 /**
  * Created by Alex_Frankiv on 19.03.2017.
  */
@@ -12,4 +14,5 @@ public interface WorkerService {
     void update(Worker worker);
     void remove(Worker worker);
     void update(Worker worker, boolean force);
+    List<Worker> getFreeByDispatcher(Worker dispatcher) throws Exception;
 }

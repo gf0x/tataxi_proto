@@ -2,6 +2,7 @@ package app.dao.impl;
 
 import app.dao.WorkerDao;
 import app.entity.Worker;
+import org.postgresql.jdbc4.Jdbc4Array;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Alex_Frankiv on 19.03.2017.
@@ -39,9 +41,19 @@ public class WorkerDaoImpl implements WorkerDao{
     private static final String DELETE_LICENSES = "DELETE FROM driver_license WHERE login=?";
     private static final String DELETE = "DELETE FROM worker WHERE login=?";
 
+    private static final String GET_FREE_BY_DISPATCHER = "SELECT w.login, w.pass_data, w.full_name, w.is_driver, w.phone_num, " +
+            "w.dept_id, w.online, array_agg(d_l.category) AS licenses FROM worker w LEFT JOIN driver_license d_l ON w.login = d_l.login WHERE w.login NOT IN (SELECT worker_login FROM car_driver WHERE time_till IS NULL OR now() BETWEEN time_from AND" +
+            " time_till) AND is_driver=TRUE AND dept_id=? GROUP BY w.login";
     public Worker get(String login) {
         logger.info("DAO: grabbing object Worker from DB");
         return jdbcTemplate.query(GET, mapperWithLicenses, login);
+    }
+
+    public List<Worker> getFreeByDispatcher(Worker dispatcher) throws Exception {
+        logger.info("DAO: getting free drivers by dispatcher");
+        if(dispatcher.getIsDriver())
+            throw new Exception("Access denied: valid for dispatchers only");
+        return jdbcTemplate.query(GET_FREE_BY_DISPATCHER, mapper, dispatcher.getDeptId());
     }
 
     public int insert(final Worker worker) {
@@ -96,6 +108,15 @@ public class WorkerDaoImpl implements WorkerDao{
             worker.setPhoneNumber(rs.getString("phone_num"));
             worker.setDeptId(rs.getInt("dept_id"));
             worker.setOnline(rs.getBoolean("online"));
+            try{
+                Jdbc4Array array = (Jdbc4Array) rs.getArray("licenses");
+                List<Character> licenses = new ArrayList<Character>();
+                for(String l : array.toString().substring(1).split(","))
+                    licenses.add(l.charAt(0));
+               worker.setLicenses(licenses);
+            }catch (SQLException e){
+                worker.setLicenses(new ArrayList<Character>());
+            }
             return worker;
         }
     };
@@ -122,4 +143,5 @@ public class WorkerDaoImpl implements WorkerDao{
             return worker;
         }
     };
+
 }

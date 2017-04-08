@@ -30,16 +30,21 @@ public class CarDriverDaoImpl implements CarDriverDao {
     private static final String GET_VALID_BY_DEPT_AND_ONLINE = "SELECT c.id, c.sign, c.brand, c.model, c.serviceable, w.login, w.full_name, w.dept_id FROM car c INNER JOIN car_driver c_d ON c.id = c_d.car_id INNER JOIN worker w ON c_d.worker_login = w.login\n" +
             "WHERE (c_d.time_till IS NULL OR (c_d.time_till > now())) AND w.online=TRUE AND w.dept_id=?";
     private static final String CANCEL = "UPDATE car_driver SET time_till=now() WHERE time_till IS NULL AND car_id=? AND worker_login=?";
+    private static final String CREATE = "INSERT INTO car_driver (worker_login, car_id, time_from, time_till) VALUES (?,?,now(),NULL)";
 
     public List<CarDriver> getCarDriversForDispatcher(Worker worker) {
         return jdbcTemplate.query(GET_VALID_BY_DEPT, mapper, worker.getDeptId());
     }
 
-    public int createCarDriverPair(Car car, Worker driver, Worker dispatcher) {
-        return 0;
+    public int createCarDriverPair(Car car, Worker driver, Worker dispatcher) throws Exception {
+        if (car.getDeptId() != dispatcher.getDeptId() || driver.getDeptId() != dispatcher.getDeptId())
+            throw new Exception("Access denied: Department ids mismatch!");
+        return jdbcTemplate.update(CREATE, driver.getLogin(), car.getId());
     }
 
-    public int cancelCarDriverPair(Car car, Worker driver, Worker dispatcher) {
+    public int cancelCarDriverPair(Car car, Worker driver, Worker dispatcher) throws Exception {
+        if (car.getDeptId() != dispatcher.getDeptId() || driver.getDeptId() != dispatcher.getDeptId())
+            throw new Exception("Access denied: Department ids mismatch!");
         return jdbcTemplate.update(CANCEL, car.getId(), driver.getLogin());
     }
 

@@ -424,7 +424,7 @@ $(function () {
                 type: 'warning'
             });
         }
-        if (firstEdit&&worker.pswd.length === 0) {
+        if (firstEdit && worker.pswd.length === 0) {
             error = true;
             $('#fg_worker_pass').addClass('has-warning');
             $.notify({
@@ -505,10 +505,10 @@ $(function () {
                         }, {
                             type: 'success'
                         });
-                    }else {
+                    } else {
                         $.notify({
                             icon: 'glyphicon glyphicon-warning-sign',
-                            title: 'Error: '+data.code,
+                            title: 'Error: ' + data.code,
                             message: 'Could not modify worker' + data.message,
                             target: '_blank'
                         }, {
@@ -520,7 +520,7 @@ $(function () {
                 error: function (data) {
                     $.notify({
                         icon: 'glyphicon glyphicon-warning-sign',
-                        title: 'Error: '+data.code,
+                        title: 'Error: ' + data.code,
                         message: 'Could not modify worker' + data.message,
                         target: '_blank'
                     }, {
@@ -540,46 +540,44 @@ $(function () {
 
     //car_driver functionality
     $('.car_driver_unsettle').click(function (e) {
-        var btn = $(this);
-        $.notify({
-            icon: 'glyphicon glyphicon-warning-sign',
-            title: 'In progress: ',
-            message: 'Sending request to server...',
-            target: '_blank'
-        }, {
-            type: 'info',
-            showProgressbar: true
-        });
-        $.ajax({
-            method: 'POST',
-            url: '/staff/dispatcher/cancel_car_driver_pair',
-            contentType: 'application/json; charset=UTF-8',
-            data: JSON.stringify({car: {id: btn.attr('car_id')}, driver: {login: btn.attr('driver_login')}}),
-            dataType: 'json',
-            success: function (data) {
-                if (data.code === '200') {
-                    $.notify({
-                        icon: 'glyphicon glyphicon-warning-sign',
-                        title: 'Success: ',
-                        message: data.message,
-                        target: '_blank'
-                    }, {
-                        type: 'success'
-                    });
-                    btn.closest('.list-item').remove();
-                    console.log($(this).closest('.list-item'));
-                } else {
-                    $.notify({
-                        icon: 'glyphicon glyphicon-warning-sign',
-                        title: 'Error: ' + data.code,
-                        message: data.message,
-                        target: '_blank'
-                    }, {
-                        type: 'danger'
-                    });
-                }
-            },
-            error: function (data) {
+        onUnsettle($(this));
+    });
+
+    $('#btn_car_driver_appoint').click(function (e) {
+        onAppoint(e);
+    });
+});
+
+function onUnsettle(elem) {
+    var btn = elem;
+    $.notify({
+        icon: 'glyphicon glyphicon-warning-sign',
+        title: 'In progress: ',
+        message: 'Sending request to server...',
+        target: '_blank'
+    }, {
+        type: 'info',
+        showProgressbar: true
+    });
+    $.ajax({
+        method: 'POST',
+        url: '/staff/dispatcher/cancel_car_driver_pair',
+        contentType: 'application/json; charset=UTF-8',
+        data: JSON.stringify({car: {id: btn.attr('car_id')}, driver: {login: btn.attr('driver_login')}}),
+        dataType: 'json',
+        success: function (data) {
+            if (data.code === '200') {
+                $.notify({
+                    icon: 'glyphicon glyphicon-warning-sign',
+                    title: 'Success: ',
+                    message: data.message,
+                    target: '_blank'
+                }, {
+                    type: 'success'
+                });
+                btn.closest('.list-item').remove();
+                refreshCarDriverModal();
+            } else {
                 $.notify({
                     icon: 'glyphicon glyphicon-warning-sign',
                     title: 'Error: ' + data.code,
@@ -589,9 +587,116 @@ $(function () {
                     type: 'danger'
                 });
             }
-        });
+        },
+        error: function (data) {
+            $.notify({
+                icon: 'glyphicon glyphicon-warning-sign',
+                title: 'Error: ' + data.code,
+                message: data.message,
+                target: '_blank'
+            }, {
+                type: 'danger'
+            });
+        }
     });
-});
+}
+
+function onAppoint(e) {
+    var carChosen = $('#cd_car_select').find('option:selected');
+    var driverChosen = $('#cd_driver_select').find('option:selected');
+    if(driverChosen.attr('categories').indexOf(carChosen.attr('category'))===-1){
+        $('#cd_error_small').text('Driving license categories mismatch: driver has '+driverChosen.attr('categories')+' and car needs '+carChosen.attr('category'));
+        $('#cd_error_small').show();
+        return;
+    }
+    $.ajax({
+        method: 'POST',
+        url: '/staff/dispatcher/create_car_driver_pair',
+        contentType: 'application/json; charset=UTF-8',
+        data: JSON.stringify({car: {id: carChosen.attr('id')}, driver: {login: driverChosen.attr('id')}}),
+        dataType: 'json',
+        success: function (data) {
+            if (data.code === '200') {
+                $.notify({
+                    icon: 'glyphicon glyphicon-warning-sign',
+                    title: 'Success: ',
+                    message: data.message,
+                    target: '_blank'
+                }, {
+                    type: 'success'
+                });
+                $('.car_driver_modal').modal('hide');
+                $('body').removeClass('modal-open');
+                $('.modal-backdrop').remove();
+                $('#cd_error_small').hide();
+                refreshCarDriverList();
+                $('#car_driver_list').on('click', '.car_driver_unsettle', function (e) {
+                    onUnsettle($(this));
+                });
+                refreshCarDriverModal();
+            } else {
+                $.notify({
+                    icon: 'glyphicon glyphicon-warning-sign',
+                    title: 'Error: ' + data.code,
+                    message: data.message,
+                    target: '_blank'
+                }, {
+                    type: 'danger'
+                });
+            }
+        },
+        error: function (data) {
+            $.notify({
+                icon: 'glyphicon glyphicon-warning-sign',
+                title: 'Error: ' + data.code,
+                message: data.message,
+                target: '_blank'
+            }, {
+                type: 'danger'
+            });
+        }
+    });
+}
+
+function refreshCarDriverModal() {
+    $.ajax({
+        method: 'GET',
+        url: '/staff/dispatcher/car_drivers/modal',
+        success: function (data) {
+            $('#for_car_driver_modal').html(data);
+        },
+        error: function (data) {
+            $.notify({
+                icon: 'glyphicon glyphicon-warning-sign',
+                title: 'Error: ' + data.code,
+                message: data.message,
+                target: '_blank'
+            }, {
+                type: 'danger'
+            });
+        }
+    })
+};
+
+function refreshCarDriverList() {
+    $.ajax({
+        method: 'GET',
+        url: '/staff/dispatcher/car_drivers/list',
+        success: function (data) {
+            $('#car_driver_list').html(data);
+        },
+        error: function (data) {
+            $.notify({
+                icon: 'glyphicon glyphicon-warning-sign',
+                title: 'Error: ' + data.code,
+                message: data.message,
+                target: '_blank'
+            }, {
+                type: 'danger'
+            });
+        }
+    })
+};
 
 function htmlbodyHeightUpdate() {
     var height3 = $(window).height()

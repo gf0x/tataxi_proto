@@ -10,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 /**
  * Created by Alex_Frankiv on 19.03.2017.
  */
@@ -47,6 +49,11 @@ public class WorkerServiceImpl implements WorkerService {
         if (force)
             userService.update(worker);
         workerDao.update(worker);
+    }
+
+    public List<Worker> getFreeByDispatcher(Worker dispatcher) throws Exception {
+        logger.info("SERVICE: get free drivers by dispatcher");
+        return workerDao.getFreeByDispatcher(dispatcher);
     }
 
     public void remove(Worker worker) {

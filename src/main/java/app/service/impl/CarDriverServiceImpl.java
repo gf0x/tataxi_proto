@@ -25,11 +25,11 @@ public class CarDriverServiceImpl implements CarDriverService {
         return carDriverDao.getCarDriversForDispatcher(worker);
     }
 
-    public int createCarDriverPair(Car car, Worker driver, Worker dispatcher) {
+    public int createCarDriverPair(Car car, Worker driver, Worker dispatcher) throws Exception {
         return carDriverDao.createCarDriverPair(car, driver, dispatcher);
     }
 
-    public int cancelCarDriverPair(Car car, Worker driver, Worker dispatcher) {
+    public int cancelCarDriverPair(Car car, Worker driver, Worker dispatcher) throws Exception {
         return carDriverDao.cancelCarDriverPair(car, driver, dispatcher);
     }
 }

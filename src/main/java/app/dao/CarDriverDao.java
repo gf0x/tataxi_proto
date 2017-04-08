@@ -12,6 +12,6 @@ import java.util.List;
 public interface CarDriverDao {
 
     List<CarDriver> getCarDriversForDispatcher(Worker worker);
-    int createCarDriverPair(Car car, Worker driver, Worker dispatcher);
-    int cancelCarDriverPair(Car car, Worker driver, Worker dispatcher);
+    int createCarDriverPair(Car car, Worker driver, Worker dispatcher) throws Exception;
+    int cancelCarDriverPair(Car car, Worker driver, Worker dispatcher) throws Exception;
 }
