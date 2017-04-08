@@ -10,7 +10,8 @@ import java.util.List;
 @Component
 public class Worker extends app.entity.User {
 
-    private static final String WORKER_ROLE = "ROLE_WORKER";
+    private static final String DRIVER_ROLE = "ROLE_DRIVER";
+    private static final String DISPATCHER_ROLE = "ROLE_DISPATCHER";
     private static final int ENABLED = 1;
 
     private String login;
@@ -53,7 +54,6 @@ public class Worker extends app.entity.User {
     }
 
     public Worker(){
-        this.setAuthRole(WORKER_ROLE);
         this.setEnabled(ENABLED);
     }
 
@@ -87,6 +87,11 @@ public class Worker extends app.entity.User {
 
     public void setIsDriver(boolean driver) {
         isDriver = driver;
+        //role autosetting
+        if(isDriver)
+            this.setAuthRole(DRIVER_ROLE);
+        else
+            this.setAuthRole(DISPATCHER_ROLE);
     }
 
     public List<Character> getLicenses() {

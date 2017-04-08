@@ -44,7 +44,7 @@ public class CarController {
     }
 
     @RequestMapping(value = "/edit/{id}", method = RequestMethod.GET)
-    public ModelAndView editDept(@PathVariable int id){
+    public ModelAndView editCar(@PathVariable int id){
         ModelAndView mv = new ModelAndView("carEdit");
         mv.addObject("gApiKey", G_API_KEY);
         Car car = carService.get(id);
@@ -56,7 +56,7 @@ public class CarController {
 
     @RequestMapping(value = "/edit", method = RequestMethod.POST)
     @ResponseBody
-    public AjaxResponseBody doEditDept(@RequestBody Car car){
+    public AjaxResponseBody doEditCar(@RequestBody Car car){
         carService.update(car);
         return new AjaxResponseBody("200", "OK");
     }

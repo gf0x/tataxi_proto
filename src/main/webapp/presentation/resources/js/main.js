@@ -505,8 +505,6 @@ $(function () {
                         }, {
                             type: 'success'
                         });
-                        if (!firstEdit)
-                            elem.attr('disabled', false);
                     }else {
                         $.notify({
                             icon: 'glyphicon glyphicon-warning-sign',
@@ -516,9 +514,8 @@ $(function () {
                         }, {
                             type: 'danger'
                         });
-                        elem.attr('disabled', false);
                     }
-                    //TO-DO: redirect after 10 sec. if success
+                    elem.attr('disabled', false);
                 },
                 error: function (data) {
                     $.notify({

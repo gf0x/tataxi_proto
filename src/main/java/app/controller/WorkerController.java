@@ -45,7 +45,7 @@ public class WorkerController {
     }
 
     @RequestMapping(value = "/edit/{login}", method = RequestMethod.GET)
-    public ModelAndView editDept(@PathVariable String login){
+    public ModelAndView editWorker(@PathVariable String login){
         ModelAndView mv = new ModelAndView("workerEdit");
         mv.addObject("gApiKey", G_API_KEY);
         Worker worker = workerService.get(login);
@@ -57,7 +57,7 @@ public class WorkerController {
 
     @RequestMapping(value = "/edit", method = RequestMethod.POST)
     @ResponseBody
-    public AjaxResponseBody doEditDept(@RequestBody Worker worker){
+    public AjaxResponseBody doEditWorker(@RequestBody Worker worker){
         workerService.update(worker);
         return new AjaxResponseBody("200", "OK");
     }
