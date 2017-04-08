@@ -1,7 +1,6 @@
 package app.controller;
 
-import app.dto.AjaxResponseBody;
-import app.entity.Car;
+import app.pojo.AjaxResponseBody;
 import app.entity.Worker;
 import app.service.DepartmentService;
 import app.service.WorkerService;

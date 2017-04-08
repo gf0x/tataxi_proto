@@ -1,8 +1,7 @@
 package app.controller;
 
-import app.dto.AjaxResponseBody;
+import app.pojo.AjaxResponseBody;
 import app.entity.Car;
-import app.entity.Department;
 import app.service.CarService;
 import app.service.DepartmentService;
 import org.springframework.beans.factory.annotation.Autowired;

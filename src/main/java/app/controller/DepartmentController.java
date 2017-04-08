@@ -1,6 +1,6 @@
 package app.controller;
 
-import app.dto.AjaxResponseBody;
+import app.pojo.AjaxResponseBody;
 import app.entity.Department;
 import app.service.DepartmentService;
 import app.utils.GeocodingUtil;

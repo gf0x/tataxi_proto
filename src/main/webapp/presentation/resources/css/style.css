@@ -345,6 +345,27 @@ section{
 	height: 65vh;
 }
 
+.add_car_driver{
+	margin: 20px 20px 20px 20px;
+}
+
+.list-item{
+	padding: 13px 7px 10px 7px;
+	font-size: 14px;
+	font-family: monospace, monospace;
+	font-weight: 500;
+}
+
+.n-service{
+	font-size: 14px;
+}
+
+.vcenter {
+	display: inline-block;
+	vertical-align: middle;
+	float: none;
+}
+
 /*img.static_map{*/
 	/*width: 100%;*/
 	/*height: 50%;*/

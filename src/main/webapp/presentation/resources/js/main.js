@@ -362,7 +362,7 @@ $(function () {
                         type: 'success'
                     });
 
-                    $('#btn_car_edit').attr('disabled', false);
+                    $(this).attr('disabled', false);
                     //TO-DO: redirect after 10 sec. if success
                 },
                 error: function () {
@@ -374,7 +374,7 @@ $(function () {
                     }, {
                         type: 'danger'
                     });
-                    $('#btn_car_edit').attr('disabled', false);
+                    $(this).attr('disabled', false);
                 }
             });
         }
@@ -536,6 +536,60 @@ $(function () {
     });
     $('#btn_worker_edit').click(function (e) {
         addEditWorker($(this), false);
+    });
+
+    //car_driver functionality
+    $('.car_driver_unsettle').click(function (e) {
+        var btn = $(this);
+        $.notify({
+            icon: 'glyphicon glyphicon-warning-sign',
+            title: 'In progress: ',
+            message: 'Sending request to server...',
+            target: '_blank'
+        }, {
+            type: 'info',
+            showProgressbar: true
+        });
+        $.ajax({
+            method: 'POST',
+            url: '/staff/dispatcher/cancel_car_driver_pair',
+            contentType: 'application/json; charset=UTF-8',
+            data: JSON.stringify({car: {id: btn.attr('car_id')}, driver: {login: btn.attr('driver_login')}}),
+            dataType: 'json',
+            success: function (data) {
+                if (data.code === '200') {
+                    $.notify({
+                        icon: 'glyphicon glyphicon-warning-sign',
+                        title: 'Success: ',
+                        message: data.message,
+                        target: '_blank'
+                    }, {
+                        type: 'success'
+                    });
+                    btn.closest('.list-item').remove();
+                    console.log($(this).closest('.list-item'));
+                } else {
+                    $.notify({
+                        icon: 'glyphicon glyphicon-warning-sign',
+                        title: 'Error: ' + data.code,
+                        message: data.message,
+                        target: '_blank'
+                    }, {
+                        type: 'danger'
+                    });
+                }
+            },
+            error: function (data) {
+                $.notify({
+                    icon: 'glyphicon glyphicon-warning-sign',
+                    title: 'Error: ' + data.code,
+                    message: data.message,
+                    target: '_blank'
+                }, {
+                    type: 'danger'
+                });
+            }
+        });
     });
 });
 

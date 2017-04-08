@@ -57,4 +57,4 @@
         </div>
     </div>
 </nav>
-<div class="main">
+<div class="main container">

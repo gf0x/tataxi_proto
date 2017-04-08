@@ -23,7 +23,9 @@ public class Car {
     private boolean serviceable;
     private int deptId;
 
-    public Car() {}
+    public Car() {
+        this.setServiceable(true);
+    }
 
     public int getId() {
         return id;

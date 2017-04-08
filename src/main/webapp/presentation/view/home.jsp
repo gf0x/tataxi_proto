@@ -30,7 +30,7 @@
         <br>
         <a href="/car/create">Go to car create</a>
         <br>
-        <a href="/worker/create">Go to worker create</a>
+        <a href="/driver/create">Go to driver create</a>
         <br>
         <a href="/order/create">Go to order create</a>
     </div>

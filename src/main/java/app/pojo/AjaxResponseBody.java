@@ -1,4 +1,4 @@
-package app.dto;
+package app.pojo;
 
 /**
  * Created by Alex_Frankiv on 02.04.2017.

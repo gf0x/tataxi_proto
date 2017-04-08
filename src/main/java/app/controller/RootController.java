@@ -2,6 +2,9 @@ package app.controller;
 
 import app.dao.WorkerDao;
 import app.entity.User;
+import app.entity.Worker;
+import app.pojo.CarDriver;
+import app.service.CarDriverService;
 import app.service.UserService;
 import com.google.maps.GeoApiContext;
 import com.google.maps.GeocodingApi;
@@ -33,6 +36,9 @@ public class RootController {
     @Autowired
     private WorkerDao workerDao;
 
+    @Autowired
+    private CarDriverService carDriverService;
+
     @Value("${google.API_KEY}")
     private String G_API_KEY;
 
@@ -40,6 +46,11 @@ public class RootController {
     public ModelAndView getHandler(){
         ModelAndView mv = new ModelAndView("home");
         logger.info(ROOT_CTL_TAG, "RootController handles GET request");
+
+        Worker worker = new Worker();
+        worker.setDeptId(29);
+        for (CarDriver carDriver : carDriverService.getCarDriversForDispatcher(worker))
+            System.out.println(carDriver);
 
         //Caching test
         User user = userService.get("alex");

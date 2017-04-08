@@ -30,7 +30,7 @@
         </div>
         <div class="form-group" id="fg_worker_login">
         <label class="form-control-label">Login: </label>
-            <input class="form-control" type="text" id="worker_login" value="${worker.login}" <c:if test="${firstEdit eq false}">disabled</c:if>>
+            <input class="form-control" type="text" id="worker_login" value="${driver.login}" <c:if test="${firstEdit eq false}">disabled</c:if>>
     </div>
         <c:if test="${firstEdit eq true}">
             <div class="form-group" id="fg_worker_pass">
@@ -40,16 +40,16 @@
         </c:if>
         <div class="form-group" id="fg_worker_full_name">
             <label class="form-control-label">Full name: </label>
-            <input type="text" class="form-control" id="worker_full_name" value="${worker.fullName}">
+            <input type="text" class="form-control" id="worker_full_name" value="${driver.fullName}">
         </div>
         <div class="form-group" id="fg_worker_pass_data">
             <label class="form-control-label">Passport: </label>
-            <input type="text" class="form-control" id="worker_pass_data" value="${worker.passportData}">
+            <input type="text" class="form-control" id="worker_pass_data" value="${driver.passportData}">
         </div>
         <div class="form-group" id="fg_worker_phone_num">
             <label class="form-control-label">Phone number: </label>
             <input type="tel" placeholder="+380XXXXXXXXX" class="form-control" id="worker_phone_num"
-                   value="${worker.phoneNumber}">
+                   value="${driver.phoneNumber}">
         </div>
         <div class="form-group">
             <label for="worker_is_driver">Position: </label>
@@ -58,22 +58,22 @@
                 <option id="false">Dispatcher</option>
             </select>
         </div>
-        <div class="form-check" id="worker_licenses" <c:if test="${worker.isDriver eq false}">hidden</c:if>>
+        <div class="form-check" id="worker_licenses" <c:if test="${driver.isDriver eq false}">hidden</c:if>>
             <label>Licenses: </label>
             <label class="form-check-label">
-                <input type="checkbox" id="A" class="form-check-input" <c:if test="${fn:contains(worker.licenses, 'A')}">checked</c:if>>
+                <input type="checkbox" id="A" class="form-check-input" <c:if test="${fn:contains(driver.licenses, 'A')}">checked</c:if>>
                 A
             </label>
             <label class="form-check-label">
-                <input type="checkbox" id="B" class="form-check-input" <c:if test="${fn:contains(worker.licenses, 'B')}">checked</c:if>>
+                <input type="checkbox" id="B" class="form-check-input" <c:if test="${fn:contains(driver.licenses, 'B')}">checked</c:if>>
                 B
             </label>
             <label class="form-check-label">
-                <input type="checkbox" id="C" class="form-check-input" <c:if test="${fn:contains(worker.licenses, 'C')}">checked</c:if>>
+                <input type="checkbox" id="C" class="form-check-input" <c:if test="${fn:contains(driver.licenses, 'C')}">checked</c:if>>
                 C
             </label>
             <label class="form-check-label">
-                <input type="checkbox" id="D" class="form-check-input" <c:if test="${fn:contains(worker.licenses, 'D')}">checked</c:if>>
+                <input type="checkbox" id="D" class="form-check-input" <c:if test="${fn:contains(driver.licenses, 'D')}">checked</c:if>>
                 D
             </label>
         </div>

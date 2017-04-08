@@ -1,6 +1,6 @@
 package app.controller;
 
-import app.dto.AjaxResponseBody;
+import app.pojo.AjaxResponseBody;
 import app.entity.Order;
 import app.pojo.Place;
 import app.service.DepartmentService;
@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.security.Principal;
-import java.sql.Date;
 import java.sql.Timestamp;
 
 /**
