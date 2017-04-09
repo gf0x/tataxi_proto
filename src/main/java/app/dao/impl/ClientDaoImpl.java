@@ -56,7 +56,7 @@ public class ClientDaoImpl implements ClientDao{
         public Client mapRow(ResultSet rs, int rowNum) throws SQLException {
             Client client = new Client();
             client.setLogin(rs.getString("login"));
-            client.setRealName(rs.getString("first_name"));
+            client.setRealName(rs.getString("real_name"));
             client.setEmail(rs.getString("email"));
             client.setHomeAddress(rs.getString("home_address"));
             client.setPhoneNumber(rs.getString("phone_num"));

@@ -24,10 +24,10 @@ public class CarDriverDaoImpl implements CarDriverDao {
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
-    private static final String GET_ALL_BY_DEPT = "SELECT c.id, c.sign, c.brand, c.model, c.serviceable, w.login, w.full_name, w.dept_id FROM car c INNER JOIN car_driver c_d ON c.id = c_d.car_id INNER JOIN worker w ON c_d.worker_login = w.login WHERE w.dept_id=?";
-    private static final String GET_VALID_BY_DEPT = "SELECT c.id, c.sign, c.brand, c.model, c.serviceable, w.login, w.full_name, w.dept_id FROM car c INNER JOIN car_driver c_d ON c.id = c_d.car_id INNER JOIN worker w ON c_d.worker_login = w.login\n" +
+    private static final String GET_ALL_BY_DEPT = "SELECT c.id, c.sign, c.brand, c.model, c.serviceable, c.seats, w.login, w.full_name, w.dept_id FROM car c INNER JOIN car_driver c_d ON c.id = c_d.car_id INNER JOIN worker w ON c_d.worker_login = w.login WHERE w.dept_id=?";
+    private static final String GET_VALID_BY_DEPT = "SELECT c.id, c.sign, c.brand, c.model, c.serviceable, c.seats, w.login, w.full_name, w.dept_id FROM car c INNER JOIN car_driver c_d ON c.id = c_d.car_id INNER JOIN worker w ON c_d.worker_login = w.login\n" +
             "WHERE (c_d.time_till IS NULL OR (c_d.time_till > now())) AND w.dept_id=?";
-    private static final String GET_VALID_BY_DEPT_AND_ONLINE = "SELECT c.id, c.sign, c.brand, c.model, c.serviceable, w.login, w.full_name, w.dept_id FROM car c INNER JOIN car_driver c_d ON c.id = c_d.car_id INNER JOIN worker w ON c_d.worker_login = w.login\n" +
+    private static final String GET_VALID_BY_DEPT_AND_ONLINE = "SELECT c.id, c.sign, c.brand, c.model, c.serviceable, c.seats, w.login, w.full_name, w.dept_id FROM car c INNER JOIN car_driver c_d ON c.id = c_d.car_id INNER JOIN worker w ON c_d.worker_login = w.login\n" +
             "WHERE (c_d.time_till IS NULL OR (c_d.time_till > now())) AND w.online=TRUE AND w.dept_id=?";
     private static final String CANCEL = "UPDATE car_driver SET time_till=now() WHERE time_till IS NULL AND car_id=? AND worker_login=?";
     private static final String CREATE = "INSERT INTO car_driver (worker_login, car_id, time_from, time_till) VALUES (?,?,now(),NULL)";
@@ -48,6 +48,10 @@ public class CarDriverDaoImpl implements CarDriverDao {
         return jdbcTemplate.update(CANCEL, car.getId(), driver.getLogin());
     }
 
+    public List<CarDriver> getAwiwatingForOrder(Worker dispatcher){
+        return jdbcTemplate.query(GET_VALID_BY_DEPT_AND_ONLINE, mapper, dispatcher.getDeptId());
+    }
+
     private RowMapper<CarDriver> mapper = new RowMapper<CarDriver>() {
         public CarDriver mapRow(ResultSet rs, int rowNum) throws SQLException {
             Car car = new Car();
@@ -57,6 +61,7 @@ public class CarDriverDaoImpl implements CarDriverDao {
             car.setModel(rs.getString("model"));
             car.setDeptId(rs.getInt("dept_id"));
             car.setServiceable(rs.getBoolean("serviceable"));
+            car.setSeats(rs.getInt("seats"));
             Worker driver = new Worker();
             driver.setIsDriver(true);
             driver.setLogin(rs.getString("login"));

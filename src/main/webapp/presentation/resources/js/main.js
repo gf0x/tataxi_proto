@@ -546,7 +546,88 @@ $(function () {
     $('#btn_car_driver_appoint').click(function (e) {
         onAppoint(e);
     });
+
+    $('#dept_orders_list').on('click', '.accept_order', function (e) {
+        onAccept($(this));
+    });
+    $('#dept_orders_list').on('click', '.decline_order', function (e) {
+        onDecline($(this));
+    });
 });
+
+function onAccept(elem) {
+    $('.btn').attr('disabled', true);
+    $.ajax({
+        method: 'POST',
+        url: '/staff/dispatcher/orders_awaiting/accept',
+        contentType: 'application/json; charset=UTF-8',
+        data: JSON.stringify({order: {id: elem.attr('order_id')}, car: {id: $('#'+elem.attr('order_id')).find('option:selected').attr('id')}}),
+        dataType: 'json',
+        success: function (data) {
+            if (data.code === '200') {
+                refreshAwaitingOrders();
+            } else {
+                $.notify({
+                    icon: 'glyphicon glyphicon-warning-sign',
+                    title: 'Error: ' + data.code,
+                    message: data.message,
+                    target: '_blank'
+                }, {
+                    type: 'danger'
+                });
+            }
+            $('.btn').attr('disabled', false);
+        },
+        error: function (data) {
+            $.notify({
+                icon: 'glyphicon glyphicon-warning-sign',
+                title: 'Error: ' + data.code,
+                message: data.message,
+                target: '_blank'
+            }, {
+                type: 'danger'
+            });
+            $('.btn').attr('disabled', false);
+        }
+    });
+};
+
+function onDecline(elem) {
+    $('.btn').attr('disabled', true);
+    $.ajax({
+        method: 'POST',
+        url: '/staff/dispatcher/orders_awaiting/decline',
+        contentType: 'application/json; charset=UTF-8',
+        data: JSON.stringify({id: elem.attr('order_id')}),
+        dataType: 'json',
+        success: function (data) {
+            if (data.code === '200') {
+                refreshAwaitingOrders();
+            } else {
+                $.notify({
+                    icon: 'glyphicon glyphicon-warning-sign',
+                    title: 'Error: ' + data.code,
+                    message: data.message,
+                    target: '_blank'
+                }, {
+                    type: 'danger'
+                });
+            }
+            $('.btn').attr('disabled', false);
+        },
+        error: function (data) {
+            $.notify({
+                icon: 'glyphicon glyphicon-warning-sign',
+                title: 'Error: ' + data.code,
+                message: data.message,
+                target: '_blank'
+            }, {
+                type: 'danger'
+            });
+            $('.btn').attr('disabled', false);
+        }
+    });
+};
 
 function onUnsettle(elem) {
     var btn = elem;
@@ -641,6 +722,26 @@ function onAppoint(e) {
                     type: 'danger'
                 });
             }
+        },
+        error: function (data) {
+            $.notify({
+                icon: 'glyphicon glyphicon-warning-sign',
+                title: 'Error: ' + data.code,
+                message: data.message,
+                target: '_blank'
+            }, {
+                type: 'danger'
+            });
+        }
+    });
+}
+
+function refreshAwaitingOrders() {
+    $.ajax({
+        method: 'GET',
+        url: '/staff/dispatcher/orders_awaiting/list',
+        success: function (data) {
+            $('#dept_orders_list').html(data);
         },
         error: function (data) {
             $.notify({

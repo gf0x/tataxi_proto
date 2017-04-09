@@ -366,9 +366,14 @@ section{
 	float: none;
 }
 
-.scrollable-list{
-	max-height: 50vh;
+.pre-scrollable{
+	max-height: 75vh;
 	overflow-y: auto;
+}
+
+.driver_select{
+	margin-top: 5px;
+	margin-bottom: 5px;
 }
 /*img.static_map{*/
 	/*width: 100%;*/

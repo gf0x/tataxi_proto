@@ -46,7 +46,7 @@ public class Order {
                 ", to=" + to +
                 ", distance=" + distance +
                 ", price=" + price +
-                ", isFast=" + isFast +
+                ", getIsFast=" + isFast +
                 ", startTime=" + startTime +
                 ", finishTime=" + finishTime +
                 ", feedback=" + feedback +
@@ -135,11 +135,11 @@ public class Order {
         this.price = price;
     }
 
-    public boolean isFast() {
+    public boolean getIsFast() {
         return isFast;
     }
 
-    public void setFast(boolean fast) {
+    public void setIsFast(boolean fast) {
         isFast = fast;
     }
 

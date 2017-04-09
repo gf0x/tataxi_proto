@@ -10,7 +10,7 @@
 
 <div class="row">
 
-    <div class="col-lg-offset-1 col-sm-11 container general-content">
+    <div class="col-lg-offset-1 col-sm-9 container general-content">
         <h2>Department drivers</h2>
         <div id="for_car_driver_modal">
             <%@include file="carDriverModal.jsp"%>
@@ -18,8 +18,9 @@
 
 
         <button class="btn btn-primary add_car_driver" data-toggle="modal" data-target=".car_driver_modal">+ Appoint driver</button>
-        <div class="list-group scrollable-list" id="car_driver_list">
+        <div class="list-group pre-scrollable" id="car_driver_list">
             <%@ include file="carDriverList.jsp"%>
+
         </div>
     </div>
 </div>

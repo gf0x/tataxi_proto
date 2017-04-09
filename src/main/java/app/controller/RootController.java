@@ -47,7 +47,7 @@ public class RootController {
     private String G_API_KEY;
 
     @RequestMapping(method = RequestMethod.GET)
-    public ModelAndView setOnline(Principal principal){
+    public ModelAndView setOnline(Principal principal) {
         ModelAndView mv = new ModelAndView("home");
         logger.info(ROOT_CTL_TAG, "RootController handles GET request");
         workerService.setOnline(new Worker(principal.getName()));
@@ -57,7 +57,7 @@ public class RootController {
     @RequestMapping(method = RequestMethod.POST)
     public ModelAndView postHandler(@RequestBody String address) throws Exception {
         ModelAndView mv = new ModelAndView("home");
-        logger.info(ROOT_CTL_TAG, "Handling POST request; API_KEY: "+G_API_KEY);
+        logger.info(ROOT_CTL_TAG, "Handling POST request; API_KEY: " + G_API_KEY);
         GeoApiContext context = new GeoApiContext().setApiKey(G_API_KEY);
         GeocodingResult[] results = GeocodingApi.geocode(context, address).await();
         mv.addObject("lat", (results.length > 0) ? results[0].geometry.location.lat : "no results");
@@ -70,14 +70,15 @@ public class RootController {
 
         //Caching test
         User user = userService.get("alex");
-        System.out.println("POST: "+user);
+        System.out.println("POST: " + user);
 
         return mv;
     }
 
     @RequestMapping("/pre_logout")
-    public String setOffline(Principal principal){
-        workerService.setOffline(new Worker(principal.getName()));
+    public String setOffline(Principal principal) {
+        if (principal != null)
+            workerService.setOffline(new Worker(principal.getName()));
         return "redirect: /logout";
     }
 }

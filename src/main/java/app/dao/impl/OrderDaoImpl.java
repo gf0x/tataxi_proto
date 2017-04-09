@@ -1,41 +1,48 @@
 package app.dao.impl;
 
 import app.dao.OrderDao;
+import app.entity.Car;
+import app.entity.Client;
 import app.entity.Order;
+import app.entity.Worker;
+import app.pojo.ClientOrder;
 import app.pojo.Place;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 
 /**
  * Created by Alex_Frankiv on 19.03.2017.
  */
 @Repository
 //@Cacheable("orders")
-public class OrderDaoImpl implements OrderDao{
+public class OrderDaoImpl implements OrderDao {
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
     private static final String GET = "SELECT * FROM \"order\" WHERE id=?";
     private static final String INSERT = "INSERT INTO \"order\" (from_lat, from_lng, to_lat, to_lng, distance, price, " +
-            "is_fast, start_time, finish_time, feedback, car_id, worker_login, client_login, city, from_address, to_address, seats, extraluggage)" +
+            "is_fast, start_time, finish_time, feedback, car_id, worker_login, client_login, city, from_address, to_address, seats, extra_luggage)" +
             " VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
     private static final String UPDATE = "UPDATE \"order\" SET from_lat=?, from_lng=?, to_lat=?, to_lng=?, distance=?," +
             "price=?, is_fast=?, start_time=?, finish_time=?, feedback=?, car_id=?, worker_login=?, client_login=?, " +
-            "city=?, from_address=?, to_address=?, seats=?, extraluggage=? WHERE id=?";
+            "city=?, from_address=?, to_address=?, seats=?, extra_luggage=? WHERE id=?";
     private static final String DELETE = "DELETE FROM order WHERE id=?";
+    private static final String GET_AWAITING = "SELECT * FROM \"order\" o INNER JOIN client c ON o.client_login=c.login WHERE o.worker_login IS NULL AND o.car_id ISNULL AND o.city IN (SELECT d.city FROM department d WHERE d.id=?)";
+    private static final String ACCEPT = "UPDATE \"order\" SET car_id=?, worker_login=? WHERE id=?";
+    private static final String DECLINE = "UPDATE \"order\" SET worker_login=? WHERE id=?";
 
     private static Logger logger = LoggerFactory.getLogger(OrderDaoImpl.class.getSimpleName());
 
-    public Order get(int id){
+    public Order get(int id) {
         logger.info("DAO: grabbing object Order from DB");
         return jdbcTemplate.queryForObject(GET, mapper, id);
     }
@@ -43,16 +50,16 @@ public class OrderDaoImpl implements OrderDao{
     public int insert(Order order) {
         logger.info("DAO: inserting object Order into DB");
         return jdbcTemplate.update(INSERT, order.getFrom().getLat(), order.getFrom().getLng(),
-                order.getTo().getLat(), order.getTo().getLng(), order.getDistance(), order.getPrice(), order.isFast(),
-                order.getStartTime(), order.getFinishTime(), order.getFeedback(), (order.getCar()>=0) ? order.getCar():null, order.getDispatcher(),
-                order.getClient(), order.getCity(), order.getFrom().getAddress(), order.getTo().getAddress(),order.getSeats(), order.isExtraLuggage());
+                order.getTo().getLat(), order.getTo().getLng(), order.getDistance(), order.getPrice(), order.getIsFast(),
+                order.getStartTime(), order.getFinishTime(), order.getFeedback(), (order.getCar() >= 0) ? order.getCar() : null, order.getDispatcher(),
+                order.getClient(), order.getCity(), order.getFrom().getAddress(), order.getTo().getAddress(), order.getSeats(), order.isExtraLuggage());
     }
 
     public void update(Order order) {
         logger.info("DAO: updating object Order in DB");
         jdbcTemplate.update(UPDATE, order.getFrom().getLat(), order.getFrom().getLng(),
-                order.getTo().getLat(), order.getTo().getLng(), order.getDistance(), order.getPrice(), order.isFast(),
-                order.getStartTime(), order.getFinishTime(), order.getFeedback(), (order.getCar()>=0) ? order.getCar():null, order.getDispatcher(),
+                order.getTo().getLat(), order.getTo().getLng(), order.getDistance(), order.getPrice(), order.getIsFast(),
+                order.getStartTime(), order.getFinishTime(), order.getFeedback(), (order.getCar() >= 0) ? order.getCar() : null, order.getDispatcher(),
                 order.getClient(), order.getCity(), order.getFrom().getAddress(), order.getTo().getAddress(), order.getSeats(),
                 order.isExtraLuggage(), order.getId());
     }
@@ -61,6 +68,57 @@ public class OrderDaoImpl implements OrderDao{
         logger.info("DAO: removing object Order from DB");
         jdbcTemplate.update(DELETE, order.getId());
     }
+
+    public List<ClientOrder> getAwaitingForDispatcher(Worker dispatcher) {
+        logger.info("DAO: getting awaiting orders");
+        return jdbcTemplate.query(GET_AWAITING, clientOrderMapper, dispatcher.getDeptId());
+    }
+
+    public void accept(Order order, Car car, Worker dispatcher) {
+        logger.info("DAO: accepting order");
+        jdbcTemplate.update(ACCEPT, car.getId(), dispatcher.getLogin(), order.getId());
+    }
+
+    public void decline(Order order, Worker dispatcher) {
+        logger.info("DAO: declining order");
+        jdbcTemplate.update(DECLINE, dispatcher.getLogin(), order.getId());
+    }
+
+    private RowMapper<ClientOrder> clientOrderMapper = new RowMapper<ClientOrder>() {
+        public ClientOrder mapRow(ResultSet rs, int rowNum) throws SQLException {
+            Order order = new Order();
+            order.setId(rs.getInt("id"));
+            Place from = new Place();
+            from.setLat(rs.getDouble("from_lat"));
+            from.setLng(rs.getDouble("from_lng"));
+            from.setAddress(rs.getString("from_address"));
+            order.setFrom(from);
+            Place to = new Place();
+            to.setLat(rs.getDouble("to_lat"));
+            to.setLng(rs.getDouble("to_lng"));
+            to.setAddress(rs.getString("to_address"));
+            order.setTo(to);
+            order.setDistance(rs.getDouble("distance"));
+            order.setPrice(rs.getDouble("price"));
+            order.setIsFast(rs.getBoolean("is_fast"));
+            order.setStartTime(rs.getTimestamp("start_time"));
+            order.setFinishTime(rs.getTimestamp("finish_time"));
+            order.setFeedback(rs.getInt("feedback"));
+            order.setCar(rs.getInt("car_id"));
+            order.setDispatcher(rs.getString("worker_login"));
+            order.setClient(rs.getString("client_login"));
+            order.setCity(rs.getString("city"));
+            order.setExtraLuggage(rs.getBoolean("extra_luggage"));
+            order.setSeats(rs.getInt("seats"));
+            Client client = new Client();
+            client.setLogin(rs.getString("login"));
+            client.setRealName(rs.getString("real_name"));
+            client.setEmail(rs.getString("email"));
+            client.setHomeAddress(rs.getString("home_address"));
+            client.setPhoneNumber(rs.getString("phone_num"));
+            return new ClientOrder(client, order);
+        }
+    };
 
     private RowMapper<Order> mapper = new RowMapper<Order>() {
         public Order mapRow(ResultSet rs, int rowNum) throws SQLException {
@@ -78,7 +136,7 @@ public class OrderDaoImpl implements OrderDao{
             order.setTo(to);
             order.setDistance(rs.getDouble("distance"));
             order.setPrice(rs.getDouble("price"));
-            order.setFast(rs.getBoolean("is_fast"));
+            order.setIsFast(rs.getBoolean("is_fast"));
             order.setStartTime(rs.getTimestamp("start_time"));
             order.setFinishTime(rs.getTimestamp("finish_time"));
             order.setFeedback(rs.getInt("feedback"));
@@ -86,6 +144,8 @@ public class OrderDaoImpl implements OrderDao{
             order.setDispatcher(rs.getString("worker_login"));
             order.setClient(rs.getString("client_login"));
             order.setCity(rs.getString("city"));
+            order.setExtraLuggage(rs.getBoolean("extra_luggage"));
+            order.setSeats(rs.getInt("seats"));
             return order;
         }
     };

@@ -32,4 +32,8 @@ public class CarDriverServiceImpl implements CarDriverService {
     public int cancelCarDriverPair(Car car, Worker driver, Worker dispatcher) throws Exception {
         return carDriverDao.cancelCarDriverPair(car, driver, dispatcher);
     }
+
+    public List<CarDriver> getAwiwatingForOrder(Worker dispatcher) {
+        return carDriverDao.getAwiwatingForOrder(dispatcher);
+    }
 }
