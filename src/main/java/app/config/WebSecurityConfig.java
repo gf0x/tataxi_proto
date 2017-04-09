@@ -67,6 +67,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .rememberMeCookieName("ttx-remember-me")
                 .tokenValiditySeconds(86400)
                 .and()
+                .sessionManagement()
+                .maximumSessions(1).expiredUrl("/pre_logout")
+                .and().and()
                 .csrf().disable();
     }
 }

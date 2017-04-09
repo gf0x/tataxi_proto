@@ -18,7 +18,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
+
+import java.security.Principal;
 
 /**
  * Created by Alex_Frankiv on 14.02.2017.
@@ -44,9 +47,10 @@ public class RootController {
     private String G_API_KEY;
 
     @RequestMapping(method = RequestMethod.GET)
-    public ModelAndView getHandler(){
+    public ModelAndView setOnline(Principal principal){
         ModelAndView mv = new ModelAndView("home");
         logger.info(ROOT_CTL_TAG, "RootController handles GET request");
+        workerService.setOnline(new Worker(principal.getName()));
         return mv;
     }
 
@@ -69,5 +73,11 @@ public class RootController {
         System.out.println("POST: "+user);
 
         return mv;
+    }
+
+    @RequestMapping("/pre_logout")
+    public String setOffline(Principal principal){
+        workerService.setOffline(new Worker(principal.getName()));
+        return "redirect: /logout";
     }
 }

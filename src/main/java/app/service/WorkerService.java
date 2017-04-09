@@ -15,4 +15,6 @@ public interface WorkerService {
     void remove(Worker worker);
     void update(Worker worker, boolean force);
     List<Worker> getFreeByDispatcher(Worker dispatcher) throws Exception;
+    void setOnline(Worker worker);
+    void setOffline(Worker worker);
 }

@@ -42,7 +42,7 @@
                 <div class="login-top col-lg-2 col-lg-offset-4 col-sm-2 col-sm-offset-2 col-xs-offset-2 col-xs-4">
                     <sec:authentication property="principal.username"/>
                 </div>
-                <div class="loginout-btn btn col-lg-1 col-lg-offset-1 col-sm-2 col-xs-offset-1 col-xs-3" onclick="location.href = '/logout';">
+                <div class="loginout-btn btn col-lg-1 col-lg-offset-1 col-sm-2 col-xs-offset-1 col-xs-3" onclick="location.href = '/pre_logout';">
                         <i class="glyphicon glyphicon-log-out" id="logout-btn"> Logout</i>
                     <%--<i class="glyphicon glyphicon-log-in"> Sign in</i>--%>
                 </div>

@@ -56,6 +56,16 @@ public class WorkerServiceImpl implements WorkerService {
         return workerDao.getFreeByDispatcher(dispatcher);
     }
 
+    public void setOnline(Worker worker) {
+        logger.info("SERVICE: set worker online");
+        workerDao.setOnline(worker);
+    }
+
+    public void setOffline(Worker worker) {
+        logger.info("SERVICE: set worker offline");
+        workerDao.setOffline(worker);
+    }
+
     public void remove(Worker worker) {
         logger.info("SERVICE: removing object Worker from DB");
         workerDao.remove(worker);

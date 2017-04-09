@@ -14,4 +14,6 @@ public interface WorkerDao {
     void update(Worker worker);
     void remove(Worker worker);
     List<Worker> getFreeByDispatcher(Worker dispatcher) throws Exception;
+    void setOnline(Worker worker);
+    void setOffline(Worker worker);
 }

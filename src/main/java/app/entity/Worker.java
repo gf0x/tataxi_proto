@@ -23,6 +23,10 @@ public class Worker extends app.entity.User {
     private int deptId;
     private boolean online;
 
+    public Worker(String login) {
+        this.login = login;
+    }
+
     @Override
     public String toString() {
         return "Worker{" +

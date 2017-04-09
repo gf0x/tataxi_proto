@@ -44,6 +44,8 @@ public class WorkerDaoImpl implements WorkerDao{
     private static final String GET_FREE_BY_DISPATCHER = "SELECT w.login, w.pass_data, w.full_name, w.is_driver, w.phone_num, " +
             "w.dept_id, w.online, array_agg(d_l.category) AS licenses FROM worker w LEFT JOIN driver_license d_l ON w.login = d_l.login WHERE w.login NOT IN (SELECT worker_login FROM car_driver WHERE time_till IS NULL OR now() BETWEEN time_from AND" +
             " time_till) AND is_driver=TRUE AND dept_id=? GROUP BY w.login";
+    private static final String SET_ONLINE = "UPDATE worker SET online=? WHERE login=?";
+
     public Worker get(String login) {
         logger.info("DAO: grabbing object Worker from DB");
         return jdbcTemplate.query(GET, mapperWithLicenses, login);
@@ -82,6 +84,16 @@ public class WorkerDaoImpl implements WorkerDao{
         logger.info("DAO: removing object Worker from DB");
         jdbcTemplate.update(DELETE_LICENSES, worker.getLogin());
         jdbcTemplate.update(DELETE, worker.getLogin());
+    }
+
+    public void setOnline(Worker worker){
+        logger.info("DAO: set worker online");
+        jdbcTemplate.update(SET_ONLINE, true, worker.getLogin());
+    }
+
+    public void setOffline(Worker worker){
+        logger.info("DAO: set worker offline");
+        jdbcTemplate.update(SET_ONLINE, false, worker.getLogin());
     }
 
     private void insertLicenses(final Worker worker) {
