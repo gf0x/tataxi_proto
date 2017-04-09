@@ -40,6 +40,9 @@ public class OrderDaoImpl implements OrderDao {
     private static final String ACCEPT = "UPDATE \"order\" SET car_id=?, worker_login=? WHERE id=?";
     private static final String DECLINE = "UPDATE \"order\" SET worker_login=? WHERE id=?";
 
+    private static final String GET_CURRENT_FOR_DRIVER = "SELECT * FROM \"order\" o INNER JOIN client c ON o.client_login=c.login WHERE o.finish_time ISNULL AND o.car_id IN (SELECT c_d.car_id FROM car_driver c_d WHERE c_d.worker_login=?)";
+    private static final String FINISH_ORDER = "UPDATE \"order\" SET finish_time=now() WHERE id=?";
+
     private static Logger logger = LoggerFactory.getLogger(OrderDaoImpl.class.getSimpleName());
 
     public Order get(int id) {
@@ -82,6 +85,16 @@ public class OrderDaoImpl implements OrderDao {
     public void decline(Order order, Worker dispatcher) {
         logger.info("DAO: declining order");
         jdbcTemplate.update(DECLINE, dispatcher.getLogin(), order.getId());
+    }
+
+    public ClientOrder getCurrentOrderDriver(Worker driver){
+        logger.info("DAO: getting current order for driver");
+        List<ClientOrder> resp = jdbcTemplate.query(GET_CURRENT_FOR_DRIVER, clientOrderMapper, driver.getLogin());
+        return (resp.isEmpty())?null:resp.get(0);
+    }
+
+    public void finishOrder(Order order){
+        jdbcTemplate.update(FINISH_ORDER, order.getId());
     }
 
     private RowMapper<ClientOrder> clientOrderMapper = new RowMapper<ClientOrder>() {

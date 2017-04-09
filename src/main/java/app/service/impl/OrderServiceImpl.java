@@ -60,4 +60,13 @@ public class OrderServiceImpl implements OrderService {
         logger.info("SERVICE: decline order");
         orderDao.decline(order, dispatcher);
     }
+
+    public ClientOrder getCurrentOrderDriver(Worker driver) {
+        logger.info("SERVICE: getting current order for driver");
+        return orderDao.getCurrentOrderDriver(driver);
+    }
+
+    public void finishOrder(Order order) {
+        orderDao.finishOrder(order);
+    }
 }

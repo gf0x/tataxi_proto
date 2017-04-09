@@ -34,6 +34,11 @@ public class Order {
         this.car = -1;
     }
 
+    public Order(int id){
+        this.id = id;
+        this.car = -1;
+    }
+
     public String getDispatcher() {
         return dispatcher;
     }

@@ -553,6 +553,30 @@ $(function () {
     $('#dept_orders_list').on('click', '.decline_order', function (e) {
         onDecline($(this));
     });
+    $('#btn_end_drive').click(function (e) {
+       $(this).attr('disabled', true);
+        $.ajax({
+            method: 'POST',
+            url: '/staff/driver/finish_drive',
+            contentType: 'application/json; charset=UTF-8',
+            data: JSON.stringify({id: $(this).attr('order_id')}),
+            dataType: 'json',
+            success: function () {
+                location.reload();
+            },
+            error: function (data) {
+                $.notify({
+                    icon: 'glyphicon glyphicon-warning-sign',
+                    title: 'Error: ' + data.code,
+                    message: data.message,
+                    target: '_blank'
+                }, {
+                    type: 'danger'
+                });
+                $('.btn').attr('disabled', false);
+            }
+        });
+    });
 });
 
 function onAccept(elem) {

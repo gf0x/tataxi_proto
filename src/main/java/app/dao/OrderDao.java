@@ -19,4 +19,6 @@ public interface OrderDao {
     List<ClientOrder> getAwaitingForDispatcher(Worker dispatcher);
     void accept(Order order, Car car, Worker dispatcher);
     void decline(Order order, Worker dispatcher);
+    ClientOrder getCurrentOrderDriver(Worker driver);
+    void finishOrder(Order order);
 }
