@@ -140,4 +140,11 @@ public class DispatcherController {
         }
         return new AjaxResponseBody("200", "OK");
     }
+
+    @RequestMapping(value = "/all_orders", method = RequestMethod.GET)
+    public ModelAndView allOrders(Principal principal){
+        ModelAndView mv = new ModelAndView("allOrdersView");
+        mv.addObject("orders", orderService.getAllForDispatcher(new Worker(principal.getName())));
+        return mv;
+    }
 }

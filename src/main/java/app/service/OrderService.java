@@ -1,6 +1,7 @@
 package app.service;
 
 import app.entity.Car;
+import app.entity.Client;
 import app.entity.Order;
 import app.entity.Worker;
 import app.pojo.ClientOrder;
@@ -21,4 +22,7 @@ public interface OrderService {
     ClientOrder getCurrentOrderDriver(Worker driver);
     void finishOrder(Order order);
     ClientOrder getClientOrderById(int id);
+    List<Order> getAllForClient(Client client);
+    List<Order> getAllForDriver(Worker driver);
+    List<Order> getAllForDispatcher(Worker dispatcher);
 }

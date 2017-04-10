@@ -2,7 +2,9 @@ package app.controller;
 
 import app.entity.Client;
 import app.entity.User;
+import app.entity.Worker;
 import app.service.ClientService;
+import app.service.OrderService;
 import app.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,6 +19,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.security.Principal;
+
 /**
  * Created by Alex_Frankiv on 28.03.2017.
  */
@@ -30,6 +34,8 @@ public class ClientController {
 
     @Autowired
     private ClientService clientService;
+    @Autowired
+    private OrderService orderService;
 
     @Autowired
     private UserService userService;
@@ -51,6 +57,13 @@ public class ClientController {
             mv.addObject("registered", true);
         else
             mv.addObject("registered", false);
+        return mv;
+    }
+
+    @RequestMapping(value = "/all_orders", method = RequestMethod.GET)
+    public ModelAndView allOrders(Principal principal){
+        ModelAndView mv = new ModelAndView("allOrdersView");
+        mv.addObject("orders", orderService.getAllForClient(new Client(principal.getName())));
         return mv;
     }
 }

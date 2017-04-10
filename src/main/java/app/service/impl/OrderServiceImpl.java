@@ -2,6 +2,7 @@ package app.service.impl;
 
 import app.dao.OrderDao;
 import app.entity.Car;
+import app.entity.Client;
 import app.entity.Order;
 import app.entity.Worker;
 import app.pojo.ClientOrder;
@@ -72,5 +73,17 @@ public class OrderServiceImpl implements OrderService {
 
     public ClientOrder getClientOrderById(int id) {
         return orderDao.getClientOrderById(id);
+    }
+
+    public List<Order> getAllForClient(Client client) {
+        return orderDao.getAllForClient(client);
+    }
+
+    public List<Order> getAllForDriver(Worker driver) {
+        return orderDao.getAllForDriver(driver);
+    }
+
+    public List<Order> getAllForDispatcher(Worker dispatcher) {
+        return orderDao.getAllForDispatcher(dispatcher);
     }
 }

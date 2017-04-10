@@ -22,6 +22,10 @@ public class Client extends User {
         this.phoneNumber = phoneNumber;
     }
 
+    public Client(String login) {
+        this.login = login;
+    }
+
     @Override
     public String toString() {
         return "Client{" +

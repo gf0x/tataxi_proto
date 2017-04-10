@@ -39,4 +39,11 @@ public class DriverController {
         orderService.finishOrder(order);
         return  new AjaxResponseBody("200", "OK");
     }
+
+    @RequestMapping(value = "/all_orders", method = RequestMethod.GET)
+    public ModelAndView allOrders(Principal principal){
+        ModelAndView mv = new ModelAndView("allOrdersView");
+        mv.addObject("orders", orderService.getAllForDriver(new Worker(principal.getName())));
+        return mv;
+    }
 }
