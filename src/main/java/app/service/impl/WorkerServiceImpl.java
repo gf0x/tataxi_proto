@@ -66,6 +66,10 @@ public class WorkerServiceImpl implements WorkerService {
         workerDao.setOffline(worker);
     }
 
+    public Worker getDispatcherByOrderId(int id) {
+        return workerDao.getDispatcherByOrderId(id);
+    }
+
     public void remove(Worker worker) {
         logger.info("SERVICE: removing object Worker from DB");
         workerDao.remove(worker);

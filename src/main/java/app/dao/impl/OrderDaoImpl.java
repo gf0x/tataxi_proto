@@ -40,8 +40,9 @@ public class OrderDaoImpl implements OrderDao {
     private static final String ACCEPT = "UPDATE \"order\" SET car_id=?, worker_login=? WHERE id=?";
     private static final String DECLINE = "UPDATE \"order\" SET worker_login=? WHERE id=?";
 
-    private static final String GET_CURRENT_FOR_DRIVER = "SELECT * FROM \"order\" o INNER JOIN client c ON o.client_login=c.login WHERE o.finish_time ISNULL AND o.car_id IN (SELECT c_d.car_id FROM car_driver c_d WHERE c_d.worker_login=?)";
+    private static final String GET_CURRENT_FOR_DRIVER = "SELECT * FROM \"order\" o INNER JOIN client c ON o.client_login=c.login WHERE o.finish_time ISNULL AND o.car_id IN (SELECT c_d.car_id FROM car_driver c_d WHERE c_d.time_till ISNULL AND c_d.worker_login=?)";
     private static final String FINISH_ORDER = "UPDATE \"order\" SET finish_time=now() WHERE id=?";
+    private static final String GET_CLIENT_ORDER_BY_ID = "SELECT * FROM \"order\" o INNER JOIN client c ON o.client_login=c.login WHERE o.id=?";
 
     private static Logger logger = LoggerFactory.getLogger(OrderDaoImpl.class.getSimpleName());
 
@@ -95,6 +96,11 @@ public class OrderDaoImpl implements OrderDao {
 
     public void finishOrder(Order order){
         jdbcTemplate.update(FINISH_ORDER, order.getId());
+    }
+
+    public ClientOrder getClientOrderById(int id){
+        List<ClientOrder> resp = jdbcTemplate.query(GET_CLIENT_ORDER_BY_ID, clientOrderMapper, id);
+        return (resp.isEmpty())?null:resp.get(0);
     }
 
     private RowMapper<ClientOrder> clientOrderMapper = new RowMapper<ClientOrder>() {

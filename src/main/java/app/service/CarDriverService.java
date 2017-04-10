@@ -15,4 +15,5 @@ public interface CarDriverService {
     int createCarDriverPair(Car car, Worker driver, Worker dispatcher) throws Exception;
     int cancelCarDriverPair(Car car, Worker driver, Worker dispatcher) throws Exception;
     List<CarDriver> getAwiwatingForOrder(Worker dispatcher);
+    CarDriver getByOrderId(int id);
 }

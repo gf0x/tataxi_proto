@@ -36,4 +36,8 @@ public class CarDriverServiceImpl implements CarDriverService {
     public List<CarDriver> getAwiwatingForOrder(Worker dispatcher) {
         return carDriverDao.getAwiwatingForOrder(dispatcher);
     }
+
+    public CarDriver getByOrderId(int id) {
+        return carDriverDao.getByOrderId(id);
+    }
 }

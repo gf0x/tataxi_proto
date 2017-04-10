@@ -1,23 +1,30 @@
 package app.controller;
 
+import app.entity.Worker;
 import app.pojo.AjaxResponseBody;
 import app.entity.Order;
+import app.pojo.CarDriver;
+import app.pojo.ClientOrder;
 import app.pojo.Place;
+import app.service.CarDriverService;
 import app.service.DepartmentService;
 import app.service.OrderService;
+import app.service.WorkerService;
 import app.utils.GeocodingUtil;
 import com.google.maps.GeoApiContext;
 import com.google.maps.GeocodingApi;
 import com.google.maps.model.GeocodingResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpRequest;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestWrapper;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletRequest;
 import java.security.Principal;
 import java.sql.Timestamp;
 
@@ -28,12 +35,18 @@ import java.sql.Timestamp;
 @RequestMapping("/order")
 public class OrderController {
 
+    private static final String ROLE_ADMIN ="ADMIN";
+
     @Value("${google.API_KEY}")
     private String G_API_KEY;
     @Autowired
     private DepartmentService departmentService;
     @Autowired
     private OrderService orderService;
+    @Autowired
+    private CarDriverService carDriverService;
+    @Autowired
+    private WorkerService workerService;
 
     @RequestMapping(value = "/create", method = RequestMethod.GET)
     public ModelAndView createOrder() {
@@ -62,7 +75,7 @@ public class OrderController {
         try {
             resultsTo = GeocodingApi.geocode(context, order.getTo().getAddress()).await();
             Place placeTo = new Place();
-            placeTo.setAddress(order.getFrom().getAddress());
+            placeTo.setAddress(order.getTo().getAddress());
             placeTo.setLat(resultsTo[0].geometry.location.lat);
             placeTo.setLng(resultsTo[0].geometry.location.lng);
             order.setTo(placeTo);
@@ -75,5 +88,23 @@ public class OrderController {
         order.setClient(principal.getName());
         orderService.insert(order);
         return new AjaxResponseBody("200", "OK");
+    }
+
+    @RequestMapping(value = "/receipt/{id}", method = RequestMethod.GET)
+    public ModelAndView getReciept(@PathVariable int id, Principal principal, HttpServletRequest request){
+        ModelAndView mv = new ModelAndView("orderGeneralView");
+        mv.addObject("gApiKey", G_API_KEY);
+        ClientOrder clientOrder = orderService.getClientOrderById(id);
+        CarDriver carDriver =carDriverService.getByOrderId(id);
+        Worker dispatcher = workerService.getDispatcherByOrderId(id);
+        if(!clientOrder.getClient().getLogin().equals(principal.getName())
+                && !carDriver.getDriver().getLogin().equals(principal.getName())
+                && !dispatcher.getLogin().equals(principal.getName())
+                && !request.isUserInRole(ROLE_ADMIN))
+            return new ModelAndView("403");
+        mv.addObject("client_order", clientOrder);
+        mv.addObject("car_driver", carDriver);
+        mv.addObject("dispatcher", dispatcher);
+        return mv;
     }
 }

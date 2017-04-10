@@ -69,4 +69,8 @@ public class OrderServiceImpl implements OrderService {
     public void finishOrder(Order order) {
         orderDao.finishOrder(order);
     }
+
+    public ClientOrder getClientOrderById(int id) {
+        return orderDao.getClientOrderById(id);
+    }
 }

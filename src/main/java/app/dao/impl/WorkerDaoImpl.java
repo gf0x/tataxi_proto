@@ -2,6 +2,7 @@ package app.dao.impl;
 
 import app.dao.WorkerDao;
 import app.entity.Worker;
+import app.pojo.ClientOrder;
 import org.postgresql.jdbc4.Jdbc4Array;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -45,6 +46,7 @@ public class WorkerDaoImpl implements WorkerDao{
             "w.dept_id, w.online, array_agg(d_l.category) AS licenses FROM worker w LEFT JOIN driver_license d_l ON w.login = d_l.login WHERE w.login NOT IN (SELECT worker_login FROM car_driver WHERE time_till IS NULL OR now() BETWEEN time_from AND" +
             " time_till) AND is_driver=TRUE AND dept_id=? GROUP BY w.login";
     private static final String SET_ONLINE = "UPDATE worker SET online=? WHERE login=?";
+    private static final String GET_BY_ORDER_ID ="SELECT * FROM worker w WHERE is_driver=FALSE AND w.login IN (SELECT o.worker_login FROM \"order\" o WHERE o.id=?)";
 
     public Worker get(String login) {
         logger.info("DAO: grabbing object Worker from DB");
@@ -108,6 +110,11 @@ public class WorkerDaoImpl implements WorkerDao{
                 return worker.getLicenses().size();
             }
         });
+    }
+
+    public Worker getDispatcherByOrderId(int id){
+        List<Worker> resp = jdbcTemplate.query(GET_BY_ORDER_ID, mapper, id);
+        return (resp.isEmpty())?null:resp.get(0);
     }
 
     private RowMapper<Worker> mapper = new RowMapper<Worker>() {

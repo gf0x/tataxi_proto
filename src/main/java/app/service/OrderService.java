@@ -20,4 +20,5 @@ public interface OrderService {
     void decline(Order order, Worker dispatcher);
     ClientOrder getCurrentOrderDriver(Worker driver);
     void finishOrder(Order order);
+    ClientOrder getClientOrderById(int id);
 }
