@@ -107,4 +107,15 @@ public class OrderController {
         mv.addObject("dispatcher", dispatcher);
         return mv;
     }
+
+    @RequestMapping(value = "/rate/{id}", method = RequestMethod.POST)
+    @ResponseBody
+    public AjaxResponseBody rateOrder(@PathVariable int id, Principal principal, @RequestBody int rateMark){
+        ClientOrder clientOrder = orderService.getClientOrderById(id);
+        if(!principal.getName().equals(clientOrder.getClient().getLogin()))
+            return new AjaxResponseBody("403", "Access denied");
+        clientOrder.getOrder().setFeedback(rateMark);
+        orderService.update(clientOrder.getOrder());
+        return new AjaxResponseBody("200", "OK");
+    }
 }

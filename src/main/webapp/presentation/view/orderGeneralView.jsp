@@ -68,19 +68,21 @@
             var FROM_LNG = ${client_order.order.from.lng};
             var TO_LAT = ${client_order.order.to.lat};
             var TO_LNG = ${client_order.order.to.lng};
+
+            var RATE_MARK = ${client_order.order.feedback};
         </script>
         <sec:authorize access="hasRole('CLIENT')">
-            <form id="ratingsForm">
+            <form id="ratingsForm" >
                 <div class="stars">
-                    <input type="radio" name="star" class="star-1" id="star-1">
+                    <input type="radio" name="star" class="star-1" rate="1" id="star-1">
                     <label class="star-1" for="star-1">1</label>
-                    <input type="radio" name="star" class="star-2" id="star-2">
+                    <input type="radio" name="star" class="star-2" rate="2" id="star-2">
                     <label class="star-2" for="star-2">2</label>
-                    <input type="radio" name="star" class="star-3" id="star-3">
+                    <input type="radio" name="star" class="star-3" rate="3" id="star-3">
                     <label class="star-3" for="star-3">3</label>
-                    <input type="radio" name="star" class="star-4" id="star-4">
+                    <input type="radio" name="star" class="star-4" rate="4" id="star-4">
                     <label class="star-4" for="star-4">4</label>
-                    <input type="radio" name="star" class="star-5" id="star-5">
+                    <input type="radio" name="star" class="star-5" rate="5" id="star-5">
                     <label class="star-5" for="star-5">5</label>
                     <span></span>
                 </div>

@@ -41,3 +41,42 @@ function displayRoute(origin, destination, service, display) {
         }
     });
 }
+
+$(function () {
+    $('#star-' + RATE_MARK).attr('checked', true);
+    $('#btn_rate_order').click(function (e) {
+        if($(this).attr('disabled')){
+            e.preventDefault();
+            return;
+        }
+        $.ajax({
+            method: 'POST',
+            url: '/order/rate/'+$(this).attr('order_id'),
+            contentType: 'application/json; charset=UTF-8',
+            data: JSON.stringify($('#ratingsForm').find('input[type="radio"]:checked').attr('rate')),
+            dataType: 'json',
+            success: function (data) {
+                if (data.code !== '200') {
+                    $.notify({
+                        icon: 'glyphicon glyphicon-warning-sign',
+                        title: 'Error: ' + data.code,
+                        message: data.message,
+                        target: '_blank'
+                    }, {
+                        type: 'danger'
+                    });
+                }
+            },
+            error: function (data) {
+                $.notify({
+                    icon: 'glyphicon glyphicon-warning-sign',
+                    title: 'Error: ' + data.code,
+                    message: data.message,
+                    target: '_blank'
+                }, {
+                    type: 'danger'
+                });
+            }
+        });
+    });
+});
