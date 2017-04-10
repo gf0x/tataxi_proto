@@ -15,4 +15,5 @@ public interface CarService {
     void update(Car car);
     void remove(Car car);
     List<Car> getFreeCarsByDispatcher(Worker dispatcher) throws Exception;
+    List<Car> getStatsByBrandModel();
 }

@@ -70,6 +70,10 @@ public class WorkerServiceImpl implements WorkerService {
         return workerDao.getDispatcherByOrderId(id);
     }
 
+    public List<Worker> getDriversWhoTriedAllCarsInTheirDept() {
+        return workerDao.getDriversWhoTriedAllCarsInTheirDept();
+    }
+
     public void remove(Worker worker) {
         logger.info("SERVICE: removing object Worker from DB");
         workerDao.remove(worker);

@@ -48,6 +48,13 @@ public class WorkerDaoImpl implements WorkerDao{
     private static final String SET_ONLINE = "UPDATE worker SET online=? WHERE login=?";
     private static final String GET_BY_ORDER_ID ="SELECT * FROM worker w WHERE is_driver=FALSE AND w.login IN (SELECT o.worker_login FROM \"order\" o WHERE o.id=?)";
 
+    private static final String GET_DRIVER_WHO_TRIED_ALL_CARS_IN_DEPT = "SELECT w.login FROM worker w WHERE NOT exists(\n" +
+            "    SELECT c.id FROM car c WHERE c.dept_id=w.dept_id AND NOT exists(\n" +
+            "        SELECT * FROM car_driver c_d WHERE c_d.worker_login=w.login\n" +
+            "                                           AND c_d.car_id=c.id\n" +
+            "    )\n" +
+            ")";
+
     public Worker get(String login) {
         logger.info("DAO: grabbing object Worker from DB");
         return jdbcTemplate.query(GET, mapperWithLicenses, login);
@@ -115,6 +122,10 @@ public class WorkerDaoImpl implements WorkerDao{
     public Worker getDispatcherByOrderId(int id){
         List<Worker> resp = jdbcTemplate.query(GET_BY_ORDER_ID, mapper, id);
         return (resp.isEmpty())?null:resp.get(0);
+    }
+
+    public List<Worker> getDriversWhoTriedAllCarsInTheirDept(){
+        return jdbcTemplate.query(GET_DRIVER_WHO_TRIED_ALL_CARS_IN_DEPT, mapper);
     }
 
     private RowMapper<Worker> mapper = new RowMapper<Worker>() {

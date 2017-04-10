@@ -31,8 +31,8 @@ public class CarDriverDaoImpl implements CarDriverDao {
             "WHERE (c_d.time_till IS NULL OR (c_d.time_till > now())) AND w.online=TRUE AND w.dept_id=?";
     private static final String CANCEL = "UPDATE car_driver SET time_till=now() WHERE time_till IS NULL AND car_id=? AND worker_login=?";
     private static final String CREATE = "INSERT INTO car_driver (worker_login, car_id, time_from, time_till) VALUES (?,?,now(),NULL)";
-    private static final String GET_BY_ORDER_ID = "SELECT c.id, c.sign, c.brand, c.model, c.serviceable, c.seats, w.login, w.full_name, w.dept_id FROM car c INNER JOIN car_driver c_d ON c.id = c_d.car_id INNER JOIN worker w ON c_d.worker_login = w.login\n" +
-            "WHERE (c_d.time_till IS NULL OR (c_d.time_till > now())) AND c.id IN (SELECT o.car_id FROM \"order\" o WHERE o.id=?)";
+    private static final String GET_BY_ORDER_ID = "SELECT c.id, c.sign, c.brand, c.model, c.serviceable, c.seats, w.login, w.full_name, w.dept_id FROM car c INNER JOIN car_driver c_d ON c.id = c_d.car_id INNER JOIN worker w ON c_d.worker_login = w.login " +
+            "WHERE (c_d.time_from<(SELECT finish_time FROM \"order\" WHERE \"order\".id=?) AND (c_d.time_till IS NULL OR (c_d.time_till > (SELECT finish_time FROM \"order\" WHERE \"order\".id=?)))) AND c.id IN (SELECT o.car_id FROM \"order\" o WHERE o.id=?)";
 
     public List<CarDriver> getCarDriversForDispatcher(Worker worker) {
         return jdbcTemplate.query(GET_VALID_BY_DEPT, mapper, worker.getDeptId());
@@ -55,7 +55,7 @@ public class CarDriverDaoImpl implements CarDriverDao {
     }
 
     public CarDriver getByOrderId(int id){
-        List<CarDriver> resp = jdbcTemplate.query(GET_BY_ORDER_ID, mapper, id);
+        List<CarDriver> resp = jdbcTemplate.query(GET_BY_ORDER_ID, mapper, id, id, id);
         return (resp.isEmpty())?null:resp.get(0);
     }
 

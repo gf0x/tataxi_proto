@@ -48,4 +48,8 @@ public class CarServiceImpl implements CarService{
         logger.info("SERVICE: get free cars by dispatcher");
         return carDao.getFreeCarsByDispatcher(dispatcher);
     }
+
+    public List<Car> getStatsByBrandModel() {
+        return carDao.getStatsByBrandModel();
+    }
 }

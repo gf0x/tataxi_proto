@@ -17,4 +17,5 @@ public interface WorkerDao {
     void setOnline(Worker worker);
     void setOffline(Worker worker);
     Worker getDispatcherByOrderId(int id);
+    List<Worker> getDriversWhoTriedAllCarsInTheirDept();
 }

@@ -35,6 +35,8 @@ public class CarDaoImpl implements CarDao {
     private static final String DELETE = "DELETE FROM car WHERE id=?";
     private static final String GET_FREE_BY_DISPATCHER = "SELECT * FROM car WHERE id NOT IN (SELECT c_d.car_id FROM car_driver c_d WHERE time_till IS NULL OR now() BETWEEN time_from AND time_till) AND serviceable=TRUE AND dept_id=?";
 
+    private static final String GET_STATS_BY_BRAND_MODEL = "SELECT brand, model, count(DISTINCT id) FROM car GROUP BY brand, model";
+
     public Car get(int id) {
         logger.info("DAO: grabbing object Car from DB");
         return jdbcTemplate.queryForObject(GET, mapper, id);
@@ -64,6 +66,10 @@ public class CarDaoImpl implements CarDao {
         if(dispatcher.getIsDriver())
             throw new Exception("Access denied: valid for dispatchers only");
         return jdbcTemplate.query(GET_FREE_BY_DISPATCHER, mapper, dispatcher.getDeptId());
+    }
+
+    public List<Car> getStatsByBrandModel(){
+        return jdbcTemplate.query(GET_STATS_BY_BRAND_MODEL, mapper);
     }
 
     private RowMapper<Car> mapper = new RowMapper<Car>() {
