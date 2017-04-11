@@ -1,3 +1,6 @@
+#ratingsForm{
+    margin-top: 20px;
+}
 form .stars {
     background: url("/presentation/resources/img/stars.png") repeat-x 0 0;
     width: 150px;

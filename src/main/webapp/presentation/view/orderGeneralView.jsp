@@ -62,7 +62,7 @@
                     </c:otherwise>
                 </c:choose>
             </div>
-            </div>
+        </div>
         <script>
             var FROM_LAT = ${client_order.order.from.lat};
             var FROM_LNG = ${client_order.order.from.lng};
@@ -71,22 +71,27 @@
 
             var RATE_MARK = ${client_order.order.feedback};
         </script>
+        <form id="ratingsForm">
+            <div class="stars">
+                <input type="radio" name="star" class="star-1" rate="1" id="star-1"
+                       <sec:authorize access="!hasRole('CLIENT')">disabled</sec:authorize>>
+                <label class="star-1" for="star-1">1</label>
+                <input type="radio" name="star" class="star-2" rate="2" id="star-2"
+                       <sec:authorize access="!hasRole('CLIENT')">disabled</sec:authorize>>
+                <label class="star-2" for="star-2">2</label>
+                <input type="radio" name="star" class="star-3" rate="3" id="star-3"
+                       <sec:authorize access="!hasRole('CLIENT')">disabled</sec:authorize>>
+                <label class="star-3" for="star-3">3</label>
+                <input type="radio" name="star" class="star-4" rate="4" id="star-4"
+                       <sec:authorize access="!hasRole('CLIENT')">disabled</sec:authorize>>
+                <label class="star-4" for="star-4">4</label>
+                <input type="radio" name="star" class="star-5" rate="5" id="star-5"
+                       <sec:authorize access="!hasRole('CLIENT')">disabled</sec:authorize>>
+                <label class="star-5" for="star-5">5</label>
+                <span></span>
+            </div>
+        </form>
         <sec:authorize access="hasRole('CLIENT')">
-            <form id="ratingsForm" >
-                <div class="stars">
-                    <input type="radio" name="star" class="star-1" rate="1" id="star-1">
-                    <label class="star-1" for="star-1">1</label>
-                    <input type="radio" name="star" class="star-2" rate="2" id="star-2">
-                    <label class="star-2" for="star-2">2</label>
-                    <input type="radio" name="star" class="star-3" rate="3" id="star-3">
-                    <label class="star-3" for="star-3">3</label>
-                    <input type="radio" name="star" class="star-4" rate="4" id="star-4">
-                    <label class="star-4" for="star-4">4</label>
-                    <input type="radio" name="star" class="star-5" rate="5" id="star-5">
-                    <label class="star-5" for="star-5">5</label>
-                    <span></span>
-                </div>
-            </form>
             <div class="btn btn-lg btn-primary main-btn" order_id="${client_order.order.id}" id="btn_rate_order"
                  <c:if test="${empty client_order.order.finishTime}">disabled</c:if>
             >Rate!
