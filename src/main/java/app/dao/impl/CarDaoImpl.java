@@ -3,10 +3,10 @@ package app.dao.impl;
 import app.dao.CarDao;
 import app.entity.Car;
 import app.entity.Worker;
+import app.pojo.CarStatsPojo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
@@ -35,7 +35,7 @@ public class CarDaoImpl implements CarDao {
     private static final String DELETE = "DELETE FROM car WHERE id=?";
     private static final String GET_FREE_BY_DISPATCHER = "SELECT * FROM car WHERE id NOT IN (SELECT c_d.car_id FROM car_driver c_d WHERE time_till IS NULL OR now() BETWEEN time_from AND time_till) AND serviceable=TRUE AND dept_id=?";
 
-    private static final String GET_STATS_BY_BRAND_MODEL = "SELECT brand, model, count(DISTINCT id) FROM car GROUP BY brand, model";
+    private static final String GET_STATS_BY_BRAND_MODEL = "SELECT brand, model, count(DISTINCT id) AS amount FROM car GROUP BY brand, model";
 
     public Car get(int id) {
         logger.info("DAO: grabbing object Car from DB");
@@ -68,9 +68,15 @@ public class CarDaoImpl implements CarDao {
         return jdbcTemplate.query(GET_FREE_BY_DISPATCHER, mapper, dispatcher.getDeptId());
     }
 
-    public List<Car> getStatsByBrandModel(){
-        return jdbcTemplate.query(GET_STATS_BY_BRAND_MODEL, mapper);
+    public List<CarStatsPojo> getStatsByBrandModel(){
+        return jdbcTemplate.query(GET_STATS_BY_BRAND_MODEL, carStatsPojoMapper);
     }
+
+    private RowMapper<CarStatsPojo> carStatsPojoMapper = new RowMapper<CarStatsPojo>() {
+        public CarStatsPojo mapRow(ResultSet rs, int rowNum) throws SQLException {
+            return new CarStatsPojo(rs.getString("brand"), rs.getString("model"), rs.getInt("amount"));
+        }
+    };
 
     private RowMapper<Car> mapper = new RowMapper<Car>() {
         public Car mapRow(ResultSet rs, int rowNum) throws SQLException {

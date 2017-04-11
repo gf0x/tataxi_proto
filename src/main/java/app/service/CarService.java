@@ -2,6 +2,7 @@ package app.service;
 
 import app.entity.Car;
 import app.entity.Worker;
+import app.pojo.CarStatsPojo;
 
 import java.util.List;
 
@@ -15,5 +16,5 @@ public interface CarService {
     void update(Car car);
     void remove(Car car);
     List<Car> getFreeCarsByDispatcher(Worker dispatcher) throws Exception;
-    List<Car> getStatsByBrandModel();
+    List<CarStatsPojo> getStatsByBrandModel();
 }

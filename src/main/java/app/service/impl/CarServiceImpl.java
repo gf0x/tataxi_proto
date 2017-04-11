@@ -3,6 +3,7 @@ package app.service.impl;
 import app.dao.CarDao;
 import app.entity.Car;
 import app.entity.Worker;
+import app.pojo.CarStatsPojo;
 import app.service.CarService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -49,7 +50,7 @@ public class CarServiceImpl implements CarService{
         return carDao.getFreeCarsByDispatcher(dispatcher);
     }
 
-    public List<Car> getStatsByBrandModel() {
+    public List<CarStatsPojo> getStatsByBrandModel() {
         return carDao.getStatsByBrandModel();
     }
 }
