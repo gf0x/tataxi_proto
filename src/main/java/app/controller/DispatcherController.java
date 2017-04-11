@@ -58,7 +58,7 @@ public class DispatcherController {
             if (carDriverService.cancelCarDriverPair(car, driver, workerService.get(principal.getName())) > 0)
                 return new AjaxResponseBody("200", "Pair canceled");
             else
-                return new AjaxResponseBody("555", "Could not cancel pair");
+                return new AjaxResponseBody("555", "Could not cancel pair if driver is on duty");
         } catch (Exception ex) {
             return new AjaxResponseBody("403", ex.getMessage());
         }
