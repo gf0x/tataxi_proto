@@ -9,30 +9,9 @@
 <%@include file="head_foot/header.jsp"%>
 
     <br>
-    <h1>Welcome to Tataxi!</h1>
-    <h2>We're under construction now...</h2>
-    <h1>=(</h1>
-    <div class="testing-div">
-        <div class="in">
-            <form method="post">
-                <label class="label">Input address below</label>
-                <input type="text" name="address">
-                <input type="submit" value="OK">
-            </form>
-        </div>
-        <br/>
-        <div class="out">
-            <h3>Lat: ${lat}</h3>
-            <h3>Lng: ${lng}</h3>
-        </div>
-
-        <a href="/dept/create">Go to dept create</a>
-        <br>
-        <a href="/car/create">Go to car create</a>
-        <br>
-        <a href="/driver/create">Go to driver create</a>
-        <br>
-        <a href="/order/create">Go to order create</a>
+    <div class="text-center">
+        <h1 style="font-size: 10vh">Welcome to Tataxi!</h1>
+        <h2 style="font-size: 5vh">Prototype system</h2>
     </div>
 
 <%@include file="head_foot/footer.jsp"%>

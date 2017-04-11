@@ -54,27 +54,6 @@ public class RootController {
         return mv;
     }
 
-    @RequestMapping(method = RequestMethod.POST)
-    public ModelAndView postHandler(@RequestBody String address) throws Exception {
-        ModelAndView mv = new ModelAndView("home");
-        logger.info(ROOT_CTL_TAG, "Handling POST request; API_KEY: " + G_API_KEY);
-        GeoApiContext context = new GeoApiContext().setApiKey(G_API_KEY);
-        GeocodingResult[] results = GeocodingApi.geocode(context, address).await();
-        mv.addObject("lat", (results.length > 0) ? results[0].geometry.location.lat : "no results");
-        mv.addObject("lng", (results.length > 0) ? results[0].geometry.location.lng : "no results");
-
-//        Worker worker = new Worker();
-//        worker.setDeptId(29);
-//        for(Worker dr : workerService.getFreeByDispatcher(worker))
-//            System.out.println(dr);
-
-        //Caching test
-        User user = userService.get("alex");
-        System.out.println("POST: " + user);
-
-        return mv;
-    }
-
     @RequestMapping("/pre_logout")
     public String setOffline(Principal principal) {
         if (principal != null)

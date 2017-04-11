@@ -1,4 +1,4 @@
-d<%--
+<%--
   Created by IntelliJ IDEA.
   User: Alex_Frankiv
   Date: 04.04.2017
@@ -57,4 +57,6 @@ d<%--
 </div>
 <script src="https://maps.googleapis.com/maps/api/js?language=en&key=${gApiKey}&signed_in=true&callback=initMap"
         async defer></script>
+<script type="text/javascript" src="<c:url value="/presentation/resources/js/dynamicMapNoDirectionsAndOrder.js"/> "></script>
+
 <%@include file="head_foot/footer.jsp" %>

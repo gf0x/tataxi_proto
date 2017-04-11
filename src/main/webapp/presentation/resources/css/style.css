@@ -194,6 +194,10 @@ nav.sidebar, .main{
 /*small/medium side display*/
 @media (min-width: 768px) {
 
+	nav.sidebar{
+		margin-top: 15vh;
+	}
+
 	/*Allow main to be next to Nav*/
 	.main{
 		/*position: absolute;*/
