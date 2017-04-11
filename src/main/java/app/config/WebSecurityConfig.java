@@ -44,7 +44,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity httpSecurity) throws Exception {
         httpSecurity
                 .authorizeRequests()
-                .antMatchers(/*"/admin/**"*/"/").hasAnyRole("ADMIN", "CLIENT", "DISPATCHER", "DRIVER")
+                .antMatchers("/", "/order/receipt/*", "/pre_logout", "/stats").authenticated()
+                .antMatchers("/car/*", "/dept/*", "/worker/*").hasRole(ADMIN_ROLE)
+                .antMatchers("/client/*", "/order/create").hasRole(CLIENT_ROLE)
+                .antMatchers("/staff/dispatcher/*").hasRole(DISPATCHER_ROLE)
+                .antMatchers("/staff/driver/*").hasRole(DRIVER_ROLE)
+                .antMatchers("/staff/profile").hasAnyRole(DISPATCHER_ROLE, DRIVER_ROLE)
                 .and()
                 .formLogin()
                 .loginPage("/login")
@@ -72,4 +77,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and().and()
                 .csrf().disable();
     }
+
+
+    private static final String ADMIN_ROLE = "ADMIN";
+    private static final String CLIENT_ROLE = "CLIENT";
+    private static final String DRIVER_ROLE = "DRIVER";
+    private static final String DISPATCHER_ROLE = "DISPATCHER";
 }
