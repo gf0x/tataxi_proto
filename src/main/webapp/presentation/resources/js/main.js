@@ -554,7 +554,7 @@ $(function () {
         onDecline($(this));
     });
     $('#btn_end_drive').click(function (e) {
-       $(this).attr('disabled', true);
+        $(this).attr('disabled', true);
         $.ajax({
             method: 'POST',
             url: '/staff/driver/finish_drive',
@@ -577,6 +577,18 @@ $(function () {
             }
         });
     });
+
+    $('#print_order').click(function (e) {
+        $('#ratingsForm').hide();
+        var prtContent = document.getElementById('area_to_print');
+        var WinPrint = window.open('', '', 'left=0,top=0,width=800,height=900,toolbar=0,scrollbars=0,status=0');
+        WinPrint.document.write(prtContent.innerHTML);
+        WinPrint.document.close();
+        WinPrint.focus();
+        WinPrint.print();
+        WinPrint.close();
+        $('#ratingsForm').show();
+    });
 });
 
 function onAccept(elem) {
@@ -585,7 +597,10 @@ function onAccept(elem) {
         method: 'POST',
         url: '/staff/dispatcher/orders_awaiting/accept',
         contentType: 'application/json; charset=UTF-8',
-        data: JSON.stringify({order: {id: elem.attr('order_id')}, car: {id: $('#'+elem.attr('order_id')).find('option:selected').attr('id')}}),
+        data: JSON.stringify({
+            order: {id: elem.attr('order_id')},
+            car: {id: $('#' + elem.attr('order_id')).find('option:selected').attr('id')}
+        }),
         dataType: 'json',
         success: function (data) {
             if (data.code === '200') {
@@ -709,8 +724,8 @@ function onUnsettle(elem) {
 function onAppoint(e) {
     var carChosen = $('#cd_car_select').find('option:selected');
     var driverChosen = $('#cd_driver_select').find('option:selected');
-    if(driverChosen.attr('categories').indexOf(carChosen.attr('category'))===-1){
-        $('#cd_error_small').text('Driving license categories mismatch: driver has '+driverChosen.attr('categories')+' and car needs '+carChosen.attr('category'));
+    if (driverChosen.attr('categories').indexOf(carChosen.attr('category')) === -1) {
+        $('#cd_error_small').text('Driving license categories mismatch: driver has ' + driverChosen.attr('categories') + ' and car needs ' + carChosen.attr('category'));
         $('#cd_error_small').show();
         return;
     }

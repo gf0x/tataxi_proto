@@ -12,8 +12,9 @@
         <div id="map"></div>
 
     </div>
-    <div class="col-sm-5 container general-content">
+    <div class="col-sm-5 container general-content" id="area_to_print">
         <h2>Order info:</h2>
+        <div style="float: right" class="btn btn-default" id="print_order"><span class="glyphicon glyphicon-print"></span> </div>
         <div class="row">
             <div class="col-xs-12 align-items-center vcenter"><strong>No: </strong>${client_order.order.id}
                 <c:if test="${client_order.order.isFast eq true}">
