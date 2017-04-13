@@ -132,7 +132,6 @@ public class DispatcherController {
     @RequestMapping(value = "/orders_awaiting/decline", method = RequestMethod.POST)
     @ResponseBody
     public AjaxResponseBody declineOrder(@RequestBody Order order, Principal principal){
-        System.out.println(order);
         try {
             orderService.decline(order, workerService.get(principal.getName()));
         }catch (Exception e) {

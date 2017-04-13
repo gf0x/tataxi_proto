@@ -37,7 +37,6 @@ public class CarController {
     @ResponseBody
     public AjaxResponseBody doCreateCar(@RequestBody Car car){
         //TO-DO: backend validation
-        System.out.print(car);
         carService.insert(car);
         return new AjaxResponseBody("200", "OK");
     }

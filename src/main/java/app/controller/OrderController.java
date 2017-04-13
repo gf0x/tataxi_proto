@@ -97,9 +97,6 @@ public class OrderController {
         ClientOrder clientOrder = orderService.getClientOrderById(id);
         CarDriver carDriver =carDriverService.getByOrderId(id);
         Worker dispatcher = workerService.getDispatcherByOrderId(id);
-        System.out.println(clientOrder);
-        System.out.println(carDriver);
-        System.out.println(dispatcher);
         if(!clientOrder.getClient().getLogin().equals(principal.getName())
                 && !carDriver.getDriver().getLogin().equals(principal.getName())
                 && !dispatcher.getLogin().equals(principal.getName())

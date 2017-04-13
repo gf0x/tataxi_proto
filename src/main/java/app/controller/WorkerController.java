@@ -37,7 +37,6 @@ public class WorkerController {
     @ResponseBody
     public AjaxResponseBody doCreateWorker(@RequestBody Worker worker){
         //TO-DO: backend validation
-        System.out.print(worker);
         if (workerService.insert(worker)<1)
             return  new AjaxResponseBody("500", "Could not create worker");
         return new AjaxResponseBody("200", "OK");
@@ -51,6 +50,7 @@ public class WorkerController {
         mv.addObject("worker", worker);
         mv.addObject("department", departmentService.get(worker.getDeptId()));
         mv.addObject("firstEdit", false);
+        System.out.println(worker);
         return mv;
     }
 

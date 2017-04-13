@@ -46,7 +46,7 @@ public class OrderDaoImpl implements OrderDao {
 
     private static final String GET_ALL_FOR_DISPATCHER = "SELECT * FROM \"order\" WHERE worker_login=? ORDER BY start_time DESC ";
     private static final String GET_ALL_FOR_CLIENT = "SELECT * FROM \"order\" WHERE client_login=? ORDER BY start_time DESC ";
-    private static final String GET_ALL_FOR_DRIVER = "SELECT * FROM \"order\" o INNER JOIN client c ON o.client_login=c.login WHERE o.car_id IN (SELECT c_d.car_id FROM car_driver c_d WHERE c_d.time_till ISNULL AND c_d.worker_login=?) ORDER BY start_time DESC ";
+    private static final String GET_ALL_FOR_DRIVER = "SELECT * FROM \"order\" o WHERE o.car_id IN (SELECT c_d.car_id FROM car_driver c_d WHERE ((c_d.time_till ISNULL AND o.finish_time ISNULL ) OR (o.finish_time BETWEEN c_d.time_from AND  c_d.time_till))AND c_d.worker_login=?) ORDER BY start_time DESC";
 
     private static Logger logger = LoggerFactory.getLogger(OrderDaoImpl.class.getSimpleName());
 

@@ -37,8 +37,6 @@ public class DepartmentController {
     @RequestMapping(value = "/create", method = RequestMethod.POST)
     @ResponseBody
     public AjaxResponseBody doCreateDept(@RequestBody Department dept){
-        //TO-DO: backend validation
-        System.out.print(dept);
         //validate
         GeoApiContext context = new GeoApiContext().setApiKey(G_API_KEY);
         GeocodingResult[] city;
@@ -70,7 +68,6 @@ public class DepartmentController {
     @RequestMapping(value = "/edit", method = RequestMethod.POST)
     @ResponseBody
     public AjaxResponseBody doEditDept(@RequestBody Department dept){
-        System.out.print(dept);
         departmentService.update(dept);
         return new AjaxResponseBody("200", "OK");
     }

@@ -148,7 +148,7 @@ $(function () {
               address: $('#order_to_address').val()
             },
             seats: $('#order_seats').val(),
-            isFast: ($('#order_is_fast').find('option:selected').attr('id') !== 1),
+            isFast: ($('#order_is_fast').find('option:selected').attr('id') != 1),
             city: $('#order_dept').find('option:selected').val(),
             extraLuggage: $('#order_extra_luggage').find('option:selected').attr('id')=='true',
             deptId: $('#order_dept').find('option:selected').attr('id')
