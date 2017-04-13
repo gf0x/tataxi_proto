@@ -52,8 +52,8 @@
                    value="${worker.phoneNumber}">
         </div>
         <div class="form-group">
-            <label for="worker_is_worker">Position: </label>
-            <select class="form-control" id="worker_is_worker" >
+            <label for="worker_is_driver">Position: </label>
+            <select class="form-control" id="worker_is_driver" >
                 <option id="true">Driver</option>
                 <option id="false">Dispatcher</option>
             </select>
