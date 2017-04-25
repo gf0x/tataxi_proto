@@ -60,4 +60,11 @@ public class WorkerController {
         workerService.update(worker);
         return new AjaxResponseBody("200", "OK");
     }
+
+    @RequestMapping(value = "/all", method = RequestMethod.GET)
+    public ModelAndView showAll(){
+        ModelAndView mv = new ModelAndView("allWorkersView");
+        mv.addObject("workers", workerService.getAll());
+        return mv;
+    }
 }

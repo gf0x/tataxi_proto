@@ -19,4 +19,5 @@ public interface WorkerService {
     void setOffline(Worker worker);
     Worker getDispatcherByOrderId(int id);
     List<Worker> getDriversWhoTriedAllCarsInTheirDept();
+    List<Worker> getAll();
 }

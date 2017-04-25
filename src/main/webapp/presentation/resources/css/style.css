@@ -371,7 +371,7 @@ section{
 }
 
 .pre-scrollable{
-	max-height: 75vh;
+	max-height: 65vh;
 	overflow-y: auto;
 }
 

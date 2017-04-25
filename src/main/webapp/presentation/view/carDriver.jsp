@@ -10,7 +10,7 @@
 
 <div class="row">
 
-    <div class="col-lg-offset-1 col-sm-9 container general-content">
+    <div class="col-lg-offset-1 col-lg-9 container general-content">
         <h2>Department drivers</h2>
         <div id="for_car_driver_modal">
             <%@include file="carDriverModal.jsp"%>

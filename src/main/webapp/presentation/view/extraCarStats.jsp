@@ -9,7 +9,7 @@
 <%@include file="head_foot/header.jsp"%>
 <div class="row">
 
-    <div class="col-lg-offset-1 col-sm-9 container general-content">
+    <div class="col-lg-offset-1 col-lg-9 container general-content">
         <h2>Tataxi: Our cars</h2>
         <div class="list-group pre-scrollable">
             <c:forEach var="car" items="${cars}">

@@ -78,4 +78,8 @@ public class WorkerServiceImpl implements WorkerService {
         logger.info("SERVICE: removing object Worker from DB");
         workerDao.remove(worker);
     }
+
+    public List<Worker> getAll(){
+        return workerDao.getAll();
+    }
 }

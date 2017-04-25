@@ -41,6 +41,7 @@ public class WorkerDaoImpl implements WorkerDao{
             "WHERE login=?";
     private static final String DELETE_LICENSES = "DELETE FROM driver_license WHERE login=?";
     private static final String DELETE = "DELETE FROM worker WHERE login=?";
+    private static final String GET_ALL = "SELECT * FROM worker ORDER BY dept_id, full_name ASC";
 
     private static final String GET_FREE_BY_DISPATCHER = "SELECT w.login, w.pass_data, w.full_name, w.is_driver, w.phone_num, " +
             "w.dept_id, w.online, array_agg(d_l.category) AS licenses FROM worker w LEFT JOIN driver_license d_l ON w.login = d_l.login WHERE w.login NOT IN (SELECT worker_login FROM car_driver WHERE time_till IS NULL OR now() BETWEEN time_from AND" +
@@ -87,6 +88,10 @@ public class WorkerDaoImpl implements WorkerDao{
             //add valid ones
             insertLicenses(worker);
         }
+    }
+
+    public List<Worker> getAll(){
+        return jdbcTemplate.query(GET_ALL, mapper);
     }
 
     public void remove(Worker worker) {
