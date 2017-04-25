@@ -71,4 +71,11 @@ public class DepartmentController {
         departmentService.update(dept);
         return new AjaxResponseBody("200", "OK");
     }
+
+    @RequestMapping(value = "/all", method = RequestMethod.GET)
+    public ModelAndView showAll(){
+        ModelAndView mv = new ModelAndView("allDeptsView");
+        mv.addObject("departments", departmentService.getAll(false));
+        return mv;
+    }
 }

@@ -37,6 +37,16 @@
                         </ul>
                     </li>
                     <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Edit...<span class="caret"></span>
+                            <span style="font-size:16px;"
+                                  class="pull-right hidden-xs showopacity glyphicon glyphicon-edit"></span></a>
+                        <ul class="dropdown-menu forAnimate" role="menu">
+                            <li><a href="/dept/all">Department</a></li>
+                            <li><a href="/car/all">Car</a></li>
+                            <li><a href="/worker/all">Worker</a></li>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">Interesting<span
                                 class="caret"></span>
                             <span style="font-size:16px;"
