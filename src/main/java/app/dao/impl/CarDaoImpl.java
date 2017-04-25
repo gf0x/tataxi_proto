@@ -36,7 +36,7 @@ public class CarDaoImpl implements CarDao {
     private static final String GET_FREE_BY_DISPATCHER = "SELECT * FROM car WHERE id NOT IN (SELECT c_d.car_id FROM car_driver c_d WHERE time_till IS NULL OR now() BETWEEN time_from AND time_till) AND written_off_on ISNULL AND serviceable=TRUE AND dept_id=?";
 
     private static final String GET_STATS_BY_BRAND_MODEL = "SELECT brand, model, count(DISTINCT id) AS amount FROM car GROUP BY brand, model";
-
+    private static final String GET_ALL = "SELECT * FROM car ORDER BY brand, model ASC";
     public Car get(int id) {
         logger.info("DAO: grabbing object Car from DB");
         return jdbcTemplate.queryForObject(GET, mapper, id);
@@ -70,6 +70,10 @@ public class CarDaoImpl implements CarDao {
 
     public List<CarStatsPojo> getStatsByBrandModel(){
         return jdbcTemplate.query(GET_STATS_BY_BRAND_MODEL, carStatsPojoMapper);
+    }
+
+    public List<Car> getAll(){
+        return jdbcTemplate.query(GET_ALL, mapper);
     }
 
     private RowMapper<CarStatsPojo> carStatsPojoMapper = new RowMapper<CarStatsPojo>() {

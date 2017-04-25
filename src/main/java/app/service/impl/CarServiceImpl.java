@@ -50,6 +50,10 @@ public class CarServiceImpl implements CarService{
         return carDao.getFreeCarsByDispatcher(dispatcher);
     }
 
+    public List<Car> getAll(){
+        return carDao.getAll();
+    }
+
     public List<CarStatsPojo> getStatsByBrandModel() {
         return carDao.getStatsByBrandModel();
     }

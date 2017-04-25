@@ -58,4 +58,11 @@ public class CarController {
         carService.update(car);
         return new AjaxResponseBody("200", "OK");
     }
+
+    @RequestMapping(value = "/all", method = RequestMethod.GET)
+    public ModelAndView showAll(){
+        ModelAndView mv = new ModelAndView("allCarsView");
+        mv.addObject("cars", carService.getAll());
+        return mv;
+    }
 }

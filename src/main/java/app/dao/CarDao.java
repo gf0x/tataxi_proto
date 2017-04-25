@@ -17,4 +17,5 @@ public interface CarDao {
     void remove(Car car);
     List<Car> getFreeCarsByDispatcher(Worker dispatcher) throws Exception;
     List<CarStatsPojo> getStatsByBrandModel();
+    List<Car> getAll();
 }
